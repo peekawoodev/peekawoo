@@ -1,4 +1,4 @@
-peekawoo
-========
+peekawoonew
+===========
 
-Speed dating chat
+Speed dating application

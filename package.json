@@ -1,0 +1,21 @@
+{
+  "name": "peekawoo2",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "3.3.3",
+    "jade": "*",
+    "express.io": "*",
+    "redis": "*",
+    "passport": "*",
+    "passport-twitter": "*",
+    "passport-facebook": "*",
+    "connect-redis": "*",
+    "connect": "2.7.3",
+    "cookie": "*",
+    "async": "*"
+  }
+}

@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    body.container.error-bg
+        .head.peekawoo-error-logo
+            .container
+                form(method='get', action='/subscribe2', id='subscribe')
+                    p.text-email Want to be the first to try out our app?
+                    .container
+                        input.email(type="text", name="inputBox", placeholder="Enter your email here") 
+                    button.subscribe-button(type='submit',name='submit')
+                    a.text-skipfornow(href='/login') skip for now

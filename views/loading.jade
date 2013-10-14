@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    body.subscribe-bg
+        .head.peekawoo-logo
+        input(type="hidden",id="user",value=JSON.stringify(user))
+        .container
+            center
+                .loading-image
+                p.text-loading Please wait while the chat room loads...
+        script( src="/socket.io/socket.io.js")
+        script(type='text/javascript', src="/bootstrap/js/loading.js")	

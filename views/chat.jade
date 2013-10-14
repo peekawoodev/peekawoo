@@ -1,0 +1,84 @@
+extends layout
+
+block content
+    body.chat-page(oncontextmenu='return false;')
+        .head.peekawoo-logo2
+            .signout-container
+                button.signout(onclick="window.location='/ranking'")
+        .container
+            center
+                .chat-container
+                    .photo-con
+                        .current-photo
+                        .chat-timer-div
+                            .alarm
+                            .chat-timer
+                                #left-time
+                                    .dash(class="minutes_dash")
+                                    #countdown.digit
+                                    .colon_game :
+                                    #countdown1.digit
+                        .next-photo
+                        .previous-photo
+                .chat-view
+                    center
+                        .chatwindow
+                            .messagewindow
+                .chat-text
+                    input#message(type='text', name='message')
+                    button#reply(type='button',name='reply')
+                    input(type='hidden',id='room', value=room.name)
+                    input(type='hidden',id='chatm8', value=JSON.stringify(room))
+                    input(type="hidden",id="user",value=JSON.stringify(user))
+                    input(type="hidden",id="list",value=listgen)
+                    #r1.rate_widget
+                        #rate.ratings_chick()
+    script(src="/socket.io/socket.io.js")
+    script(defer, src="/bootstrap/js/chat.js")
+    script
+        $(document).unbind('keydown').bind('keydown', function (event) {
+            if (event.keyCode === 116 || event.keyCode === 115) {
+                event.preventDefault();
+            }
+        });
+        var seconds = 117;
+        function secondPassed() {
+            var minutes = Math.floor(seconds/60);
+            var remainingSeconds = Math.floor((seconds % 60)/1);
+            if (remainingSeconds < 10) {
+                remainingSeconds = "0" + remainingSeconds; 
+            }
+            document.getElementById('countdown').innerHTML = minutes;
+            document.getElementById('countdown1').innerHTML = remainingSeconds;
+            if (seconds == 0) {
+                clearInterval(countdownTimer);
+            } else {
+                seconds--;
+            }
+        }
+ 
+        var countdownTimer = setInterval('secondPassed()', 1000);
+        $('.ratings_chick').click(
+            function(){
+                if($(this).is('.ratings_chick')){
+                    $(this).prevAll().andSelf().removeClass('ratings_chick');
+                    $(this).prevAll().andSelf().addClass('ratings_chick-sel');
+                }
+                else{
+                    $(this).prevAll().andSelf().removeClass('ratings_chick-sel');
+                    $(this).prevAll().andSelf().addClass('ratings_chick');
+                }
+            }
+        );
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-43851834-1']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+        
+        window.location.hash="no-back-button";
+        window.location.hash="Again-no-back-button";//for google chrome
+        window.onhashchange=function(){window.location.hash="no-back-button";}

@@ -1,0 +1,11 @@
+extends layout
+
+block content
+    body.subscribe-bg
+        .head.peekawoo-logo
+        .container
+            .error-blue-image
+            p.text-error1 Something went kookoo!
+            p.text-error2 Come back later or refresh the page
+            center
+                input.btn.btn-info.btn-large(type="button" onclick="window.location='/'" value="Go to Login").buttonerror

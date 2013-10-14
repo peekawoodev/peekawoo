@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    body.counter-page
+        .span6.moveSpan2
+            .moveSpan3
+                p#displayUser.span2.timerDisplay 0
+                p#displayText.span2.textDisplay User
+                p.span2.textDisplay2 Online
+        script(type='text/javascript', src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js')
+        script( src="/socket.io/socket.io.js")
+        script( src="/bootstrap/js/jquery-2.0.3.min.js")
+        script(type='text/javascript', src="/bootstrap/js/counter.js")

@@ -1,0 +1,54 @@
+extends layout
+
+block content
+    body.ranking-page
+        .head.peekawoo-logo3
+            .container
+                p#codename
+        .container
+            center.ranking-container
+                .ranking-selection-box
+                    center
+                        h1#selection-title Woos
+                        p#selection-para People who likes you back
+                        hr.hr2
+                    .ranking-selection-list
+                        .ranking-left
+                            - var i =0;
+                            each sample in chatmate
+                                .img-photo
+                                    img.chat_photo(id=JSON.parse(sample).codename, src=JSON.parse(sample).photourl)
+                                p.chat-mate=JSON.parse(sample).codename
+                                if(JSON.parse(sample).provider == 'facebook')
+                                    a#fblinkicon(href="http://facebook.com/"+JSON.parse(sample).username)
+                                else
+                                    a#twlinkicon(href="http://twitter.com/"+JSON.parse(sample).username)
+                            - i++
+                    .submit-part
+                        button#submit_rating(type='button').p.text-signin3 Go back and mingle some more!
+                        hr.hr3
+                        p#btn-woos 
+                        input(type="hidden",id="chatm8",value=chatmate)
+                        input(type="hidden",id="chatm7",value=chatmate.length))
+                        input(type="hidden",id="chatm6",value=user)
+                        input(type="hidden",id="user1",value=user.provider)
+                    form.form-ranking(method='get', action='/subscribe2', id='subscribe2')
+                        p.text-email2 Want to be the first to try out our app?
+                        .container.ranking-subs
+                            center
+                                input.email.ranking-email(type="email", name="inputBox", placeholder="Enter your email here", required='required')
+                                button.subscribe-button2(type='submit',name='input.email')     
+                        center
+                            a.text-skipfornow2(href='/login') skip for now
+                center
+                    
+        script
+            $('#submit_rating').click(function(){
+                var userme = $('#user1').val();
+                if(userme == 'facebook'){
+                    document.location.href='/authfb';
+                }
+                else{
+                    document.location.href='/authtw';
+                }
+            });
