@@ -1,11 +1,12 @@
 extends layout
 
 block content
-    body.subscribe-bg
+    body.subscribe-bg(oncontextmenu='return false;')
+        #pd1380184526508.pd-embed
         .head.peekawoo-logo
         .container
             .error-blue-image2
-            p.text-error1 Everyone is out on a date.
+            p.text-error1 No one is available at the moment.
             p.text-error2 Come back again later
             center
-                input.btn.btn-info.btn-large(type="button" onclick="window.location='/'" value="Go to Login").buttonerror
+                input.btn.btn-info.btn-large(type="button" onclick="window.location='http://peekawoo.com'" value="Go to Login").buttonerror

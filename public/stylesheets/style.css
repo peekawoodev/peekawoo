@@ -37,6 +37,14 @@ body {
     background-repeat: repeat;
     background-size: auto auto;
 }
+
+.loading-bg {
+    background-attachment: inherit;
+    background-image: url("/img/hc-theme/dimension.png");
+    background-repeat: repeat;
+    background-size: auto auto;
+}
+
 .index-form {
     background-attachment: inherit;
     background-image: url("/img/hc-theme/index-form.png");
@@ -688,7 +696,7 @@ body {
     width: 35px;
 }
 .ratings_chick {
-    background: url("/img/hc-theme/chick-hide.png.png") no-repeat scroll center center / 35px 35px rgba(0, 0, 0, 0);
+    background: url("/img/hc-theme/like.png") no-repeat scroll center center / 35px 35px rgba(0, 0, 0, 0);
     height: 35px;
     margin-left: -156px;
     margin-top: -65px;
@@ -755,7 +763,7 @@ body {
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
     font-size: 9px;
     margin: -35px 0 -6px -15px;
-    padding: 0 4px 3%;
+    padding: 5px;
     position: relative;
     text-align: left;
     width: 132px;
@@ -779,7 +787,7 @@ body {
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
     font-size: 9px;
     margin: -19px 0 -7px -6px;
-    padding: 0 4px 3%;
+    padding: 5px;
     position: relative;
     text-align: left;
     width: 132px;
@@ -1074,6 +1082,14 @@ body {
     background-repeat: repeat;
     background-size: auto auto;
 }
+
+.loading-bg {
+    background-attachment: inherit;
+    background-image: url("/img/hc-theme/dimension.png");
+    background-repeat: repeat;
+    background-size: auto auto;
+}
+
 .index-form {
     background-attachment: inherit;
     background-image: url("/img/hc-theme/index-form.png");
@@ -1716,7 +1732,7 @@ body {
     width: 20px;
 }
 .ratings_chick {
-    background: url("/img/hc-theme/chick-hide.png.png") no-repeat scroll center center / 20px 20px rgba(0, 0, 0, 0);
+    background: url("/img/hc-theme/like.png") no-repeat scroll center center / 20px 20px rgba(0, 0, 0, 0);
     height: 20px;
     margin-left: -70px;
     margin-top: -37px;
@@ -1783,7 +1799,7 @@ body {
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
     font-size: 9px;
     margin: -35px 0 -6px;
-    padding: 0 4px 3%;
+    padding: 5px;
     position: relative;
     text-align: left;
     width: 79px;
@@ -1807,7 +1823,7 @@ body {
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
     font-size: 9px;
     margin: -19px 0 -7px -9px;
-    padding: 0 4px 3%;
+    padding: 5px;
     position: relative;
     text-align: left;
     width: 79px;
@@ -2629,7 +2645,7 @@ body {
     width: 80px;
 }
 .ratings_chick {
-    background: url("/img/hc-theme/chick-hide.png.png") no-repeat scroll 0 -5px / 80px 80px rgba(0, 0, 0, 0);
+    background: url("/img/hc-theme/like.png") no-repeat scroll 0 -5px / 80px 80px rgba(0, 0, 0, 0);
     height: 71px;
     margin-left: -188px;
     margin-top: -76px;
@@ -2696,7 +2712,7 @@ body {
     border-radius: 10px 10px 10px 10px;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
     margin: -60px 0 0 -92px;
-    padding: 0 4px 3%;
+    padding: 5px;
     position: relative;
     text-align: left;
     width: 294px;
@@ -2722,7 +2738,7 @@ body {
     border-radius: 10px 10px 10px 10px;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
     margin: -44px 0 0 38px;
-    padding: 0 4px 3%;
+    padding: 5px;
     position: relative;
     text-align: left;
     width: 294px;
@@ -3471,7 +3487,7 @@ body {
     width: 80px;
 }
 .ratings_chick {
-    background: url("/img/hc-theme/chick-hide.png.png") no-repeat scroll 0 -5px / 80px 80px rgba(0, 0, 0, 0);
+    background: url("/img/hc-theme/like.png") no-repeat scroll 0 -5px / 80px 80px rgba(0, 0, 0, 0);
     height: 71px;
     margin-left: -188px;
     margin-top: -76px;
@@ -3538,7 +3554,7 @@ body {
     border-radius: 10px 10px 10px 10px;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
     margin: -60px 0 0 -92px;
-    padding: 0 4px 3%;
+    padding: 5px;
     position: relative;
     text-align: left;
     width: 294px;
@@ -3564,7 +3580,7 @@ body {
     border-radius: 10px 10px 10px 10px;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
     margin: -44px 0 0 38px;
-    padding: 0 4px 3%;
+    padding: 5px;
     position: relative;
     text-align: left;
     width: 294px;
@@ -3988,6 +4004,14 @@ body {
     display: block;
     height: 290px;
 }
+
+.loading-bg {
+    background-attachment: inherit;
+    background-image: url("/img/hc-theme/dimension.png");
+    background-repeat: repeat;
+    background-size: auto auto;
+}
+
 .subscribe-bg {
     background-attachment: fixed;
     background-image: url("/img/hc-theme/subscribe-bg.png");
@@ -4509,7 +4533,7 @@ body {
     width: 80px;
 }
 .ratings_chick {
-    background: url("/img/hc-theme/chick-hide.png.png") no-repeat scroll 0 -5px / 80px 80px rgba(0, 0, 0, 0);
+    background: url("/img/hc-theme/like.png") no-repeat scroll 0 -5px / 80px 80px rgba(0, 0, 0, 0);
     height: 71px;
     margin-left: -188px;
     margin-top: -76px;
@@ -4576,7 +4600,7 @@ body {
     border-radius: 10px 10px 10px 10px;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
     margin: -60px 0 0 -92px;
-    padding: 0 4px 3%;
+    padding: 5px;
     position: relative;
     text-align: left;
     width: 294px;
@@ -4602,7 +4626,7 @@ body {
     border-radius: 10px 10px 10px 10px;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
     margin: -44px 0 0 38px;
-    padding: 0 4px 3%;
+    padding: 5px;
     position: relative;
     text-align: left;
     width: 294px;
@@ -4883,6 +4907,14 @@ body {
 body.counter-page {
     background-color: transparent;
 }
+
+.loading-bg {
+    background-attachment: inherit;
+    background-image: url("/img/hc-theme/dimension.png");
+    background-repeat: repeat;
+    background-size: auto auto;
+}
+
 .timerDisplay {
     border:0px solid #fff;
     color: #584F4F;

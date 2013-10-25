@@ -1,7 +1,8 @@
 extends layout
 
 block content
-    body.gender-page
+    body.gender-page(oncontextmenu='return false;')
+        #pd1380184526508.pd-embed
         .head.peekawoo-logo
         .container
         form(method='get', action='/loading', id='option')
@@ -45,8 +46,9 @@ block content
                         }
                         else{
                             $('#gender-m').attr("checked", false);
+                            $('#gender-f').attr("checked", true);
                             $(this).css('border', '0px solid #66b3cf').removeClass('s');
-                            $('#but-female').css('border', '0px solid #66b3cf').removeClass('s');
+                            $('#but-female').css('border', '5px solid #ea985b').addClass('s');
                         }
                     });
                     $('#but-female').click(function(ev) {
@@ -59,8 +61,9 @@ block content
                         }
                         else{
                             $('#gender-f').attr("checked", false);
+                            $('#gender-m').attr("checked", true);
                             $(this).css('border', '0px solid #ea985b').removeClass('s');
-                            $('#but-male').css('border', '0px solid #66b3cf').removeClass('s');
+                            $('#but-male').css('border', '5px solid #66b3cf').addClass('s');
                         }
                     });
                     $('#option').submit(function() {

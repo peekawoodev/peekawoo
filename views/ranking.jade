@@ -1,7 +1,8 @@
 extends layout
 
 block content
-    body.ranking-page
+    body.ranking-page(oncontextmenu='return false;')
+        #pd1380184526508.pd-embed
         .head.peekawoo-logo3
             .container
                 p#codename
@@ -10,7 +11,7 @@ block content
                 .ranking-selection-box
                     center
                         h1#selection-title Woos
-                        p#selection-para People who likes you back
+                        p#selection-para People who like you back
                         hr.hr2
                     .ranking-selection-list
                         .ranking-left
@@ -38,8 +39,8 @@ block content
                             center
                                 input.email.ranking-email(type="email", name="inputBox", placeholder="Enter your email here", required='required')
                                 button.subscribe-button2(type='submit',name='input.email')     
-                        center
-                            a.text-skipfornow2(href='/login') skip for now
+                    center
+                        a.text-skipfornow2(href='http://peekawoo.com') skip for now
                 center
                     
         script

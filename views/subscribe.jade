@@ -1,7 +1,8 @@
 extends layout
 
 block content
-    body.container.error-bg
+    body.container.error-bg(oncontextmenu='return false;')
+        #pd1380184526508.pd-embed
         .head.peekawoo-error-logo
             .container
                 form(method='get', action='/subscribe2', id='subscribe')
@@ -9,4 +10,5 @@ block content
                     .container
                         input.email(type="text", name="inputBox", placeholder="Enter your email here") 
                     button.subscribe-button(type='submit',name='submit')
-                    a.text-skipfornow(href='/login') skip for now
+                center
+                a.text-skipfornow(href='http://peekawoo.com') skip for now

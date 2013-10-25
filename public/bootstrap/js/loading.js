@@ -18,4 +18,4 @@ socket.on('game_stop',function(){
 });
 setTimeout(function(){
 	window.location = '/error';
-},180000);
+},120000);

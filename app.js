@@ -31,7 +31,6 @@ var topic;
 var listTopic = new Array();
 var haveData = new Array();
 var myArray = new Array();
-var countUserInside = 0;
 
 var temp = 0;
 var fs = require('fs');
@@ -191,9 +190,17 @@ app.get("/counter",function(req,res){
 });
 
 app.get("/error",function(req,res){
+	var finishedRemove = function(countListX){
+		console.log(countListX)
+		if(countListX.length > 0){
+			res.render('error');
+		}else{
+			res.render('error2');
+		}
+	}
 	var removeme = req.user;
 	console.log("+++ removing error +++")
-	console.log(removeme);
+	//console.log(removeme);
 	if(removeme.provider == 'twitter'){
 		client.keys('*le-'+removeme.id,function(err,value){
 			if(value){
@@ -217,7 +224,10 @@ app.get("/error",function(req,res){
 	client.del(removeme.gender+'-'+removeme.id,JSON.stringify(again));
 	client.del('chatted:'+removeme.id);
 	//client.del('last:'+removeme.id);
-	res.render('error');
+	client.keys('*ale-*',function(err,countList){
+		console.log(countList);
+		finishedRemove(countList);
+	});
 });
 
 app.get('/authfb',
@@ -258,7 +268,7 @@ app.get('/option',function(req,res){
 	res.render('option',{profile:req.session.passport.user.gender,provider:req.session.passport.user.provider});
 });
 app.get('/loading',function(req,res){
-	console.log(req.user);
+	//console.log(req.user);
 	console.log("------------------------");
 	console.log(req.query);
 	if(req.user.provider == 'facebook'){
@@ -337,7 +347,7 @@ app.get('/loading',function(req,res){
 
 app.get('/ranking',function(req,res){
 	var user = req.user;
-	console.log(req.user);
+	//console.log(req.user);
 	var likes = new Array();
 	var finalLikes = new Array();
 
@@ -345,7 +355,7 @@ app.get('/ranking',function(req,res){
 		if(user.provider == 'twitter'){
 			client.keys('*ale-'+user.id,function(err,value){
 				if(value){
-					if(value[0].length > 0){
+					if(value.length > 0){
 						var errorGen = value[0].search('female-');
 						if(errorGen >= 0){
 							user.gender = 'female';
@@ -412,19 +422,23 @@ app.get('/ranking',function(req,res){
 
 app.get('/chat/:room',function(req,res){
 	console.log("******req.params.room******");
-	//console.log(req.params.room);
+	console.log(req.params);
+	console.log(req.params.room);
 	rotationGame+=1;
 	client.smembers(req.params.room,function(err,data){
 		//console.log(err);
 		//console.log(data);
+		console.log(data);
 		if(err){
 			data = {};
 		}
 		else{
-			data = JSON.parse(data[0]);
+			if(data.length > 0){
+				data = JSON.parse(data[0]);
+			}
 		}
 		console.log(data);
-		console.log(req.user.photourl);
+		//console.log(req.user.photourl);
 		var container;
 		var listgender = new Array();
 		if(req.user.provider == 'twitter'){
@@ -606,16 +620,37 @@ app.io.sockets.on('connection',function(socket){
 		}
 	}
 	console.log("xxXX Normal Data came here XXxx");
-	console.log(haveData);
-	console.log(myArray);
+	//console.log(req.data);
+	//console.log(haveData);
+	//console.log(myArray);
 	
 	app.io.route('enter',function(){
 			console.log("location url requesting in socket");
-			console.log(socket);
+			//console.log(socket);
 		client.keys('*ale-*',function(err,list){
 			console.log("content of query for user count");
 			console.log(list);
+			var listFemale = 0;
+			var listMale = 0;
+			var undefinedUser = 0;
+			var countUserInside = 0;
 			if(list){
+				list.forEach(function(listCheck){
+					var checkValue = listCheck.indexOf('female-');
+					if(checkValue >= 0){
+						listFemale+=1;
+					}else{
+						var ifMaleUser = listCheck.indexOf('male-');
+						if(ifMaleUser >= 0){
+							listMale+=1;
+						}else
+							undefinedUser+=1;
+					}
+				});
+				var userList = {}
+				userList.male = listMale;
+				userList.female = listFemale;
+				userList.undefineduser = undefinedUser;
 				if(list.length > 0){
 					countUserInside = list.length;
 				}
@@ -623,7 +658,8 @@ app.io.sockets.on('connection',function(socket){
 					countUserInside = 0;
 				}
 				console.log(countUserInside);
-				app.io.broadcast('listusers',countUserInside);
+				console.log(userList)
+				app.io.broadcast('listusers',{count:countUserInside,users:userList});
 			}
 		});
 	});
@@ -632,7 +668,7 @@ app.io.sockets.on('connection',function(socket){
 		console.log("xxxxxxxxx disconnecting active client xxxxxxxx");
 		if(userx != undefined){
 			if(userx.gender != undefined){
-				client.expire(userx.gender+'-'+userx.id,20); //change from 60secs to 20secs
+				client.expire(userx.gender+'-'+userx.id,30); //change from 60secs to 20secs
 				//client.expire('chatted:'+userx.id,20);
 			}
 		}
@@ -643,15 +679,16 @@ app.io.sockets.on('connection',function(socket){
 	console.log("===================");
 	var user = socket.handshake.peekawoo.user;
 	app.io.route('join',function(req){
-		//console.log("++++checking req.data.room ++++");
-		//console.log(req.data.room);
+		console.log("++++checking req.data.room ++++");
+		console.log(req.params);
+		console.log(req.data.room);
 		req.io.join(req.data.room);
 		app.io.room(req.data.room).broadcast('roomtopic',topic[Math.floor(Math.random() * topic.length)]);
 	});
 	
 	app.io.route('reload',function(req){
 		console.log("+++ removing due to reloading page +++");
-		console.log(req.data);
+		//console.log(req.data);
 		var removehere = req.data;
 		var again = {};
 		again.id = removehere.id;
@@ -734,7 +771,7 @@ app.io.sockets.on('connection',function(socket){
 		async.auto({
 			checkIfExist : function(callback){
 				console.log("checking if goes in here");
-				console.log(req.data);
+				//console.log(req.data);
 				var gender = JSON.parse(req.data);
 				console.log(gender.gender);
 				if(gender.provider == 'twitter'){
@@ -781,7 +818,7 @@ app.io.sockets.on('connection',function(socket){
 			setMember : function(callback){
 				console.log("checking if goes in here member");
 				var user = JSON.parse(req.data);
-				console.log(req.data);
+				//console.log(req.data);
 				console.log(user.gender);
 				if(user.provider == 'twitter'){
 					if(!user.gender){
@@ -855,17 +892,20 @@ app.io.sockets.on('connection',function(socket){
 			
 			if(result.getMaleVisitor.length >= 1 && result.getFemaleVisitor.length >= 1){
 				console.log("xxXXxx NEWUSER Result xxXXxx");
-				console.log(newuser);
-				if(newuser || newuserCount > 0){
+				console.log("newuser="+newuser);
+				console.log("newuserCount="+newuserCount);
+				console.log("game_lock="+game_lock);
+				//if(newuser || newuserCount > 0){
 					if(!game_lock){
-						newuserCount = 0;
+						//newuserCount = 0;
 						game_lock = true;
-						console.log("starting game in 30 sec");
+						console.log("starting game in 15 sec");
 						setTimeout(function(){
+							newuserCount = 0;
 							start_game();
-						},30000);
+						},10000);
 					}
-				}
+				//}
 			}
 		});
 	});
@@ -1219,95 +1259,99 @@ start_chat = function(vf,vm,cflist,cmlist,cycle){
 				});
 			}
 			setTimeout(function(){
-				console.log("@@@@@CYCLE@@@@@");
-				console.log(cycle);
-				console.log(rooms.length);
-				cycle += 1;
-				var countCycle = 0;
-				if(vf.length == vm.length){
-					countCycle = vm.length;
-					console.log("if condition countCycle");
-					console.log(countCycle);
-				}else{
-					var cycleMin = Math.min(vf.length,vm.length);
-					var cycleMax = Math.max(vf.length,vm.length);
-					var solutionCycle = cycleMax % cycleMin;
-					console.log("else condition");
-					console.log(cycleMin);
-					console.log(cycleMax);
-					console.log(solutionCycle);
-					if(solutionCycle == 0){
-						countCycle = cycleMax;
-						console.log("solutionCycle is equal to 0");
-						console.log(countCycle);
-					}else if(solutionCycle == 1){
-						countCycle = (cycleMax + cycleMin) - 1;
-						console.log("solutionCycle is equal to 1");
-						console.log(countCycle);
-					}else if(solutionCycle == 2){
-						countCycle = (cycleMin * 2) + 1;
-						console.log("solutionCycle is equal to 2");
-						console.log(countCycle);
-					}else if(solutionCycle == 3){
-						var solveFormula = solutionCycle % cycleMin;
-						if(solveFormula == 0){
-							countCycle = cycleMin * 2;
-							console.log("solveFormula is equal to 0");
-							console.log(solveFormula);
-						}
-						else if(solveFormula == 1){
-							var countCycle = (cycleMin + cycleMax) - 1;
-							console.log("solveFormula is equal to 1");
-							console.log(solveFormula);
-						}
-						else if(solveFormula == 2){
-							var solveFormulas = solutionCycle % solveFormula;
-							//if(solveFormulas == 0){
-								countCycle = (cycleMax + cycleMin) - 1;
-							//}else{
-							//	countCycle = ()
-							//}
-							console.log("solveFormula is equal to 0");
-							console.log(solveFormulas);
-						}
-						console.log("solutionCycle is equal to 3");
-						console.log(countCycle);
-					}
-					console.log("else condition countCycle");
-					console.log(countCycle);
-				}
-				//if(newuser == false){
-				if(newuserCount <= 0){
-					if(cycle < countCycle-1){
-						console.log("checking rotationTurn if there's a users chatting");
-						console.log(rotationTurn);
-						console.log("XXXX HERE IT GOES inside XXXX");
-						game_lock = true;
-						console.log(vf);
-						console.log(vm);
-						console.log(cflist);
-						console.log(cmlist);
-						console.log(returnMale);
-						console.log(returnFemale);
-						app.io.broadcast('game_stop', true);
-						var timer_reload = setTimeout(function(){
-							start_chat(vf,vm,returnFemale,returnMale,cycle);
-						},3000);
-					}else{
-						console.log("XXXX HERE IT GOES outside after set cycle XXXX");
-						game_lock = false;
-						app.io.broadcast('game_stop', true);
-					}
-				}else{
+	//			console.log("@@@@@CYCLE@@@@@");
+	//			console.log(cycle);
+	//			console.log(rooms.length);
+	//			cycle += 1;
+	//			var countCycle = 0;
+	//			if(vf.length == vm.length){
+	//				countCycle = vm.length;
+	//				console.log("if condition countCycle");
+	//				console.log(countCycle);
+	//			}else{
+	//				var cycleMin = Math.min(vf.length,vm.length);
+	//				var cycleMax = Math.max(vf.length,vm.length);
+	//				var solutionCycle = cycleMax % cycleMin;
+	//				console.log("else condition");
+	//				console.log(cycleMin);
+	//				console.log(cycleMax);
+	//				console.log(solutionCycle);
+	//				if(solutionCycle == 0){
+	//					countCycle = cycleMax;
+	//					console.log("solutionCycle is equal to 0");
+	//					console.log(countCycle);
+	//				}else if(solutionCycle == 1){
+	//					countCycle = (cycleMax + cycleMin) - 1;
+	//					console.log("solutionCycle is equal to 1");
+	//					console.log(countCycle);
+	//				}else if(solutionCycle == 2){
+	//					countCycle = (cycleMin * 2) + 1;
+	//					console.log("solutionCycle is equal to 2");
+	//					console.log(countCycle);
+	//				}else if(solutionCycle == 3){
+	//					var solveFormula = solutionCycle % cycleMin;
+	//					if(solveFormula == 0){
+	//						countCycle = cycleMin * 2;
+	//						console.log("solveFormula is equal to 0");
+	//						console.log(solveFormula);
+	//					}
+	//					else if(solveFormula == 1){
+	//						var countCycle = (cycleMin + cycleMax) - 1;
+	//						console.log("solveFormula is equal to 1");
+	//						console.log(solveFormula);
+	//					}
+	//					else if(solveFormula == 2){
+	//						var solveFormulas = solutionCycle % solveFormula;
+	//						//if(solveFormulas == 0){
+	//							countCycle = (cycleMax + cycleMin) - 1;
+	//						//}else{
+	//						//	countCycle = ()
+	//						//}
+	//						console.log("solveFormula is equal to 0");
+	//						console.log(solveFormulas);
+	//					}
+	//					console.log("solutionCycle is equal to 3");
+	//					console.log(countCycle);
+	//				}
+	//				console.log("else condition countCycle");
+	//				console.log(countCycle);
+	//			}
+	//			//if(newuser == false){
+	//			console.log("xxXX CONDITION IF NEW USER XXxx");
+	//			console.log(newuserCount);
+	//			console.log(cycle);
+	//			console.log(countCycle);
+	//			if(newuserCount <= 0){
+	//				if(cycle < countCycle){
+	//					console.log("checking rotationTurn if there's a users chatting");
+	//					console.log(rotationTurn);
+	//					console.log("XXXX HERE IT GOES inside XXXX");
+	//					game_lock = true;
+	//					console.log(vf);
+	//					console.log(vm);
+	//					console.log(cflist);
+	//					console.log(cmlist);
+	//					console.log(returnMale);
+	//					console.log(returnFemale);
+	//					app.io.broadcast('game_stop', true);
+	//					var timer_reload = setTimeout(function(){
+	//						start_chat(vf,vm,returnFemale,returnMale,cycle);
+	//					},3000);
+	//				}else{
+	//					console.log("XXXX HERE IT GOES outside after set cycle XXXX");
+	//					game_lock = false;
+	//					app.io.broadcast('game_stop', true);
+	//				}
+	//			}else{
 					console.log("XXXX HERE IT GOES outside XXXX");
 					game_lock = false;
 					app.io.broadcast('game_stop', true);
-				}
+	//			}
 			},120000);
 		},
 		
 	},function(err,result){
-		
+		console.log("++++++++++++++++IT GOES HERE AFTER+++++++++++++++");
 	});
 };
 
