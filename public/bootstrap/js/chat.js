@@ -3,6 +3,7 @@ $(function(){
 	var socket = io.connect();
 	var room = $("#room").val();
 	socket.emit('join',{room:room});
+	socket.emit('timer',{room:room});
 	var user = $("#user").val();
 	user = JSON.parse(user);
 	var my_chatm8 = $("#chatm8").val();
@@ -29,6 +30,36 @@ $(function(){
 	socket.on('roomtopic',function(data){
 		$(".messagewindow").html("<p class='topic_per_room'><strong>TOPIC: "+data+"</strong></p>");
 	});	
+	
+	socket.on('sendtime',function(data){
+		var seconds = data;
+        function secondPassed() {
+            
+        }
+        var countdownTimer = setInterval(function(){
+        	var minutes = Math.floor(seconds/60);
+            var remainingSeconds = Math.floor((seconds % 60)/1);
+            if (remainingSeconds < 10) {
+                remainingSeconds = "0" + remainingSeconds; 
+            }
+            document.getElementById('countdown').innerHTML = minutes;
+            document.getElementById('countdown1').innerHTML = remainingSeconds;
+            //$('#countdown').html(value,minutes);
+            //$('#countdown1').html(value,remainingSeconds);
+            if(seconds <= 10){
+            	document.getElementById('countdown').style.color = 'red';
+            	document.getElementById('countdown1').style.color = 'red';
+            }else{
+            	document.getElementById('countdown').style.color = '#584F4F';
+            	document.getElementById('countdown1').style.color = '#584F4F';
+            }
+            if (seconds == 0) {
+                clearInterval(countdownTimer);
+            } else {
+                seconds--;
+            }
+        }, 1000);
+	});
 	
 	$('.ratings_chick').click(
 		function(){

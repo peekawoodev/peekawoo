@@ -24,40 +24,40 @@ $(function(){
 		document.getElementById('displayMale').innerHTML = data.users.male;
 		if(data.users.male > 0){
 			if(data.users.male == 1){
-				document.getElementById('displayTextMale').innerHTML = "User";
+				document.getElementById('displayTextMale').innerHTML = "Male";
 			}else{
-				document.getElementById('displayTextMale').innerHTML = "Users";
+				document.getElementById('displayTextMale').innerHTML = "Male";
 			}
 			document.getElementById('displayTextMale').style.color = 'green';
 		}
 		else{
-			document.getElementById('displayTextMale').innerHTML = "User";
+			document.getElementById('displayTextMale').innerHTML = "Male";
 			document.getElementById('displayTextMale').style.color = 'red';
 		}
 		document.getElementById('displayFemale').innerHTML = data.users.female;
 		if(data.users.female > 0){
 			if(data.users.female == 1){
-				document.getElementById('displayTextFemale').innerHTML = "User";
+				document.getElementById('displayTextFemale').innerHTML = "Female";
 			}else{
-				document.getElementById('displayTextFemale').innerHTML = "Users";
+				document.getElementById('displayTextFemale').innerHTML = "Female";
 			}
 			document.getElementById('displayTextFemale').style.color = 'green';
 		}
 		else{
-			document.getElementById('displayTextFemale').innerHTML = "User";
+			document.getElementById('displayTextFemale').innerHTML = "Female";
 			document.getElementById('displayTextFemale').style.color = 'red';
 		}
 		document.getElementById('displayUndefine').innerHTML = data.users.undefineduser;
 		if(data.users.undefineduser > 0){
 			if(data.users.undefineduser == 1){
-				document.getElementById('displayTextUndefine').innerHTML = "User";
+				document.getElementById('displayTextUndefine').innerHTML = "Undefine";
 			}else{
-				document.getElementById('displayTextUndefine').innerHTML = "Users";
+				document.getElementById('displayTextUndefine').innerHTML = "Undefine";
 			}
 			document.getElementById('displayTextUndefine').style.color = 'green';
 		}
 		else{
-			document.getElementById('displayTextUndefine').innerHTML = "User";
+			document.getElementById('displayTextUndefine').innerHTML = "Undefine";
 			document.getElementById('displayTextUndefine').style.color = 'red';
 		}
 		//$('')

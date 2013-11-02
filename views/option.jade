@@ -40,13 +40,13 @@ block content
                         $('#but-male').not(this).css('border', '0px solid #66b3cf').removeClass('s');
                         if(!$(this).is('.s')){
                             $(this).css('border', '5px solid #66b3cf').addClass('s');
-                            $('#gender-m').attr("checked", true);
-                            $('#gender-f').attr("checked", false);
+                            $('#gender-m').prop("checked", true);
+                            $('#gender-f').prop("checked", false);
                             $('#but-female').css('border', '0px solid #ea985b').removeClass('s');
                         }
                         else{
-                            $('#gender-m').attr("checked", false);
-                            $('#gender-f').attr("checked", true);
+                            $('#gender-m').prop("checked", false);
+                            $('#gender-f').prop("checked", true);
                             $(this).css('border', '0px solid #66b3cf').removeClass('s');
                             $('#but-female').css('border', '5px solid #ea985b').addClass('s');
                         }
@@ -55,13 +55,13 @@ block content
                         $('#but-female').not(this).css('border', '0px solid #ea985b').removeClass('s');
                         if(!$(this).is('.s')){
                             $(this).css('border', '5px solid #ea985b').addClass('s');
-                            $('#gender-f').attr("checked", true);
-                            $('#gender-m').attr("checked", false);
+                            $('#gender-f').prop("checked", true);
+                            $('#gender-m').prop("checked", false);
                             $('#but-male').css('border', '0px solid #66b3cf').removeClass('s');
                         }
                         else{
-                            $('#gender-f').attr("checked", false);
-                            $('#gender-m').attr("checked", true);
+                            $('#gender-f').prop("checked", false);
+                            $('#gender-m').prop("checked", true);
                             $(this).css('border', '0px solid #ea985b').removeClass('s');
                             $('#but-male').css('border', '5px solid #66b3cf').addClass('s');
                         }
