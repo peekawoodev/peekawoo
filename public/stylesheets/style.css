@@ -156,11 +156,10 @@ body {
 }
 
 .subscribe-bg {
-    background-attachment: fixed;
-    background-image: url("/img/hc-theme/subscribe-bg.png");
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
+    background-attachment: inherit;
+    background-image: url("/img/hc-theme/dimension.png");
+    background-repeat: repeat;
+    background-size: auto auto;
 }
 .error-blue-image {
     background-image: url("/img/hc-theme/error-blue.png");
@@ -354,11 +353,10 @@ body {
 }
 
 .gender-page {
-    background-attachment: fixed;
-    background-image: url("/img/hc-theme/instawoo-bg.png");
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-position: center center;
+    background-attachment: inherit;
+    background-image: url("/img/hc-theme/dimension.png");
+    background-repeat: repeat;
+    background-size: auto auto;
 }
 #submit {
     background-attachment: inherit;
@@ -456,12 +454,10 @@ body {
     width: 254px;
 }
 .chat-page {
-    background-attachment: fixed;
-    background-clip: border-box;
-    background-image: url("/img/hc-theme/instawoo-chat-bg.png");
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-position: center center;
+    background-attachment: inherit;
+    background-image: url("/img/hc-theme/dimension.png");
+    background-repeat: repeat;
+    background-size: auto auto;
 }
 .peekawoo-logo2 {
     background-attachment: scroll;
@@ -803,12 +799,10 @@ body {
     width: 20px;
 }
 .ranking-page {
-    background-attachment: fixed;
-    background-clip: border-box;
-    background-image: url("/img/hc-theme/instawoo-chat-bg.png");
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-position: center center;
+    background-attachment: inherit;
+    background-image: url("/img/hc-theme/dimension.png");
+    background-repeat: repeat;
+    background-size: auto auto;
 }
 .peekawoo-logo3 {
     background-image: url("/img/hc-theme/peekawoo-beta.png");
@@ -1226,11 +1220,10 @@ body {
     width: 91px;
 }
 .subscribe-bg {
-    background-attachment: fixed;
-    background-image: url("/img/hc-theme/subscribe-bg.png");
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
+    background-attachment: inherit;
+    background-image: url("/img/hc-theme/dimension.png");
+    background-repeat: repeat;
+    background-size: auto auto;
 }
 .gender-container {
     background-attachment: inherit;
@@ -1391,11 +1384,10 @@ body {
     text-align: center;
 }
 .gender-page {
-    background-attachment: fixed;
-    background-image: url("/img/hc-theme/instawoo-bg.png");
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-position: center center;
+    background-attachment: inherit;
+    background-image: url("/img/hc-theme/dimension.png");
+    background-repeat: repeat;
+    background-size: auto auto;
 }
 #submit {
     background-attachment: inherit;
@@ -1493,12 +1485,10 @@ body {
     text-align: center;
 }
 .chat-page {
-    background-attachment: fixed;
-    background-clip: border-box;
-    background-image: url("/img/hc-theme/instawoo-chat-bg.png");
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-position: center center;
+    background-attachment: inherit;
+    background-image: url("/img/hc-theme/dimension.png");
+    background-repeat: repeat;
+    background-size: auto auto;
 }
 .peekawoo-logo2 {
     background-attachment: scroll;
@@ -1839,12 +1829,10 @@ body {
     width: 20px;
 }
 .ranking-page {
-    background-attachment: fixed;
-    background-clip: border-box;
-    background-image: url("/img/hc-theme/instawoo-chat-bg.png");
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-position: center center;
+    background-attachment: inherit;
+    background-image: url("/img/hc-theme/dimension.png");
+    background-repeat: repeat;
+    background-size: auto auto;
 }
 .peekawoo-logo3 {
     background-image: url("/img/hc-theme/peekawoo-beta.png");
@@ -2210,12 +2198,13 @@ body {
 }
 .text-gender5 {
     border: 1px solid #808080;
-    border-radius: 14px 14px 14px 14px;
+    border-radius: 14px;
     color: #584F4F;
     display: block;
     font-family: helvetica;
     font-size: 16pt;
     height: 79px;
+    margin-left: -65px;
     text-align: left;
     text-indent: 25px;
     width: 361px;
@@ -2312,11 +2301,10 @@ body {
     text-align: center;
 }
 .gender-page {
-    background-attachment: fixed;
-    background-image: url("/img/hc-theme/instawoo-bg.png");
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-position: center center;
+    background-attachment: inherit;
+    background-image: url("/img/hc-theme/dimension.png");
+    background-repeat: repeat;
+    background-size: auto auto;
 }
 .subscribe2-container {
     background-attachment: inherit;
@@ -2400,12 +2388,10 @@ body {
     width: 410px;
 }
 .chat-page {
-    background-attachment: fixed;
-    background-clip: border-box;
-    background-image: url("/img/hc-theme/instawoo-chat-bg.png");
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-position: center center;
+    background-attachment: inherit;
+    background-image: url("/img/hc-theme/dimension.png");
+    background-repeat: repeat;
+    background-size: auto auto;
 }
 .peekawoo-logo2 {
     background-attachment: scroll;
@@ -2755,12 +2741,10 @@ body {
     width: 50px;
 }
 .ranking-page {
-    background-attachment: fixed;
-    background-clip: border-box;
-    background-image: url("/img/hc-theme/instawoo-chat-bg.png");
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-position: center center;
+    background-attachment: inherit;
+    background-image: url("/img/hc-theme/dimension.png");
+    background-repeat: repeat;
+    background-size: auto auto;
 }
 .peekawoo-logo3 {
     background-image: url("/img/hc-theme/peekawoo-beta.png");
@@ -3107,15 +3091,16 @@ body {
 }
 .text-gender5 {
     border: 1px solid #808080;
-    border-radius: 14px 14px 14px 14px;
+    border-radius: 14px;
     color: #584F4F;
     display: block;
     font-family: helvetica;
     font-size: 16pt;
     height: 79px;
+    margin-left: -64px;
     text-align: left;
     text-indent: 25px;
-    width: 361px;
+    width: 357px;
 }
 .chick-container{
     display:block;
@@ -3209,11 +3194,10 @@ body {
     text-align: center;
 }
 .gender-page {
-    background-attachment: fixed;
-    background-image: url("/img/hc-theme/instawoo-bg.png");
-    background-repeat: no-repeat;
+    background-attachment: inherit;
+    background-image: url("/img/hc-theme/dimension.png");
+    background-repeat: repeat;
     background-size: auto auto;
-    background-position: center center;
 }
 .text-subscribe2 {
     color: #584F4F;
@@ -3242,12 +3226,10 @@ body {
     width: 410px;
 }
 .chat-page {
-    background-attachment: fixed;
-    background-clip: border-box;
-    background-image: url("/img/hc-theme/instawoo-chat-bg.png");
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-position: center center;
+    background-attachment: inherit;
+    background-image: url("/img/hc-theme/dimension.png");
+    background-repeat: repeat;
+    background-size: auto auto;
 }
 .peekawoo-logo2 {
     background-attachment: scroll;
@@ -3597,12 +3579,10 @@ body {
     width: 50px;
 }
 .ranking-page {
-    background-attachment: fixed;
-    background-clip: border-box;
-    background-image: url("/img/hc-theme/instawoo-chat-bg.png");
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-position: center center;
+    background-attachment: inherit;
+    background-image: url("/img/hc-theme/dimension.png");
+    background-repeat: repeat;
+    background-size: auto auto;
 }
 .peekawoo-logo3 {
     background-image: url("/img/hc-theme/peekawoo-beta.png");
@@ -3878,12 +3858,10 @@ body {
     background-size: auto auto;
 }
 .gender-page {
-    background-attachment: fixed;
-    background-image: url("/img/hc-theme/instawoo-bg.png");
-    background-repeat: no-repeat;
+    background-attachment: inherit;
+    background-image: url("/img/hc-theme/dimension.png");
+    background-repeat: repeat;
     background-size: auto auto;
-    background-position: center center;
-}
 .peekawoo-logo {
     background-attachment: scroll;
     background-image: url("/img/hc-theme/peekawoo-beta.png");
@@ -4013,10 +3991,9 @@ body {
 }
 
 .subscribe-bg {
-    background-attachment: fixed;
-    background-image: url("/img/hc-theme/subscribe-bg.png");
-    background-position: center center;
-    background-repeat: no-repeat;
+    background-attachment: inherit;
+    background-image: url("/img/hc-theme/dimension.png");
+    background-repeat: repeat;
     background-size: auto auto;
 }
 .error-blue-image2 {
@@ -4288,12 +4265,10 @@ body {
     text-align: center;
 }
 .chat-page {
-    background-attachment: fixed;
-    background-clip: border-box;
-    background-image: url("/img/hc-theme/instawoo-chat-bg.png");
-    background-repeat: no-repeat;
+    background-attachment: inherit;
+    background-image: url("/img/hc-theme/dimension.png");
+    background-repeat: repeat;
     background-size: auto auto;
-    background-position: center center;
 }
 .peekawoo-logo2 {
     background-attachment: scroll;
@@ -4643,12 +4618,10 @@ body {
     width: 50px;
 }
 .ranking-page {
-    background-attachment: fixed;
-    background-clip: border-box;
-    background-image: url("/img/hc-theme/instawoo-chat-bg.png");
-    background-repeat: no-repeat;
+    background-attachment: inherit;
+    background-image: url("/img/hc-theme/dimension.png");
+    background-repeat: repeat;
     background-size: auto auto;
-    background-position: center center;
 }
 .peekawoo-logo3 {
     background-image: url("/img/hc-theme/peekawoo-beta.png");

@@ -2,8 +2,8 @@ var socket = io.connect();
 //var changePage = false;
 var user = $("#user").val();
 socket.emit('member',user);
-user = JSON.parse(user);
-socket.on(user.id,function(data){
+usernew = JSON.parse(user);
+socket.on(usernew.id,function(data){
 	console.log(data);
 	if(data){
 		window.location = '/chat/'+data.name;

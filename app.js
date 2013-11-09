@@ -152,6 +152,25 @@ app.configure(function(){
 	app.use(app.router);
 });
 
+//newly added for creating logfiles
+app.use(function(req, res, next){
+	console.log('%s %s', req.method, req.url);
+	next();
+});
+
+var logFile = fs.createWriteStream('./myLogFile.log', {flags: 'a'});
+app.use(express.logger({stream: logFile}));
+
+function auth(req, res, next) {
+	if (req.isAuthenticated()) {
+		console.log("authenticated");
+		console.log(req.isAuthenticated());
+		return next();
+	}
+	res.redirect('/');
+}
+
+
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
@@ -193,9 +212,10 @@ app.get("/counter",function(req,res){
 	res.render('counter');
 });
 
-app.get("/error",function(req,res){
+app.get("/error",auth,function(req,res){
 	var finishedRemove = function(countListX){
 		console.log(countListX)
+		req.logout();
 		if(countListX.length > 0){
 			res.render('error');
 		}else{
@@ -266,12 +286,12 @@ app.get('/subscribe2',function(req,res){
 	res.render('subscribe2');
 });
 
-app.get('/option',function(req,res){
+app.get('/option',auth,function(req,res){
 	console.log(req.session.passport.user.gender);
 	console.log(req.session.passport.user.provider);
 	res.render('option',{profile:req.session.passport.user.gender,provider:req.session.passport.user.provider});
 });
-app.get('/loading',function(req,res){
+app.get('/loading',auth,function(req,res){
 	//console.log(req.user);
 	console.log("------------------------");
 	console.log(req.query);
@@ -349,7 +369,7 @@ app.get('/loading',function(req,res){
 	}
 });
 
-app.get('/ranking',function(req,res){
+app.get('/ranking',auth,function(req,res){
 	var user = req.user;
 	//console.log(req.user);
 	var likes = new Array();
@@ -424,7 +444,7 @@ app.get('/ranking',function(req,res){
 	});
 });
 
-app.get('/chat/:room',function(req,res){
+app.get('/chat/:room',auth,function(req,res){
 	console.log("******req.params.room******");
 	console.log(req.params);
 	console.log(req.params.room);
@@ -629,11 +649,11 @@ app.io.sockets.on('connection',function(socket){
 	//console.log(myArray);
 	
 	app.io.route('enter',function(){
-			console.log("location url requesting in socket");
+			//console.log("location url requesting in socket");
 			//console.log(socket);
 		client.keys('*ale-*',function(err,list){
-			console.log("content of query for user count");
-			console.log(list);
+			//console.log("content of query for user count");
+			//console.log(list);
 			var listFemale = 0;
 			var listMale = 0;
 			var undefinedUser = 0;
@@ -661,8 +681,8 @@ app.io.sockets.on('connection',function(socket){
 				else{
 					countUserInside = 0;
 				}
-				console.log(countUserInside);
-				console.log(userList)
+				//console.log(countUserInside);
+				//console.log(userList)
 				app.io.broadcast('listusers',{count:countUserInside,users:userList});
 			}
 		});
@@ -672,8 +692,8 @@ app.io.sockets.on('connection',function(socket){
 		console.log("xxxxxxxxx disconnecting active client xxxxxxxx");
 		if(userx != undefined){
 			if(userx.gender != undefined){
-				client.expire(userx.gender+'-'+userx.id,30); //change from 60secs to 20secs
-				//client.expire('chatted:'+userx.id,20);
+				client.expire(userx.gender+'-'+userx.id,20); //change from 60secs to 20secs
+				client.expire('chatted:'+userx.id,20);
 			}
 		}
 	});
@@ -909,7 +929,7 @@ app.io.sockets.on('connection',function(socket){
 					setTimeout(function(){
 						newuserCount = 0;
 						start_game();
-					},10000);
+					},5000);
 				}
 				else{
 					if(game_ongoing && !catchup_user){
@@ -997,15 +1017,15 @@ start_chat = function(vf,vm,cflist,cmlist,cycle){
 										client.del(room.name,JSON.stringify(room));
 										client.sadd(room.name,JSON.stringify(room));
 										console.log("++++++getting blank room++++++");
-										console.log(room);
+										//console.log(room);
 										console.log("++++++++++++++++++++++++++++++");
 										rooms.push(room);
 										console.log("++++Start Conversation++++");
-										console.log(rooms);
+										//console.log(rooms);
 										console.log("++++++++++++++++++++++++++");
 										console.log("before female remove");
-										console.log(pvfx);
-										console.log(femaleList);
+										//console.log(pvfx);
+										//console.log(femaleList);
 										var removeInListFemale = femaleList.indexOf('female-'+pvfx.id);
 										femaleList.splice(removeInListFemale,1);
 										console.log("after removing maleList");
@@ -1684,7 +1704,14 @@ catchup_game = function(){
 			var totalFemale = result.getListFemaleVisitor;
 			console.log(onFemale);
 			console.log(totalFemale);
-			var finalFemale = new Array();
+			var proxyFemale = new Array();
+			totalFemale.forEach(function(listTotal){
+				proxyFemale.push(listTotal);
+			});
+			var countTotal = 0;
+			console.log("total count of onFemale chatting");
+			console.log(countTotal);
+			var lengthonFe = onFemale.length;
 			totalFemale.forEach(function(female){
 				var trimfemale = female.replace("female-","");
 				console.log("trimfemale");
@@ -1693,25 +1720,39 @@ catchup_game = function(){
 					console.log("inFemale");
 					console.log(inFemale);
 					if(inFemale == trimfemale){
-						var locateFemale = totalFemale.indexOf('female-'+trimfemale);
+						var locateFemale = proxyFemale.indexOf('female-'+trimfemale);
 						console.log("locateFemale");
 						console.log(locateFemale);
-						totalFemale.splice(locateFemale,1);
+						proxyFemale.splice(locateFemale,1);
 						console.log("totalFemale");
+						console.log(proxyFemale);
 						console.log(totalFemale);
+						countTotal+=1;
 					}
 				});
 			});
-			console.log("Final list after removing ongoing chatters Female");
-			console.log(totalFemale);
-			callback(null,totalFemale);
+			console.log("total count of onFemale chatting");
+			console.log(countTotal);
+			if(countTotal == lengthonFe){
+				console.log("Final list after removing ongoing chatters Female");
+				console.log(proxyFemale);
+				callback(null,proxyFemale);
+			}
 		}],
 		catchupMale : ['getListChattingMale','getListMaleVisitor',function(callback,result){
 			var onMale = result.getListChattingMale;
 			var totalMale = result.getListMaleVisitor;
 			console.log(onMale);
 			console.log(totalMale);
-			var finalMale = new Array();
+			var proxyMale = new Array();
+			totalMale.forEach(function(listTotal){
+				proxyMale.push(listTotal);
+			});
+			//var countTotal = onMale.length;
+			var countTotal = 0;
+			console.log("total count of onMale chatting");
+			console.log(countTotal);
+			var lengthonMa = onMale.length;
 			totalMale.forEach(function(male){
 				var trimmale = male.replace("male-","");
 				console.log("trimmale");
@@ -1720,18 +1761,24 @@ catchup_game = function(){
 					console.log("inMale");
 					console.log(inMale);
 					if(inMale == trimmale){
-						var locateMale = totalMale.indexOf('male-'+trimmale);
+						var locateMale = proxyMale.indexOf('male-'+trimmale);
 						console.log("locateMale");
 						console.log(locateMale);
-						totalMale.splice(locateMale,1);
+						proxyMale.splice(locateMale,1);
 						console.log("totalMale");
+						console.log(proxyMale);
 						console.log(totalMale);
+						countTotal+=1;
 					}
 				});
 			});
-			console.log("Final list after removing ongoing chatters Male");
-			console.log(totalMale);
-			callback(null,totalMale);
+			console.log("total count of onMale chatting");
+			console.log(countTotal);
+			if(countTotal == lengthonMa){
+				console.log("Final list after removing ongoing chatters Male");
+				console.log(proxyMale);
+				callback(null,proxyMale);
+			}
 		}],
 		getMaleVisitor : ['catchupMale',function(callback,result){
 			console.log("function get male");
