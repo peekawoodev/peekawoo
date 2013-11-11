@@ -70,8 +70,8 @@ $(function(){
 	);
 	
 	$('.blockbtn').click(function(){
-		var link1='http://cdn-img.easyicon.net/png/5084/508421.png';
-		var link2='http://icons-search.com/img/fasticon/fasticon_users_lnx.zip/FastIcon_Users_lnx-Icons-128X128-edit_user.png-128x128.png';
+		var link1='/img/hc-theme/unblock.png';
+		var link2='/img/hc-theme/block.png';
 		var title1='Block User';
 		var title2='Unblocked User';
 		var value1='Block User';
@@ -100,8 +100,8 @@ $(function(){
 	});
 	
 	$('.button1').on('click',function(){
-		var link1='http://cdn-img.easyicon.net/png/5084/508421.png';
-		var link2='http://icons-search.com/img/fasticon/fasticon_users_lnx.zip/FastIcon_Users_lnx-Icons-128X128-edit_user.png-128x128.png';
+		var link1='/img/hc-theme/unblock.png';
+		var link2='/img/hc-theme/block.png';
 		var title1='Block User';
 		var title2='Unblocked User';
 		var value1='Block User';
