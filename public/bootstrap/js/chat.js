@@ -33,32 +33,29 @@ $(function(){
 	
 	socket.on('sendtime',function(data){
 		var seconds = data;
-        function secondPassed() {
-            
-        }
-        var countdownTimer = setInterval(function(){
-        	var minutes = Math.floor(seconds/60);
-            var remainingSeconds = Math.floor((seconds % 60)/1);
-            if (remainingSeconds < 10) {
-                remainingSeconds = "0" + remainingSeconds; 
-            }
-            document.getElementById('countdown').innerHTML = minutes;
-            document.getElementById('countdown1').innerHTML = remainingSeconds;
-            //$('#countdown').html(value,minutes);
-            //$('#countdown1').html(value,remainingSeconds);
-            if(seconds <= 10){
-            	document.getElementById('countdown').style.color = 'red';
-            	document.getElementById('countdown1').style.color = 'red';
-            }else{
-            	document.getElementById('countdown').style.color = '#584F4F';
-            	document.getElementById('countdown1').style.color = '#584F4F';
-            }
-            if (seconds == 0) {
-                clearInterval(countdownTimer);
-            } else {
-                seconds--;
-            }
-        }, 1000);
+		var countdownTimer = setInterval(function(){
+			var minutes = Math.floor(seconds/60);
+			var remainingSeconds = Math.floor((seconds % 60)/1);
+			if (remainingSeconds < 10) {
+				remainingSeconds = "0" + remainingSeconds; 
+			}
+			document.getElementById('countdown').innerHTML = minutes;
+			document.getElementById('countdown1').innerHTML = remainingSeconds;
+			//$('#countdown').html(value,minutes);
+			//$('#countdown1').html(value,remainingSeconds);
+			if(seconds <= 10){
+				document.getElementById('countdown').style.color = 'red';
+				document.getElementById('countdown1').style.color = 'red';
+			}else{
+				document.getElementById('countdown').style.color = '#584F4F';
+				document.getElementById('countdown1').style.color = '#584F4F';
+			}
+			if (seconds == 0) {
+				clearInterval(countdownTimer);
+			} else {
+				seconds--;
+			}
+		}, 1000);
 	});
 	
 	$('.ratings_chick').click(
@@ -71,6 +68,66 @@ $(function(){
 			}
 		}
 	);
+	
+	$('.blockbtn').click(function(){
+		var link1='http://cdn-img.easyicon.net/png/5084/508421.png';
+		var link2='http://icons-search.com/img/fasticon/fasticon_users_lnx.zip/FastIcon_Users_lnx-Icons-128X128-edit_user.png-128x128.png';
+		var title1='Block User';
+		var title2='Unblocked User';
+		var value1='Block User';
+		var value2='Unblocked User';
+		if($(this).attr('value')==value1){
+			$('.button1').attr('src',link2);
+			$('.button1').tooltip('destroy');
+			$('.button1').attr('title', title2);
+			$('.button1').tooltip();
+			//the upper portion is from hover effect in current chat image
+			$('.blockbtn').attr('value',value2);
+			$('.blockbtn').removeClass('btn-danger');
+			$('.blockbtn').addClass('btn-info');
+			socket.emit('block',contmechatm8);
+		}else{
+			$('.button1').attr('src',link1);
+			$('.button1').tooltip('destroy');
+			$('.button1').attr('title', title1);
+			$('.button1').tooltip();
+			//the upper portion is from hover effect in current chat image
+			$('.blockbtn').attr('value',value1);
+			$('.blockbtn').removeClass('btn-info');
+			$('.blockbtn').addClass('btn-danger');
+			socket.emit('unblock',contmechatm8);
+		}
+	});
+	
+	$('.button1').on('click',function(){
+		var link1='http://cdn-img.easyicon.net/png/5084/508421.png';
+		var link2='http://icons-search.com/img/fasticon/fasticon_users_lnx.zip/FastIcon_Users_lnx-Icons-128X128-edit_user.png-128x128.png';
+		var title1='Block User';
+		var title2='Unblocked User';
+		var value1='Block User';
+		var value2='Unblocked User';
+		if($(this).attr('src')==link1){
+			$('.button1').attr('src',link2);
+			$(this).tooltip('destroy');
+			$('.button1').attr('title', title2);
+			$(this).tooltip();
+			//this part is for button in container visible
+			$('.blockbtn').attr('value',value2);
+			$('.blockbtn').removeClass('btn-danger');
+			$('.blockbtn').addClass('btn-info');
+			socket.emit('block',contmechatm8);
+		}else{
+			$('.button1').attr('src',link1);
+			$(this).tooltip('destroy');
+			$('.button1').attr('title', title1);
+			$(this).tooltip();
+			//this part is for button in container visible
+			$('.blockbtn').attr('value',value1);
+			$('.blockbtn').removeClass('btn-info');
+			$('.blockbtn').addClass('btn-danger');
+			socket.emit('unblock',contmechatm8);
+		}
+	});
 	
 	socket.on(user.id,function(data){
 		if(data){
