@@ -136,6 +136,8 @@ module.exports = {
 		});
 	},
 	option : function(req,res){
+		console.log("out put the session content");
+		console.log(req.session);
 		console.log(req.session.passport.user.gender);
 		console.log(req.session.passport.user.provider);
 		res.render('option',{profile:req.session.passport.user.gender,provider:req.session.passport.user.provider});

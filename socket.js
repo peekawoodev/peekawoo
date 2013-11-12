@@ -431,7 +431,7 @@ app.io.sockets.on('connection',function(socket){
 					setTimeout(function(){
 						newuserCount = 0;
 						start_game();
-					},10000);
+					},5000);
 				}
 				else{
 					if(game_ongoing && !catchup_user){
@@ -1003,7 +1003,7 @@ start_chat = function(vf,vm,cflist,cmlist,cycle){
 					});
 				});
 			}
-			countGlobal = 120;
+			countGlobal = 123;
 			var globalTimer = setInterval(function(){
 				if(countGlobal >=0){
 					countGlobal-=1;
@@ -1028,6 +1028,7 @@ start_chat = function(vf,vm,cflist,cmlist,cycle){
 		console.log("++++++++++++++++IT GOES HERE AFTER+++++++++++++++");
 	});
 };
+//require('./');
 
 another_chat = function(vf,vm,cflist,cmlist,cycle){
 	console.log("@@@@@@@@@@@@@ Chat start");
