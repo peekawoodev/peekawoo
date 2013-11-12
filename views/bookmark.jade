@@ -1,0 +1,45 @@
+extends layout
+
+block content
+    body.ranking-page
+        .head.peekawoo-logo3
+            .container
+                p#codename
+        .container
+            center.ranking-container
+                .ranking-selection-box
+                    center
+                        h1#selection-title Bookmarks
+                        p#selection-para Block User/s
+                        hr.hr2
+                    .bookmark-selection-list
+                        .bookmark-left
+                            - var i =0;
+                            each sample in blockuser
+                                form.form-ranking(method='get', action='/bookmark2', id='bookmark2')
+                                    .col-md-6.block-bg
+                                        .img-photo-book
+                                            img.chat_photo(id=JSON.parse(sample).id, src=JSON.parse(sample).photourl)
+                                        p.book-mate=JSON.parse(sample).codename
+                                            input(type="hidden",value=sample,name='todelete')
+                                        .bookmark-subs
+                                            input.btn.btn-danger.btn-large.blocksubmit(type='submit',name='unblock',value='Unblock')
+                                - i++
+                    .submit-bookmark
+                        hr.hr3
+                        button#submit_rating(type='button').p.text-signin3 Back to Game!
+                        p#btn-woos 
+                        input(type="hidden",id="chatm8",value=blockuser)
+                        input(type="hidden",id="chatm7",value=blockuser.length))
+                        input(type="hidden",id="chatm6",value=user)
+                        input(type="hidden",id="user1",value=user.provider)
+        script
+            $('#submit_rating').click(function(){
+                var userme = $('#user1').val();
+                if(userme == 'facebook'){
+                    document.location.href='/authfb';
+                }
+                else{
+                    document.location.href='/authtw';
+                }
+            });
