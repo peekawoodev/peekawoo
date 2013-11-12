@@ -427,7 +427,7 @@ app.io.sockets.on('connection',function(socket){
 				if(!game_lock){
 					//newuserCount = 0;
 					game_lock = true;
-					console.log("starting game in 15 sec");
+					console.log("starting game in 5 sec");
 					setTimeout(function(){
 						newuserCount = 0;
 						start_game();
@@ -1003,7 +1003,7 @@ start_chat = function(vf,vm,cflist,cmlist,cycle){
 					});
 				});
 			}
-			countGlobal = 123;
+			countGlobal = 122;
 			var globalTimer = setInterval(function(){
 				if(countGlobal >=0){
 					countGlobal-=1;
@@ -1021,7 +1021,7 @@ start_chat = function(vf,vm,cflist,cmlist,cycle){
 				game_lock = false;
 				game_ongoing = false;
 				app.io.broadcast('game_stop', true);
-			},120000);
+			},123000);
 		},
 		
 	},function(err,result){
@@ -1515,15 +1515,15 @@ another_chat = function(vf,vm,cflist,cmlist,cycle){
 												if(blockAllList.length > 0){
 													console.log("blockAllList is not empty");
 													blockAllList.forEach(function(block){
-														if(block.id == vmx.id){
+														if(block.id == vfx.id){
 															var lenBlock = block.mylist;
 															if(lenBlock.length > 0){
-																console.log("myList of "+vmx.id+" is not empty");
+																console.log("myList of "+vfx.id+" is not empty");
 																lenBlock.forEach(function(list){
 																	theirBlock.push(list);
 																});
 															}else{
-																console.log("myList of "+vmx.id+" is empty");
+																console.log("myList of "+vfx.id+" is empty");
 															}
 														}
 														console.log(block.id);
@@ -1532,9 +1532,9 @@ another_chat = function(vf,vm,cflist,cmlist,cycle){
 												}else{
 													console.log("blockAllList is empty");
 												}
-												var blockusers = myBlock.indexOf(vmx.id);
+												var blockusers = myBlock.indexOf(vfx.id);
 												if(blockusers < 0){
-													var theirblockusers = theirBlock.indexOf(pvfx.id);
+													var theirblockusers = theirBlock.indexOf(pvmx.id);
 													if(theirblockusers < 0){
 														console.log("they did not have block users");
 														var room = {

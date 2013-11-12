@@ -58,6 +58,7 @@ module.exports = {
 	},
 	fbcallback : function(req, res) {
 		console.log("Authenticated in facebook");
+		console.log(JSON.stringify(req.session.passport.user._json));
 		console.log(req.isAuthenticated());
 		res.redirect('/option');
 	},
