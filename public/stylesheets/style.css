@@ -724,7 +724,7 @@ body {
     font-family: arial,helvetica;
     font-size: 8px;
     font-style: normal;
-    height: 17px;
+    height: auto;
     margin: 0 auto;
     opacity: 1;
     position: relative;
@@ -752,6 +752,7 @@ body {
     position: absolute;
     width: 0;
     z-index: 899;
+    word-wrap: break-word;
 }
 .me-chat {
     background-color: #87CFE0;
@@ -764,6 +765,7 @@ body {
     text-align: left;
     width: 132px;
     z-index: 999;
+    word-wrap: break-word;
 }
 .you-chat:after {
     border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) #ED8453;
@@ -776,6 +778,7 @@ body {
     position: absolute;
     width: 0;
     z-index: 899;
+    word-wrap: break-word;
 }
 .you-chat {
     background-color: #ED8453;
@@ -788,6 +791,7 @@ body {
     text-align: left;
     width: 132px;
     z-index: 899;
+    word-wrap: break-word;
 }
 .messagewindow .imgright {
     background-size: 0 11px;
@@ -1754,7 +1758,7 @@ body {
     font-family: arial,helvetica;
     font-size: 7px;
     font-style: normal;
-    height: 14px;
+    height: auto;
     margin: 0 auto;
     opacity: 1;
     position: relative;
@@ -1782,6 +1786,7 @@ body {
     position: absolute;
     width: 0;
     z-index: 899;
+    word-wrap: break-word;
 }
 .me-chat {
     background-color: #87CFE0;
@@ -1794,6 +1799,7 @@ body {
     text-align: left;
     width: 79px;
     z-index: 999;
+    word-wrap: break-word;
 }
 .you-chat:after {
     border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) #ED8453;
@@ -1806,6 +1812,7 @@ body {
     position: absolute;
     width: 0;
     z-index: 899;
+    word-wrap: break-word;
 }
 .you-chat {
     background-color: #ED8453;
@@ -1818,6 +1825,7 @@ body {
     text-align: left;
     width: 79px;
     z-index: 899;
+    word-wrap: break-word;
 }
 .messagewindow .imgright {
     background-size: 0 11px;
@@ -2663,7 +2671,7 @@ body {
     font-family: arial,helvetica;
     font-size: 18px;
     font-style: normal;
-    height: 25px;
+    height: auto;
     margin: 0 auto;
     opacity: 1;
     position: relative;
@@ -2692,6 +2700,7 @@ body {
     position: absolute;
     width: 0;
     z-index: 899;
+    word-wrap: break-word;
 }
 .me-chat {
     background-color: #87CFE0;
@@ -2704,6 +2713,7 @@ body {
     width: 294px;
     z-index: 999;
     font-size:14px;
+    word-wrap: break-word;
 }
 .you-chat:after {
     border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) #ED8453;
@@ -2717,7 +2727,7 @@ body {
     position: absolute;
     width: 0;
     z-index: 899;
-
+	word-wrap: break-word;
 }
 .you-chat {
     background-color: #ED8453;
@@ -2730,6 +2740,7 @@ body {
     width: 294px;
     z-index: 899;
     font-size:14px;
+    word-wrap: break-word;
 }
 .messagewindow .imgright {
     background-size: 0 11px;
@@ -3501,7 +3512,7 @@ body {
     font-family: arial,helvetica;
     font-size: 18px;
     font-style: normal;
-    height: 25px;
+    height: auto;
     margin: 0 auto;
     opacity: 1;
     position: relative;
@@ -3530,6 +3541,7 @@ body {
     position: absolute;
     width: 0;
     z-index: 899;
+    word-wrap: break-word;
 }
 .me-chat {
     background-color: #87CFE0;
@@ -3542,6 +3554,7 @@ body {
     width: 294px;
     z-index: 999;
     font-size:14px;
+    word-wrap: break-word;
 }
 .you-chat:after {
     border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) #ED8453;
@@ -3555,7 +3568,7 @@ body {
     position: absolute;
     width: 0;
     z-index: 899;
-
+	word-wrap: break-word;
 }
 .you-chat {
     background-color: #ED8453;
@@ -3568,6 +3581,7 @@ body {
     width: 294px;
     z-index: 899;
     font-size:14px;
+    word-wrap: break-word;
 }
 .messagewindow .imgright {
     background-size: 0 11px;
@@ -4540,7 +4554,7 @@ body {
     font-family: arial,helvetica;
     font-size: 18px;
     font-style: normal;
-    height: 25px;
+    height: auto;
     margin: 0 auto;
     opacity: 1;
     position: relative;
@@ -4569,6 +4583,7 @@ body {
     position: absolute;
     width: 0;
     z-index: 899;
+    word-wrap: break-word;
 }
 .me-chat {
     background-color: #87CFE0;
@@ -4581,6 +4596,7 @@ body {
     width: 294px;
     z-index: 999;
     font-size:14px;
+    word-wrap: break-word;
 }
 .you-chat:after {
     border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) #ED8453;
@@ -4594,7 +4610,7 @@ body {
     position: absolute;
     width: 0;
     z-index: 899;
-
+	word-wrap: break-word;
 }
 .you-chat {
     background-color: #ED8453;
@@ -4607,6 +4623,7 @@ body {
     width: 294px;
     z-index: 899;
     font-size:14px;
+    word-wrap: break-word;
 }
 .messagewindow .imgright {
     background-size: 0 11px;
