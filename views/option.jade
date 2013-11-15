@@ -12,30 +12,20 @@ block content
                             p.text-gender1 Are you?
                             p.text-gender2 Please specify your gender.
                             .container.chick-container
-                                if(profile=='male')
-                                    button#but-male.male.s(type='button', style='border: 5px solid rgb(102, 179, 207);')
-                                        input(type='radio', id='gender-m', name='gender-m', value='male', hidden='true', checked='true')
-                                else
-                                    if(provider=='twitter')
-                                        button#but-male.male.s(type='button', style='border: 5px solid rgb(102, 179, 207);')
-                                            input(type='radio', id='gender-m', name='gender-m', value='male', hidden='true', checked='true')
-                                    else
-                                        button#but-male.male(type='button')
-                                            input(type='radio', id='gender-m', name='gender-m', value='male', hidden='true')
-                                if(profile=='female')
-                                    button#but-female.female(type='button', style='border: 5px solid rgb(234, 152, 91);')
-                                        input(type='radio', id='gender-f', name='gender-f', value='female', hidden='true', checked='true')
-                                else
-                                    button#but-female.female(type='button')
-                                        input(type='radio', id='gender-f', name='gender-f', value='female', hidden='true')
+                                button#but-male.male(type='button')
+                                    input(type='radio', id='gender-m', name='gender-m', value='male', hidden='true')
+                                button#but-female.female(type='button')
+                                    input(type='radio', id='gender-f', name='gender-f', value='female', hidden='true')
                             .text-gender-container
                                 p.text-gender3 MALE
                                     p.text-gender4 FEMALE
                                 p.text-gender5 Username
-                                    input#username(type='text', name='codename', maxlength='8')
+                                    input#username(type='text', name='codename', maxlength='8',title='Must be at least 2 characters.')
                                     button#submit(type='submit',name='submit')
-                            
                 script
+                    $('#username').tooltip()
+                    $('#but-male').tooltip()
+                    $('#but-female').tooltip()
                     $('#but-male').click(function(ev) {
                         $('#but-male').not(this).css('border', '0px solid #66b3cf').removeClass('s');
                         if(!$(this).is('.s')){
@@ -46,9 +36,9 @@ block content
                         }
                         else{
                             $('#gender-m').prop("checked", false);
-                            $('#gender-f').prop("checked", true);
+                            $('#gender-f').prop("checked", false);
                             $(this).css('border', '0px solid #66b3cf').removeClass('s');
-                            $('#but-female').css('border', '5px solid #ea985b').addClass('s');
+                            //$('#but-female').css('border', '0px solid #ea985b').addClass('s');
                         }
                     });
                     $('#but-female').click(function(ev) {
@@ -61,13 +51,25 @@ block content
                         }
                         else{
                             $('#gender-f').prop("checked", false);
-                            $('#gender-m').prop("checked", true);
+                            $('#gender-m').prop("checked", false);
                             $(this).css('border', '0px solid #ea985b').removeClass('s');
-                            $('#but-male').css('border', '5px solid #66b3cf').addClass('s');
+                            //$('#but-male').css('border', '5px solid #66b3cf').addClass('s');
                         }
                     });
                     $('#option').submit(function() {
                         $('#username').val($('#username').val().replace(" ",""));
+                        var textVal = $('#username').val();
+                        var male = $('#gender-m').prop('checked');
+                        var female = $('#gender-f').prop('checked')
+                        var finalGender = false;
+                        //alert('male-'+male+' female-'+female);
+                        if(male || female){
+                            if(textVal.length < 2){
+                                return false;
+                            }
+                        }else{
+                            return false
+                        }
                     });
                     var _gaq = _gaq || [];
                     _gaq.push(['_setAccount', 'UA-43851834-1']);

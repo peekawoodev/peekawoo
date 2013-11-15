@@ -5142,3 +5142,10 @@ body.counter-page {
     top: 2%;
     width: 60px;
 }
+#but-male:hover {
+    border: 5px solid #66b3cf;
+}
+
+#but-female:hover {
+    border: 5px solid #ea985b;
+}

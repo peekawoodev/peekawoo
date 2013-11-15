@@ -355,45 +355,75 @@ app.get('/loading',auth,function(req,res){
 	console.log("------------------------");
 	console.log(req.query);
 	if(req.user.provider == 'facebook'){
-		console.log("XXX---------------- FACEBOOK GENDER DEFAULT -----------------XXX");
-		req.user.gender = req.query["gender-m"] || req.query["gender-f"] || req.user._json.gender;
-		req.user.codename = req.query.codename || req.user.codename;
-		res.render('loading',{user: req.user});
+		if(rotationGame == 0){
+			console.log("XXX---------------- FACEBOOK GENDER DEFAULT -----------------XXX");
+			req.user.gender = req.query["gender-m"] || req.query["gender-f"] || req.user._json.gender;
+			req.user.codename = req.query.codename || req.user.codename;
+			res.render('loading',{user: req.user});
+		}else{
+			if(req.query["gender-m"]){
+				req.user.gender = req.query["gender-m"];
+			}
+			if(req.query["gender-f"]){
+				req.user.gender = req.query["gender-f"];
+			}
+			console.log(req.query["gender-m"]);
+			console.log(req.query["gender-f"]);
+			if(!req.query["gender-f"] && !req.query["gender-m"]){
+				req.user.codename = req.query.codename || req.user.codename;
+				client.keys('*le-'+req.user.id,function(err,keys){
+					console.log("facebook checking..");
+					console.log(keys);
+					if(keys){
+						if(keys.length > 0){
+							var locateGen = keys[0].search('female-');
+							console.log(locateGen);
+							if(locateGen >= 0){
+								req.user.gender = 'female';
+								//req.user.codename = req.query.codename || req.user.codename;
+								res.render('loading',{user: req.user});
+							}else{
+								req.user.gender = 'male';
+								//req.user.codename = req.query.codename || req.user.codename;
+								res.render('loading',{user: req.user});
+							}
+						}
+					}
+					else{
+						console.log("problem occur");
+					}
+				});
+			}else{
+				console.log("req query have a value");
+				req.user.codename = req.query.codename || req.user.codename;
+				res.render('loading',{user: req.user});
+			}
+		}
 	}else{
+		if(req.query["gender-m"]){
+			req.user.gender = req.query["gender-m"];
+		}
+		if(req.query["gender-f"]){
+			req.user.gender = req.query["gender-f"];
+		}
+		if(req.user._json.gender){
+			req.user.gender = req.user._json.gender;
+		}
+		if(req.query.codename){
+			req.user.codename = req.query.codename;
+		}
+		if(req.user.codename){
+			req.user.codename = req.user.codename;
+		}
 		if(rotationGame == 0){
 			console.log("XXX---------------- TWITTER GENDER DEFAULT -----------------XXX");
 			console.log(req.query["gender-m"]);
 			console.log(req.query["gender-f"]);
 			console.log(req.user._json.gender);
-			if(req.query["gender-m"]){
-				req.user.gender = req.query["gender-m"];
-			}
-			if(req.query["gender-f"]){
-				req.user.gender = req.query["gender-f"];
-			}
-			if(req.user._json.gender){
-				req.user.gender = req.user._json.gender;
-			}
-			req.user.codename = req.query.codename || req.user.codename;
 			res.render('loading',{user: req.user});
 		}
 		else{
 			console.log("XXX---------------- TWITTER GENDER AUTOMATIC -----------------XXX");
-			if(req.query["gender-m"]){
-				req.user.gender = req.query["gender-m"];
-			}
-			if(req.query["gender-f"]){
-				req.user.gender = req.query["gender-f"];
-			}
-			if(req.user._json.gender){
-				req.user.gender = req.user._json.gender;
-			}
-			if(req.query.codename){
-				req.user.codename = req.query.codename;
-			}
-			if(req.user.codename){
-				req.user.codename = req.user.codename
-			}
 			if(req.user.gender == 'male' || req.user.gender == 'female'){
 				console.log(req.user.gender);
 				console.log("it goes to this location");
@@ -409,11 +439,11 @@ app.get('/loading',auth,function(req,res){
 							var locateGen = keys[0].search('female-');
 							console.log(locateGen);
 							if(locateGen >= 0){
-								req.user.gender = 'male';
+								req.user.gender = 'female';
 								//req.user.codename = req.query.codename || req.user.codename;
 								res.render('loading',{user: req.user});
 							}else{
-								req.user.gender = 'female';
+								req.user.gender = 'male';
 								//req.user.codename = req.query.codename || req.user.codename;
 								res.render('loading',{user: req.user});
 							}
@@ -1226,7 +1256,7 @@ start_chat = function(vf,vm,cflist,cmlist,cycle){
 												app.io.broadcast(vmx.id, room);
 												loopStop = true;
 												rotationTurn = true;
-												//break;
+												break;
 											}else{
 												console.log("they have block users");
 											}
@@ -1341,7 +1371,7 @@ start_chat = function(vf,vm,cflist,cmlist,cycle){
 														app.io.broadcast(vmx.id, room);
 														loopStop = true;
 														rotationTurn = true;
-														//break;
+														break;
 													}else{
 														console.log("they have block users");
 													}
@@ -1466,7 +1496,7 @@ start_chat = function(vf,vm,cflist,cmlist,cycle){
 												app.io.broadcast(pvmx.id, room);
 												loopStop2 = true;
 												rotationTurn = true;
-												//break;
+												break;
 											}else{
 												console.log("they have block users");
 											}
@@ -1581,7 +1611,7 @@ start_chat = function(vf,vm,cflist,cmlist,cycle){
 														app.io.broadcast(pvmx.id, room);
 														loopStop2 = true;
 														rotationTurn = true;
-														//break;
+														break;
 													}else{
 														console.log("they have block users");
 													}
@@ -1612,6 +1642,7 @@ start_chat = function(vf,vm,cflist,cmlist,cycle){
 				clearInterval(globalTimer);
 				game_lock = false;
 				game_ongoing = false;
+				catchup_user = false;
 				app.io.broadcast('game_stop', true);
 			},123000);
 		},
@@ -1811,7 +1842,7 @@ another_chat = function(vf,vm,cflist,cmlist,cycle){
 												app.io.broadcast(vmx.id, room);
 												loopStop = true;
 												rotationTurn = true;
-												//break;
+												break;
 											}else{
 												console.log("they have block users");
 											}
@@ -1926,7 +1957,7 @@ another_chat = function(vf,vm,cflist,cmlist,cycle){
 														app.io.broadcast(vmx.id, room);
 														loopStop = true;
 														rotationTurn = true;
-														//break;
+														break;
 													}else{
 														console.log("they have block users");
 													}
@@ -2051,7 +2082,7 @@ another_chat = function(vf,vm,cflist,cmlist,cycle){
 												app.io.broadcast(pvmx.id, room);
 												loopStop2 = true;
 												rotationTurn = true;
-												//break;
+												break;
 											}else{
 												console.log("they have block users");
 											}
@@ -2166,7 +2197,7 @@ another_chat = function(vf,vm,cflist,cmlist,cycle){
 														app.io.broadcast(pvmx.id, room);
 														loopStop2 = true;
 														rotationTurn = true;
-														//break;
+														break;
 													}else{
 														console.log("they have block users");
 													}
@@ -2180,8 +2211,13 @@ another_chat = function(vf,vm,cflist,cmlist,cycle){
 					});
 				});
 			}
-			catchup_user = false;
+			//catchup_user = false;
 		},
+		forcatchup : function(){
+			console.log("CATCHUP_USER SHOULD RESET TO FALSE");
+			catchup_user = false;
+			console.log("CATCHUP_USER SHOULD RESET TO FALSE");
+		}
 	},function(err,result){
 		console.log("++++++++++++++++IT GOES HERE AFTER+++++++++++++++");
 	});
