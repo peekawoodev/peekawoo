@@ -1593,7 +1593,7 @@ start_chat = function(vf,vm,cflist,cmlist,cycle){
 					});
 				});
 			}
-			countGlobal = 120;
+			countGlobal = 121;
 			var globalTimer = setInterval(function(){
 				if(countGlobal >=0){
 					countGlobal-=1;
@@ -1611,7 +1611,7 @@ start_chat = function(vf,vm,cflist,cmlist,cycle){
 				game_lock = false;
 				game_ongoing = false;
 				app.io.broadcast('game_stop', true);
-			},120000);
+			},123000);
 		},
 		
 	},function(err,result){
