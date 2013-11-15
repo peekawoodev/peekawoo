@@ -1014,6 +1014,8 @@ app.io.sockets.on('connection',function(socket){
 				console.log("newuser="+newuser);
 				console.log("newuserCount="+newuserCount);
 				console.log("game_lock="+game_lock);
+				console.log("game_ongoing="+game_ongoing);
+				console.log("catchup_user="+catchup_user);
 				if(!game_lock){
 					//newuserCount = 0;
 					game_lock = true;
