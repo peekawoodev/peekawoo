@@ -2094,7 +2094,7 @@ another_chat = function(vf,vm,cflist,cmlist,cycle){
 										console.log(loopStop2);
 										if(!loopStop2){
 											var vfx = JSON.parse(vf[m]);
-											console.log("value of vmx");
+											console.log("value of vfx");
 											console.log(vfx);
 											var splitFemaleId = trimFemaleList[0].replace('female-','');
 											console.log("content of splitFemaleId after replaced trimFemale");
@@ -2104,15 +2104,15 @@ another_chat = function(vf,vm,cflist,cmlist,cycle){
 												if(blockAllList.length > 0){
 													console.log("blockAllList is not empty");
 													blockAllList.forEach(function(block){
-														if(block.id == vmx.id){
+														if(block.id == vfx.id){
 															var lenBlock = block.mylist;
 															if(lenBlock.length > 0){
-																console.log("myList of "+vmx.id+" is not empty");
+																console.log("myList of "+vfx.id+" is not empty");
 																lenBlock.forEach(function(list){
 																	theirBlock.push(list);
 																});
 															}else{
-																console.log("myList of "+vmx.id+" is empty");
+																console.log("myList of "+vfx.id+" is empty");
 															}
 														}
 														console.log(block.id);
@@ -2121,9 +2121,9 @@ another_chat = function(vf,vm,cflist,cmlist,cycle){
 												}else{
 													console.log("blockAllList is empty");
 												}
-												var blockusers = myBlock.indexOf(vmx.id);
+												var blockusers = myBlock.indexOf(vfx.id);
 												if(blockusers < 0){
-													var theirblockusers = theirBlock.indexOf(pvfx.id);
+													var theirblockusers = theirBlock.indexOf(pvmx.id);
 													if(theirblockusers < 0){
 														console.log("they did not have block users");
 														var room = {
