@@ -212,6 +212,65 @@ app.get("/counter",function(req,res){
 	res.render('counter');
 });
 
+app.get("/bookmark",function(req,res){
+	var user = req.user;
+	var blocklist = new Array();
+	var up = {};
+	up.id = user.id;
+	up.username = user.username;
+	up.gender = user.gender;
+	up.photourl = user.photourl;
+	up.provider = user.provider;
+	up.codename = user.codename;
+	client.smembers('blockinfo:'+user.id,function(err,datas){
+		if(err){
+			res.render('bookmark',{user:up,blockuser:blocklist});
+		}else{
+			datas.forEach(function(data){
+				blocklist.push(data);
+			});
+			console.log("xxXX BOOKMARK XXxx");
+			console.log(user);
+			console.log(blocklist);
+			res.render('bookmark',{user:up,blockuser:blocklist});
+		}
+	});
+});
+
+app.get("/bookmark2",function(req,res){
+	var user = req.user;
+	var todelete = req.query.todelete;
+	console.log("xxXX REQ PARAMS ADN REQ QUERY XXxx");
+	console.log(req.params);
+	console.log(req.query);
+	console.log(req.query['todelete']);
+	console.log(JSON.parse(todelete));
+	console.log(user);
+	client.srem('block:'+user.id,JSON.parse(todelete).id);
+	client.srem('blockinfo:'+user.id,todelete);
+	var blocklist = new Array();
+	var up = {};
+	up.id = user.id;
+	up.username = user.username;
+	up.gender = user.gender;
+	up.photourl = user.photourl;
+	up.provider = user.provider;
+	up.codename = user.codename;
+	client.smembers('blockinfo:'+user.id,function(err,datas){
+		if(err){
+			res.render('bookmark',{user:up,blockuser:blocklist});
+		}else{
+			datas.forEach(function(data){
+				blocklist.push(data);
+			});
+			console.log("xxXX BOOKMARK XXxx");
+			console.log(user);
+			console.log(blocklist);
+			res.render('bookmark',{user:up,blockuser:blocklist});
+		}
+	});
+});
+
 app.get("/error",auth,function(req,res){
 	var finishedRemove = function(countListX){
 		console.log(countListX)
@@ -793,6 +852,39 @@ app.io.sockets.on('connection',function(socket){
 		client.srem("visitor:"+mate.id,JSON.stringify(user));
 	});
 	
+	app.io.route('block',function(req){
+		var user = req.data.user;
+		var mate = req.data.mate;
+		console.log("====user value====");
+		//console.log(user);
+		console.log("====remove msg====");
+		delete req.data.user.msg;
+		//console.log(user);
+		console.log("====mate value====");
+		//console.log(mate);
+		console.log("====remove if exist====");
+		client.srem("block:"+user.id,mate.id);
+		client.srem("blockinfo:"+user.id,JSON.stringify(mate));
+		console.log("====add user to mate====");
+		client.sadd("block:"+user.id,mate.id);
+		client.sadd("blockinfo:"+user.id,JSON.stringify(mate));
+	});
+	
+	app.io.route('unblock',function(req){
+		var user = req.data.user;
+		var mate = req.data.mate;
+		console.log("====user value====");
+		//console.log(user);
+		console.log("====remove msg====");
+		delete req.data.user.msg;
+		//console.log(user);
+		console.log("====mate value====");
+		//console.log(mate);
+		console.log("====Delete me in my chatmate====");
+		client.srem("block:"+user.id,mate.id);
+		client.srem("blockinfo:"+user.id,JSON.stringify(mate));
+	});
+	
 	app.io.route('my msg',function(req){
 		app.io.room(getRoom(req)).broadcast('new msg', req.data);
 	});
@@ -983,17 +1075,74 @@ start_chat = function(vf,vm,cflist,cmlist,cycle){
 			console.log("json parse of vm and vf");
 			//console.log(vfs);
 			//console.log(vms);
+			
+			//newly added code that implements block. get users blocklist
+			var blockAllList = new Array();
+			maleList.forEach(function(getList){
+				var blockList = new Array();
+				var removeIdentity = getList.replace('male-','');
+				client.smembers("block:"+removeIdentity,function(err,lists){
+					if(lists){
+						if(lists.length > 0){
+							lists.forEach(function(list){
+								blockList.push(list);
+							});
+						}
+						var listme = {}
+						listme.id = removeIdentity;
+						listme.mylist = blockList;
+						blockAllList.push(listme);
+					}
+				});
+			});
+			femaleList.forEach(function(getList){
+				var blockList = new Array();
+				var removeIdentity = getList.replace('female-','');
+				client.smembers("block:"+removeIdentity,function(err,lists){
+					if(lists){
+						if(lists.length > 0){
+							lists.forEach(function(list){
+								blockList.push(list);
+							});
+						}
+						var listme = {}
+						listme.id = removeIdentity;
+						listme.mylist = blockList;
+						blockAllList.push(listme);
+					}
+				});
+			});
 			if(priority == "female"){
 				vf.forEach(function(pvf){
 					var pvfx = JSON.parse(pvf);
-					console.log("female is the priority");
-					//var trimMaleList = maleList;
-					//var loopStop = false;
 					client.smembers("chatted:"+pvfx.id,function(err,chats){
+						console.log("female is the priority");
+						console.log("xxXXxx list of all the blocklist user entered the chat xxXXxx ");
+						var myBlock = new Array();
+						console.log(blockAllList);
+						if(blockAllList.length > 0){
+							console.log("blockAllList is not empty");
+							blockAllList.forEach(function(block){
+								if(block.id == pvfx.id){
+									var lenBlock = block.mylist;
+									if(lenBlock.length > 0){
+										console.log("myList of "+pvfx.id+" is not empty");
+										lenBlock.forEach(function(list){
+											myBlock.push(list);
+										});
+									}else{
+										console.log("myList of "+pvfx.id+" is empty");
+									}
+								}
+								console.log(block.id);
+								console.log(block.mylist);
+							});
+						}else{
+							console.log("blockAllList is empty");
+						}
 						if(!chats || chats.length == 0){
 							console.log("xxxxXXXX Female IF CONDITION XXxxxx");
 							var loopStop = false;
-							//vm.forEach(function(guyz){
 							for(var i = 0;i<vm.length;i++){
 								console.log("loop i value");
 								console.log(i);
@@ -1009,45 +1158,77 @@ start_chat = function(vf,vm,cflist,cmlist,cycle){
 									console.log("checkAvailable content");
 									console.log(checkIfAvailable);
 									if(checkIfAvailable >= 0){
-										var room = {
-												name : vmx.id + "-" + pvfx.id,
-												male : vmx,
-												female : pvfx
+										var theirBlock = new Array();
+										if(blockAllList.length > 0){
+											console.log("blockAllList is not empty");
+											blockAllList.forEach(function(block){
+												if(block.id == vmx.id){
+													var lenBlock = block.mylist;
+													if(lenBlock.length > 0){
+														console.log("myList of "+vmx.id+" is not empty");
+														lenBlock.forEach(function(list){
+															theirBlock.push(list);
+														});
+													}else{
+														console.log("myList of "+vmx.id+" is empty");
+													}
+												}
+												console.log(block.id);
+												console.log(block.mylist);
+											});
+										}else{
+											console.log("blockAllList is empty");
+										}
+										var blockusers = myBlock.indexOf(vmx.id);
+										console.log("if chatted is in blocklist");
+										console.log(blockusers);
+										if(blockusers < 0){
+											var theirblockusers = theirBlock.indexOf(pvfx.id);
+											if(theirblockusers < 0){
+												console.log("they did not have block users");
+												var room = {
+														name : vmx.id + "-" + pvfx.id,
+														male : vmx,
+														female : pvfx
+													}
+												client.del(room.name,JSON.stringify(room));
+												client.sadd(room.name,JSON.stringify(room));
+												console.log("++++++getting blank room++++++");
+												//console.log(room);
+												console.log("++++++++++++++++++++++++++++++");
+												rooms.push(room);
+												console.log("++++Start Conversation++++");
+												//console.log(rooms);
+												console.log("++++++++++++++++++++++++++");
+												console.log("before female remove");
+												//console.log(pvfx);
+												//console.log(femaleList);
+												var removeInListFemale = femaleList.indexOf('female-'+pvfx.id);
+												femaleList.splice(removeInListFemale,1);
+												console.log("after removing maleList");
+												console.log(femaleList);
+												console.log("before male remove");
+												console.log(vmx);
+												console.log(maleList);
+												var removeInListMale  = maleList.indexOf('male-'+vmx.id);
+												maleList.splice(removeInListMale,1);
+												console.log("after removing maleList");
+												console.log(maleList);
+												client.sadd("chatted:"+pvfx.id,vmx.id);
+												client.sadd("chatted:"+vmx.id,pvfx.id);
+												client.lpush("last:"+pvfx.id,vmx.id);
+												client.lpush("last:"+vmx.id,pvfx.id);
+												client.sadd("chattingfemale",pvfx.id);
+												client.sadd("chattingmale",vmx.id);
+												app.io.broadcast(pvfx.id, room);
+												app.io.broadcast(vmx.id, room);
+												loopStop = true;
+												rotationTurn = true;
+												//break;
+											}else{
+												console.log("they have block users");
 											}
-										client.del(room.name,JSON.stringify(room));
-										client.sadd(room.name,JSON.stringify(room));
-										console.log("++++++getting blank room++++++");
-										//console.log(room);
-										console.log("++++++++++++++++++++++++++++++");
-										rooms.push(room);
-										console.log("++++Start Conversation++++");
-										//console.log(rooms);
-										console.log("++++++++++++++++++++++++++");
-										console.log("before female remove");
-										//console.log(pvfx);
-										//console.log(femaleList);
-										var removeInListFemale = femaleList.indexOf('female-'+pvfx.id);
-										femaleList.splice(removeInListFemale,1);
-										console.log("after removing maleList");
-										console.log(femaleList);
-										console.log("before male remove");
-										console.log(vmx);
-										console.log(maleList);
-										var removeInListMale  = maleList.indexOf('male-'+vmx.id);
-										maleList.splice(removeInListMale,1);
-										console.log("after removing maleList");
-										console.log(maleList);
-										client.sadd("chatted:"+pvfx.id,vmx.id);
-										client.sadd("chatted:"+vmx.id,pvfx.id);
-										client.lpush("last:"+pvfx.id,vmx.id);
-										client.lpush("last:"+vmx.id,pvfx.id);
-										client.sadd("chattingfemale",pvfx.id);
-										client.sadd("chattingmale",vmx.id);
-										app.io.broadcast(pvfx.id, room);
-										app.io.broadcast(vmx.id, room);
-										loopStop = true;
-										rotationTurn = true;
-										break;
+										}
 									}
 								}
 							}
@@ -1094,45 +1275,75 @@ start_chat = function(vf,vm,cflist,cmlist,cycle){
 											console.log("content of splitMlaeId after replaced trimMale");
 											console.log(splitMaleId);
 											if(vmx.id == splitMaleId){
-												var room = {
-														name : vmx.id + "-" + pvfx.id,
-														male : vmx,
-														female : pvfx
+												var theirBlock = new Array();
+												if(blockAllList.length > 0){
+													console.log("blockAllList is not empty");
+													blockAllList.forEach(function(block){
+														if(block.id == vmx.id){
+															var lenBlock = block.mylist;
+															if(lenBlock.length > 0){
+																console.log("myList of "+vmx.id+" is not empty");
+																lenBlock.forEach(function(list){
+																	theirBlock.push(list);
+																});
+															}else{
+																console.log("myList of "+vmx.id+" is empty");
+															}
+														}
+														console.log(block.id);
+														console.log(block.mylist);
+													});
+												}else{
+													console.log("blockAllList is empty");
+												}
+												var blockusers = myBlock.indexOf(vmx.id);
+												if(blockusers < 0){
+													var theirblockusers = theirBlock.indexOf(pvfx.id);
+													if(theirblockusers < 0){
+														console.log("they did not have block users");
+														var room = {
+																name : vmx.id + "-" + pvfx.id,
+																male : vmx,
+																female : pvfx
+															}
+														client.del(room.name,JSON.stringify(room));
+														client.sadd(room.name,JSON.stringify(room));
+														console.log("++++++getting blank room++++++");
+														console.log(room);
+														console.log("++++++++++++++++++++++++++++++");
+														rooms.push(room);
+														console.log("++++Start Conversation++++");
+														console.log(rooms);
+														console.log("++++++++++++++++++++++++++");
+														console.log("before female remove");
+														console.log(pvfx);
+														console.log(femaleList);
+														var removeInListFemale = femaleList.indexOf('female-'+pvfx.id);
+														femaleList.splice(removeInListFemale,1);
+														console.log("after removing maleList");
+														console.log(femaleList);
+														console.log("before male remove");
+														console.log(vmx);
+														console.log(maleList);
+														var removeInListMale  = maleList.indexOf('male-'+vmx.id);
+														maleList.splice(removeInListMale,1);
+														console.log("after removing maleList");
+														console.log(maleList);
+														client.sadd("chatted:"+pvfx.id,vmx.id);
+														client.sadd("chatted:"+vmx.id,pvfx.id);
+														client.lpush("last:"+pvfx.id,vmx.id);
+														client.lpush("last:"+vmx.id,pvfx.id);
+														client.sadd("chattingfemale",pvfx.id);
+														client.sadd("chattingmale",vmx.id);
+														app.io.broadcast(pvfx.id, room);
+														app.io.broadcast(vmx.id, room);
+														loopStop = true;
+														rotationTurn = true;
+														//break;
+													}else{
+														console.log("they have block users");
 													}
-												client.del(room.name,JSON.stringify(room));
-												client.sadd(room.name,JSON.stringify(room));
-												console.log("++++++getting blank room++++++");
-												console.log(room);
-												console.log("++++++++++++++++++++++++++++++");
-												rooms.push(room);
-												console.log("++++Start Conversation++++");
-												console.log(rooms);
-												console.log("++++++++++++++++++++++++++");
-												console.log("before female remove");
-												console.log(pvfx);
-												console.log(femaleList);
-												var removeInListFemale = femaleList.indexOf('female-'+pvfx.id);
-												femaleList.splice(removeInListFemale,1);
-												console.log("after removing maleList");
-												console.log(femaleList);
-												console.log("before male remove");
-												console.log(vmx);
-												console.log(maleList);
-												var removeInListMale  = maleList.indexOf('male-'+vmx.id);
-												maleList.splice(removeInListMale,1);
-												console.log("after removing maleList");
-												console.log(maleList);
-												client.sadd("chatted:"+pvfx.id,vmx.id);
-												client.sadd("chatted:"+vmx.id,pvfx.id);
-												client.lpush("last:"+pvfx.id,vmx.id);
-												client.lpush("last:"+vmx.id,pvfx.id);
-												client.sadd("chattingfemale",pvfx.id);
-												client.sadd("chattingmale",vmx.id);
-												app.io.broadcast(pvfx.id, room);
-												app.io.broadcast(vmx.id, room);
-												loopStop = true;
-												rotationTurn = true;
-												break;
+												}
 											}
 										}
 									}
@@ -1144,8 +1355,31 @@ start_chat = function(vf,vm,cflist,cmlist,cycle){
 			}else{
 				vm.forEach(function(pvm){
 					var pvmx = JSON.parse(pvm);
-					console.log("male is the priority");
 					client.smembers("chatted:"+pvmx.id,function(err,chats){
+						console.log("male is the priority");
+						console.log("xxXXxx list of all the blocklist user entered the chat xxXXxx ");
+						var myBlock = new Array();
+						console.log(blockAllList);
+						if(blockAllList.length > 0){
+							console.log("blockAllList is not empty");
+							blockAllList.forEach(function(block){
+								if(block.id == pvmx.id){
+									var lenBlock = block.mylist;
+									if(lenBlock.length > 0){
+										console.log("myList of "+pvmx.id+" is not empty");
+										lenBlock.forEach(function(list){
+											myBlock.push(list);
+										});
+									}else{
+										console.log("myList of "+pvmx.id+" is empty");
+									}
+								}
+								console.log(block.id);
+								console.log(block.mylist);
+							});
+						}else{
+							console.log("blockAllList is empty");
+						}
 						if(!chats || chats.length == 0){
 							console.log("xxxxXXXX Male IF CONDITION XXxxxx");
 							var loopStop2 = false;
@@ -1164,45 +1398,77 @@ start_chat = function(vf,vm,cflist,cmlist,cycle){
 									console.log("checkIfAvailable content");
 									console.log(checkIfAvailable);
 									if(checkIfAvailable >= 0){
-										var room = {
-												name : pvmx.id + "-" + vfx.id,
-												male : pvmx,
-												female : vfx
+										var theirBlock = new Array();
+										if(blockAllList.length > 0){
+											console.log("blockAllList is not empty");
+											blockAllList.forEach(function(block){
+												if(block.id == vfx.id){
+													var lenBlock = block.mylist;
+													if(lenBlock.length > 0){
+														console.log("myList of "+vfx.id+" is not empty");
+														lenBlock.forEach(function(list){
+															theirBlock.push(list);
+														});
+													}else{
+														console.log("myList of "+vfx.id+" is empty");
+													}
+												}
+												console.log(block.id);
+												console.log(block.mylist);
+											});
+										}else{
+											console.log("blockAllList is empty");
+										}
+										var blockusers = myBlock.indexOf(vfx.id);
+										console.log("if chatted is in blocklist");
+										console.log(blockusers);
+										if(blockusers < 0){
+											var theirblockusers = theirBlock.indexOf(pvmx.id);
+											if(theirblockusers < 0){
+												console.log("they did not have block users");
+												var room = {
+														name : pvmx.id + "-" + vfx.id,
+														male : pvmx,
+														female : vfx
+													}
+												client.del(room.name,JSON.stringify(room));
+												client.sadd(room.name,JSON.stringify(room));
+												console.log("++++++getting blank room++++++");
+												console.log(room);
+												console.log("++++++++++++++++++++++++++++++");
+												rooms.push(room);
+												console.log("++++Start Conversation++++");
+												console.log(rooms);
+												console.log("++++++++++++++++++++++++++");
+												console.log("before female remove");
+												console.log(vfx);
+												console.log(femaleList);
+												var removeInListFemale = femaleList.indexOf('female-'+vfx.id);
+												femaleList.splice(removeInListFemale,1);
+												console.log("after removing femaleList");
+												console.log(femaleList);
+												console.log("before male remove");
+												console.log(pvmx);
+												console.log(maleList);
+												var removeInListMale  = maleList.indexOf('male-'+pvmx.id);
+												maleList.splice(removeInListMale,1);
+												console.log("after removing maleList");
+												console.log(maleList);
+												client.sadd("chatted:"+vfx.id,pvmx.id);
+												client.sadd("chatted:"+pvmx.id,vfx.id);
+												client.lpush("last:"+vfx.id,pvmx.id);
+												client.lpush("last:"+pvmx.id,vfx.id);
+												client.sadd("chattingfemale",vfx.id);
+												client.sadd("chattingmale",pvmx.id);
+												app.io.broadcast(vfx.id, room);
+												app.io.broadcast(pvmx.id, room);
+												loopStop2 = true;
+												rotationTurn = true;
+												//break;
+											}else{
+												console.log("they have block users");
 											}
-										client.del(room.name,JSON.stringify(room));
-										client.sadd(room.name,JSON.stringify(room));
-										console.log("++++++getting blank room++++++");
-										console.log(room);
-										console.log("++++++++++++++++++++++++++++++");
-										rooms.push(room);
-										console.log("++++Start Conversation++++");
-										console.log(rooms);
-										console.log("++++++++++++++++++++++++++");
-										console.log("before female remove");
-										console.log(vfx);
-										console.log(femaleList);
-										var removeInListFemale = femaleList.indexOf('female-'+vfx.id);
-										femaleList.splice(removeInListFemale,1);
-										console.log("after removing femaleList");
-										console.log(femaleList);
-										console.log("before male remove");
-										console.log(pvmx);
-										console.log(maleList);
-										var removeInListMale  = maleList.indexOf('male-'+pvmx.id);
-										maleList.splice(removeInListMale,1);
-										console.log("after removing maleList");
-										console.log(maleList);
-										client.sadd("chatted:"+vfx.id,pvmx.id);
-										client.sadd("chatted:"+pvmx.id,vfx.id);
-										client.lpush("last:"+vfx.id,pvmx.id);
-										client.lpush("last:"+pvmx.id,vfx.id);
-										client.sadd("chattingfemale",vfx.id);
-										client.sadd("chattingmale",pvmx.id);
-										app.io.broadcast(vfx.id, room);
-										app.io.broadcast(pvmx.id, room);
-										loopStop2 = true;
-										rotationTurn = true;
-										break;
+										}
 									}
 								}
 							}
@@ -1249,45 +1515,75 @@ start_chat = function(vf,vm,cflist,cmlist,cycle){
 											console.log("content of splitFemaleId after replaced trimFemale");
 											console.log(splitFemaleId);
 											if(vfx.id == splitFemaleId){
-												var room = {
-														name : pvmx.id + "-" + vfx.id,
-														male : pvmx,
-														female : vfx
+												var theirBlock = new Array();
+												if(blockAllList.length > 0){
+													console.log("blockAllList is not empty");
+													blockAllList.forEach(function(block){
+														if(block.id == vfx.id){
+															var lenBlock = block.mylist;
+															if(lenBlock.length > 0){
+																console.log("myList of "+vfx.id+" is not empty");
+																lenBlock.forEach(function(list){
+																	theirBlock.push(list);
+																});
+															}else{
+																console.log("myList of "+vfx.id+" is empty");
+															}
+														}
+														console.log(block.id);
+														console.log(block.mylist);
+													});
+												}else{
+													console.log("blockAllList is empty");
+												}
+												var blockusers = myBlock.indexOf(vfx.id);
+												if(blockusers < 0){
+													var theirblockusers = theirBlock.indexOf(pvmx.id);
+													if(theirblockusers < 0){
+														console.log("they did not have block users");
+														var room = {
+																name : pvmx.id + "-" + vfx.id,
+																male : pvmx,
+																female : vfx
+															}
+														client.del(room.name,JSON.stringify(room));
+														client.sadd(room.name,JSON.stringify(room));
+														console.log("++++++getting blank room++++++");
+														console.log(room);
+														console.log("++++++++++++++++++++++++++++++");
+														rooms.push(room);
+														console.log("++++Start Conversation++++");
+														console.log(rooms);
+														console.log("++++++++++++++++++++++++++");
+														console.log("before female remove");
+														console.log(vfx);
+														console.log(femaleList);
+														var removeInListFemale = femaleList.indexOf('female-'+vfx.id);
+														femaleList.splice(removeInListFemale,1);
+														console.log("after removing femaleList");
+														console.log(femaleList);
+														console.log("before male remove");
+														console.log(pvmx);
+														console.log(maleList);
+														var removeInListMale  = maleList.indexOf('male-'+pvmx.id);
+														maleList.splice(removeInListMale,1);
+														console.log("after removing maleList");
+														console.log(maleList);
+														client.sadd("chatted:"+vfx.id,pvmx.id);
+														client.sadd("chatted:"+pvmx.id,vfx.id);
+														client.lpush("last:"+vfx.id,pvmx.id);
+														client.lpush("last:"+pvmx.id,vfx.id);
+														client.sadd("chattingfemale",vfx.id);
+														client.sadd("chattingmale",pvmx.id);
+														app.io.broadcast(vfx.id, room);
+														app.io.broadcast(pvmx.id, room);
+														loopStop2 = true;
+														rotationTurn = true;
+														//break;
+													}else{
+														console.log("they have block users");
 													}
-												client.del(room.name,JSON.stringify(room));
-												client.sadd(room.name,JSON.stringify(room));
-												console.log("++++++getting blank room++++++");
-												console.log(room);
-												console.log("++++++++++++++++++++++++++++++");
-												rooms.push(room);
-												console.log("++++Start Conversation++++");
-												console.log(rooms);
-												console.log("++++++++++++++++++++++++++");
-												console.log("before female remove");
-												console.log(vfx);
-												console.log(femaleList);
-												var removeInListFemale = femaleList.indexOf('female-'+vfx.id);
-												femaleList.splice(removeInListFemale,1);
-												console.log("after removing femaleList");
-												console.log(femaleList);
-												console.log("before male remove");
-												console.log(pvmx);
-												console.log(maleList);
-												var removeInListMale  = maleList.indexOf('male-'+pvmx.id);
-												maleList.splice(removeInListMale,1);
-												console.log("after removing maleList");
-												console.log(maleList);
-												client.sadd("chatted:"+vfx.id,pvmx.id);
-												client.sadd("chatted:"+pvmx.id,vfx.id);
-												client.lpush("last:"+vfx.id,pvmx.id);
-												client.lpush("last:"+pvmx.id,vfx.id);
-												client.sadd("chattingfemale",vfx.id);
-												client.sadd("chattingmale",pvmx.id);
-												app.io.broadcast(vfx.id, room);
-												app.io.broadcast(pvmx.id, room);
-												loopStop2 = true;
-												rotationTurn = true;
-												break;
+												}
 											}
 										}
 									}
@@ -1364,17 +1660,74 @@ another_chat = function(vf,vm,cflist,cmlist,cycle){
 			console.log("json parse of vm and vf");
 			//console.log(vfs);
 			//console.log(vms);
+			
+			//newly added code that implements block. get users blocklist
+			var blockAllList = new Array();
+			maleList.forEach(function(getList){
+				var blockList = new Array();
+				var removeIdentity = getList.replace('male-','');
+				client.smembers("block:"+removeIdentity,function(err,lists){
+					if(lists){
+						if(lists.length > 0){
+							lists.forEach(function(list){
+								blockList.push(list);
+							});
+						}
+						var listme = {}
+						listme.id = removeIdentity;
+						listme.mylist = blockList;
+						blockAllList.push(listme);
+					}
+				});
+			});
+			femaleList.forEach(function(getList){
+				var blockList = new Array();
+				var removeIdentity = getList.replace('female-','');
+				client.smembers("block:"+removeIdentity,function(err,lists){
+					if(lists){
+						if(lists.length > 0){
+							lists.forEach(function(list){
+								blockList.push(list);
+							});
+						}
+						var listme = {}
+						listme.id = removeIdentity;
+						listme.mylist = blockList;
+						blockAllList.push(listme);
+					}
+				});
+			});
 			if(priority == "female"){
 				vf.forEach(function(pvf){
 					var pvfx = JSON.parse(pvf);
-					console.log("female is the priority");
-					//var trimMaleList = maleList;
-					//var loopStop = false;
 					client.smembers("chatted:"+pvfx.id,function(err,chats){
+						console.log("female is the priority");
+						console.log("xxXXxx list of all the blocklist user entered the chat xxXXxx ");
+						var myBlock = new Array();
+						console.log(blockAllList);
+						if(blockAllList.length > 0){
+							console.log("blockAllList is not empty");
+							blockAllList.forEach(function(block){
+								if(block.id == pvfx.id){
+									var lenBlock = block.mylist;
+									if(lenBlock.length > 0){
+										console.log("myList of "+pvfx.id+" is not empty");
+										lenBlock.forEach(function(list){
+											myBlock.push(list);
+										});
+									}else{
+										console.log("myList of "+pvfx.id+" is empty");
+									}
+								}
+								console.log(block.id);
+								console.log(block.mylist);
+							});
+						}else{
+							console.log("blockAllList is empty");
+						}
 						if(!chats || chats.length == 0){
 							console.log("xxxxXXXX Female IF CONDITION XXxxxx");
 							var loopStop = false;
-							//vm.forEach(function(guyz){
 							for(var i = 0;i<vm.length;i++){
 								console.log("loop i value");
 								console.log(i);
@@ -1390,45 +1743,77 @@ another_chat = function(vf,vm,cflist,cmlist,cycle){
 									console.log("checkAvailable content");
 									console.log(checkIfAvailable);
 									if(checkIfAvailable >= 0){
-										var room = {
-												name : vmx.id + "-" + pvfx.id,
-												male : vmx,
-												female : pvfx
+										var theirBlock = new Array();
+										if(blockAllList.length > 0){
+											console.log("blockAllList is not empty");
+											blockAllList.forEach(function(block){
+												if(block.id == vmx.id){
+													var lenBlock = block.mylist;
+													if(lenBlock.length > 0){
+														console.log("myList of "+vmx.id+" is not empty");
+														lenBlock.forEach(function(list){
+															theirBlock.push(list);
+														});
+													}else{
+														console.log("myList of "+vmx.id+" is empty");
+													}
+												}
+												console.log(block.id);
+												console.log(block.mylist);
+											});
+										}else{
+											console.log("blockAllList is empty");
+										}
+										var blockusers = myBlock.indexOf(vmx.id);
+										console.log("if chatted is in blocklist");
+										console.log(blockusers);
+										if(blockusers < 0){
+											var theirblockusers = theirBlock.indexOf(pvfx.id);
+											if(theirblockusers < 0){
+												console.log("they did not have block users");
+												var room = {
+														name : vmx.id + "-" + pvfx.id,
+														male : vmx,
+														female : pvfx
+													}
+												client.del(room.name,JSON.stringify(room));
+												client.sadd(room.name,JSON.stringify(room));
+												console.log("++++++getting blank room++++++");
+												//console.log(room);
+												console.log("++++++++++++++++++++++++++++++");
+												rooms.push(room);
+												console.log("++++Start Conversation++++");
+												//console.log(rooms);
+												console.log("++++++++++++++++++++++++++");
+												console.log("before female remove");
+												//console.log(pvfx);
+												//console.log(femaleList);
+												var removeInListFemale = femaleList.indexOf('female-'+pvfx.id);
+												femaleList.splice(removeInListFemale,1);
+												console.log("after removing maleList");
+												console.log(femaleList);
+												console.log("before male remove");
+												console.log(vmx);
+												console.log(maleList);
+												var removeInListMale  = maleList.indexOf('male-'+vmx.id);
+												maleList.splice(removeInListMale,1);
+												console.log("after removing maleList");
+												console.log(maleList);
+												client.sadd("chatted:"+pvfx.id,vmx.id);
+												client.sadd("chatted:"+vmx.id,pvfx.id);
+												client.lpush("last:"+pvfx.id,vmx.id);
+												client.lpush("last:"+vmx.id,pvfx.id);
+												client.sadd("chattingfemale",pvfx.id);
+												client.sadd("chattingmale",vmx.id);
+												app.io.broadcast(pvfx.id, room);
+												app.io.broadcast(vmx.id, room);
+												loopStop = true;
+												rotationTurn = true;
+												//break;
+											}else{
+												console.log("they have block users");
 											}
-										client.del(room.name,JSON.stringify(room));
-										client.sadd(room.name,JSON.stringify(room));
-										console.log("++++++getting blank room++++++");
-										console.log(room);
-										console.log("++++++++++++++++++++++++++++++");
-										rooms.push(room);
-										console.log("++++Start Conversation++++");
-										console.log(rooms);
-										console.log("++++++++++++++++++++++++++");
-										console.log("before female remove");
-										console.log(pvfx);
-										console.log(femaleList);
-										var removeInListFemale = femaleList.indexOf('female-'+pvfx.id);
-										femaleList.splice(removeInListFemale,1);
-										console.log("after removing maleList");
-										console.log(femaleList);
-										console.log("before male remove");
-										console.log(vmx);
-										console.log(maleList);
-										var removeInListMale  = maleList.indexOf('male-'+vmx.id);
-										maleList.splice(removeInListMale,1);
-										console.log("after removing maleList");
-										console.log(maleList);
-										client.sadd("chatted:"+pvfx.id,vmx.id);
-										client.sadd("chatted:"+vmx.id,pvfx.id);
-										client.lpush("last:"+pvfx.id,vmx.id);
-										client.lpush("last:"+vmx.id,pvfx.id);
-										client.sadd("chattingfemale",pvfx.id);
-										client.sadd("chattingmale",vmx.id);
-										app.io.broadcast(pvfx.id, room);
-										app.io.broadcast(vmx.id, room);
-										loopStop = true;
-										rotationTurn = true;
-										break;
+										}
 									}
 								}
 							}
@@ -1475,45 +1860,75 @@ another_chat = function(vf,vm,cflist,cmlist,cycle){
 											console.log("content of splitMlaeId after replaced trimMale");
 											console.log(splitMaleId);
 											if(vmx.id == splitMaleId){
-												var room = {
-														name : vmx.id + "-" + pvfx.id,
-														male : vmx,
-														female : pvfx
+												var theirBlock = new Array();
+												if(blockAllList.length > 0){
+													console.log("blockAllList is not empty");
+													blockAllList.forEach(function(block){
+														if(block.id == vmx.id){
+															var lenBlock = block.mylist;
+															if(lenBlock.length > 0){
+																console.log("myList of "+vmx.id+" is not empty");
+																lenBlock.forEach(function(list){
+																	theirBlock.push(list);
+																});
+															}else{
+																console.log("myList of "+vmx.id+" is empty");
+															}
+														}
+														console.log(block.id);
+														console.log(block.mylist);
+													});
+												}else{
+													console.log("blockAllList is empty");
+												}
+												var blockusers = myBlock.indexOf(vmx.id);
+												if(blockusers < 0){
+													var theirblockusers = theirBlock.indexOf(pvfx.id);
+													if(theirblockusers < 0){
+														console.log("they did not have block users");
+														var room = {
+																name : vmx.id + "-" + pvfx.id,
+																male : vmx,
+																female : pvfx
+															}
+														client.del(room.name,JSON.stringify(room));
+														client.sadd(room.name,JSON.stringify(room));
+														console.log("++++++getting blank room++++++");
+														console.log(room);
+														console.log("++++++++++++++++++++++++++++++");
+														rooms.push(room);
+														console.log("++++Start Conversation++++");
+														console.log(rooms);
+														console.log("++++++++++++++++++++++++++");
+														console.log("before female remove");
+														console.log(pvfx);
+														console.log(femaleList);
+														var removeInListFemale = femaleList.indexOf('female-'+pvfx.id);
+														femaleList.splice(removeInListFemale,1);
+														console.log("after removing maleList");
+														console.log(femaleList);
+														console.log("before male remove");
+														console.log(vmx);
+														console.log(maleList);
+														var removeInListMale  = maleList.indexOf('male-'+vmx.id);
+														maleList.splice(removeInListMale,1);
+														console.log("after removing maleList");
+														console.log(maleList);
+														client.sadd("chatted:"+pvfx.id,vmx.id);
+														client.sadd("chatted:"+vmx.id,pvfx.id);
+														client.lpush("last:"+pvfx.id,vmx.id);
+														client.lpush("last:"+vmx.id,pvfx.id);
+														client.sadd("chattingfemale",pvfx.id);
+														client.sadd("chattingmale",vmx.id);
+														app.io.broadcast(pvfx.id, room);
+														app.io.broadcast(vmx.id, room);
+														loopStop = true;
+														rotationTurn = true;
+														//break;
+													}else{
+														console.log("they have block users");
 													}
-												client.del(room.name,JSON.stringify(room));
-												client.sadd(room.name,JSON.stringify(room));
-												console.log("++++++getting blank room++++++");
-												console.log(room);
-												console.log("++++++++++++++++++++++++++++++");
-												rooms.push(room);
-												console.log("++++Start Conversation++++");
-												console.log(rooms);
-												console.log("++++++++++++++++++++++++++");
-												console.log("before female remove");
-												console.log(pvfx);
-												console.log(femaleList);
-												var removeInListFemale = femaleList.indexOf('female-'+pvfx.id);
-												femaleList.splice(removeInListFemale,1);
-												console.log("after removing maleList");
-												console.log(femaleList);
-												console.log("before male remove");
-												console.log(vmx);
-												console.log(maleList);
-												var removeInListMale  = maleList.indexOf('male-'+vmx.id);
-												maleList.splice(removeInListMale,1);
-												console.log("after removing maleList");
-												console.log(maleList);
-												client.sadd("chatted:"+pvfx.id,vmx.id);
-												client.sadd("chatted:"+vmx.id,pvfx.id);
-												client.lpush("last:"+pvfx.id,vmx.id);
-												client.lpush("last:"+vmx.id,pvfx.id);
-												client.sadd("chattingfemale",pvfx.id);
-												client.sadd("chattingmale",vmx.id);
-												app.io.broadcast(pvfx.id, room);
-												app.io.broadcast(vmx.id, room);
-												loopStop = true;
-												rotationTurn = true;
-												break;
+												}
 											}
 										}
 									}
@@ -1525,8 +1940,31 @@ another_chat = function(vf,vm,cflist,cmlist,cycle){
 			}else{
 				vm.forEach(function(pvm){
 					var pvmx = JSON.parse(pvm);
-					console.log("male is the priority");
 					client.smembers("chatted:"+pvmx.id,function(err,chats){
+						console.log("male is the priority");
+						console.log("xxXXxx list of all the blocklist user entered the chat xxXXxx ");
+						var myBlock = new Array();
+						console.log(blockAllList);
+						if(blockAllList.length > 0){
+							console.log("blockAllList is not empty");
+							blockAllList.forEach(function(block){
+								if(block.id == pvmx.id){
+									var lenBlock = block.mylist;
+									if(lenBlock.length > 0){
+										console.log("myList of "+pvmx.id+" is not empty");
+										lenBlock.forEach(function(list){
+											myBlock.push(list);
+										});
+									}else{
+										console.log("myList of "+pvmx.id+" is empty");
+									}
+								}
+								console.log(block.id);
+								console.log(block.mylist);
+							});
+						}else{
+							console.log("blockAllList is empty");
+						}
 						if(!chats || chats.length == 0){
 							console.log("xxxxXXXX Male IF CONDITION XXxxxx");
 							var loopStop2 = false;
@@ -1545,45 +1983,77 @@ another_chat = function(vf,vm,cflist,cmlist,cycle){
 									console.log("checkIfAvailable content");
 									console.log(checkIfAvailable);
 									if(checkIfAvailable >= 0){
-										var room = {
-												name : pvmx.id + "-" + vfx.id,
-												male : pvmx,
-												female : vfx
+										var theirBlock = new Array();
+										if(blockAllList.length > 0){
+											console.log("blockAllList is not empty");
+											blockAllList.forEach(function(block){
+												if(block.id == vfx.id){
+													var lenBlock = block.mylist;
+													if(lenBlock.length > 0){
+														console.log("myList of "+vfx.id+" is not empty");
+														lenBlock.forEach(function(list){
+															theirBlock.push(list);
+														});
+													}else{
+														console.log("myList of "+vfx.id+" is empty");
+													}
+												}
+												console.log(block.id);
+												console.log(block.mylist);
+											});
+										}else{
+											console.log("blockAllList is empty");
+										}
+										var blockusers = myBlock.indexOf(vfx.id);
+										console.log("if chatted is in blocklist");
+										console.log(blockusers);
+										if(blockusers < 0){
+											var theirblockusers = theirBlock.indexOf(pvmx.id);
+											if(theirblockusers < 0){
+												console.log("they did not have block users");
+												var room = {
+														name : pvmx.id + "-" + vfx.id,
+														male : pvmx,
+														female : vfx
+													}
+												client.del(room.name,JSON.stringify(room));
+												client.sadd(room.name,JSON.stringify(room));
+												console.log("++++++getting blank room++++++");
+												console.log(room);
+												console.log("++++++++++++++++++++++++++++++");
+												rooms.push(room);
+												console.log("++++Start Conversation++++");
+												console.log(rooms);
+												console.log("++++++++++++++++++++++++++");
+												console.log("before female remove");
+												console.log(vfx);
+												console.log(femaleList);
+												var removeInListFemale = femaleList.indexOf('female-'+vfx.id);
+												femaleList.splice(removeInListFemale,1);
+												console.log("after removing femaleList");
+												console.log(femaleList);
+												console.log("before male remove");
+												console.log(pvmx);
+												console.log(maleList);
+												var removeInListMale  = maleList.indexOf('male-'+pvmx.id);
+												maleList.splice(removeInListMale,1);
+												console.log("after removing maleList");
+												console.log(maleList);
+												client.sadd("chatted:"+vfx.id,pvmx.id);
+												client.sadd("chatted:"+pvmx.id,vfx.id);
+												client.lpush("last:"+vfx.id,pvmx.id);
+												client.lpush("last:"+pvmx.id,vfx.id);
+												client.sadd("chattingfemale",vfx.id);
+												client.sadd("chattingmale",pvmx.id);
+												app.io.broadcast(vfx.id, room);
+												app.io.broadcast(pvmx.id, room);
+												loopStop2 = true;
+												rotationTurn = true;
+												//break;
+											}else{
+												console.log("they have block users");
 											}
-										client.del(room.name,JSON.stringify(room));
-										client.sadd(room.name,JSON.stringify(room));
-										console.log("++++++getting blank room++++++");
-										console.log(room);
-										console.log("++++++++++++++++++++++++++++++");
-										rooms.push(room);
-										console.log("++++Start Conversation++++");
-										console.log(rooms);
-										console.log("++++++++++++++++++++++++++");
-										console.log("before female remove");
-										console.log(vfx);
-										console.log(femaleList);
-										var removeInListFemale = femaleList.indexOf('female-'+vfx.id);
-										femaleList.splice(removeInListFemale,1);
-										console.log("after removing femaleList");
-										console.log(femaleList);
-										console.log("before male remove");
-										console.log(pvmx);
-										console.log(maleList);
-										var removeInListMale  = maleList.indexOf('male-'+pvmx.id);
-										maleList.splice(removeInListMale,1);
-										console.log("after removing maleList");
-										console.log(maleList);
-										client.sadd("chatted:"+vfx.id,pvmx.id);
-										client.sadd("chatted:"+pvmx.id,vfx.id);
-										client.lpush("last:"+vfx.id,pvmx.id);
-										client.lpush("last:"+pvmx.id,vfx.id);
-										client.sadd("chattingfemale",vfx.id);
-										client.sadd("chattingmale",pvmx.id);
-										app.io.broadcast(vfx.id, room);
-										app.io.broadcast(pvmx.id, room);
-										loopStop2 = true;
-										rotationTurn = true;
-										break;
+										}
 									}
 								}
 							}
@@ -1630,45 +2100,75 @@ another_chat = function(vf,vm,cflist,cmlist,cycle){
 											console.log("content of splitFemaleId after replaced trimFemale");
 											console.log(splitFemaleId);
 											if(vfx.id == splitFemaleId){
-												var room = {
-														name : pvmx.id + "-" + vfx.id,
-														male : pvmx,
-														female : vfx
+												var theirBlock = new Array();
+												if(blockAllList.length > 0){
+													console.log("blockAllList is not empty");
+													blockAllList.forEach(function(block){
+														if(block.id == vmx.id){
+															var lenBlock = block.mylist;
+															if(lenBlock.length > 0){
+																console.log("myList of "+vmx.id+" is not empty");
+																lenBlock.forEach(function(list){
+																	theirBlock.push(list);
+																});
+															}else{
+																console.log("myList of "+vmx.id+" is empty");
+															}
+														}
+														console.log(block.id);
+														console.log(block.mylist);
+													});
+												}else{
+													console.log("blockAllList is empty");
+												}
+												var blockusers = myBlock.indexOf(vmx.id);
+												if(blockusers < 0){
+													var theirblockusers = theirBlock.indexOf(pvfx.id);
+													if(theirblockusers < 0){
+														console.log("they did not have block users");
+														var room = {
+																name : pvmx.id + "-" + vfx.id,
+																male : pvmx,
+																female : vfx
+															}
+														client.del(room.name,JSON.stringify(room));
+														client.sadd(room.name,JSON.stringify(room));
+														console.log("++++++getting blank room++++++");
+														console.log(room);
+														console.log("++++++++++++++++++++++++++++++");
+														rooms.push(room);
+														console.log("++++Start Conversation++++");
+														console.log(rooms);
+														console.log("++++++++++++++++++++++++++");
+														console.log("before female remove");
+														console.log(vfx);
+														console.log(femaleList);
+														var removeInListFemale = femaleList.indexOf('female-'+vfx.id);
+														femaleList.splice(removeInListFemale,1);
+														console.log("after removing femaleList");
+														console.log(femaleList);
+														console.log("before male remove");
+														console.log(pvmx);
+														console.log(maleList);
+														var removeInListMale  = maleList.indexOf('male-'+pvmx.id);
+														maleList.splice(removeInListMale,1);
+														console.log("after removing maleList");
+														console.log(maleList);
+														client.sadd("chatted:"+vfx.id,pvmx.id);
+														client.sadd("chatted:"+pvmx.id,vfx.id);
+														client.lpush("last:"+vfx.id,pvmx.id);
+														client.lpush("last:"+pvmx.id,vfx.id);
+														client.sadd("chattingfemale",vfx.id);
+														client.sadd("chattingmale",pvmx.id);
+														app.io.broadcast(vfx.id, room);
+														app.io.broadcast(pvmx.id, room);
+														loopStop2 = true;
+														rotationTurn = true;
+														//break;
+													}else{
+														console.log("they have block users");
 													}
-												client.del(room.name,JSON.stringify(room));
-												client.sadd(room.name,JSON.stringify(room));
-												console.log("++++++getting blank room++++++");
-												console.log(room);
-												console.log("++++++++++++++++++++++++++++++");
-												rooms.push(room);
-												console.log("++++Start Conversation++++");
-												console.log(rooms);
-												console.log("++++++++++++++++++++++++++");
-												console.log("before female remove");
-												console.log(vfx);
-												console.log(femaleList);
-												var removeInListFemale = femaleList.indexOf('female-'+vfx.id);
-												femaleList.splice(removeInListFemale,1);
-												console.log("after removing femaleList");
-												console.log(femaleList);
-												console.log("before male remove");
-												console.log(pvmx);
-												console.log(maleList);
-												var removeInListMale  = maleList.indexOf('male-'+pvmx.id);
-												maleList.splice(removeInListMale,1);
-												console.log("after removing maleList");
-												console.log(maleList);
-												client.sadd("chatted:"+vfx.id,pvmx.id);
-												client.sadd("chatted:"+pvmx.id,vfx.id);
-												client.lpush("last:"+vfx.id,pvmx.id);
-												client.lpush("last:"+pvmx.id,vfx.id);
-												client.sadd("chattingfemale",vfx.id);
-												client.sadd("chattingmale",pvmx.id);
-												app.io.broadcast(vfx.id, room);
-												app.io.broadcast(pvmx.id, room);
-												loopStop2 = true;
-												rotationTurn = true;
-												break;
+												}
 											}
 										}
 									}
@@ -1874,15 +2374,14 @@ start_game = function(){
 function getRoom(req){
 	var rooms = req.io.manager.roomClients[req.io.socket.id];
 	var room = "";
-	
 	for(var i in rooms){
-	if(i != '' && room == ""){
-	room = i.replace('/','');
-	}
+		if(i != '' && room == ""){
+			room = i.replace('/','');
+		}
 	}
 	console.log(room);
 	return room;
-	}
+}
 
 client.keys('*', function(err, keys) {
 	if(keys){

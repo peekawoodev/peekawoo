@@ -4981,3 +4981,147 @@ body.counter-page {
     margin: 25px auto 0 15px;
     height: 37px;
 }
+
+.photo-con .button1 {
+    cursor: pointer;
+    display: inline;
+    height: 50px;
+    left: 0;
+    position: relative;
+    top: 0;
+    width: 50px;
+    z-index: 1000;
+}
+
+.photo-con .button2 {
+    cursor: pointer;
+    display: inline;
+    height: 50px;
+    position: relative;
+    right: 0;
+    top: 0;
+    width: 50px;
+    z-index: 1000;
+}
+.photo-con .show-book {
+    border: 1px solid;
+    display: inline;
+    left: 328px;
+    position: absolute;
+    top: 0;
+    z-index: 1000;
+    
+}
+
+.ui-tooltip {
+    padding: 3px;
+    position: absolute;
+    z-index: 9999;
+    max-width: 300px;
+    -webkit-box-shadow: 0 0 5px #aaa;
+    box-shadow: 0 0 5px #aaa;
+    top: 110px;
+    left: 110px;
+    color: red;
+}
+
+.ui-widget-content {
+    color: #ff0000;
+}
+.ui-widget-content a {
+    color: #ff0000;
+}
+.bookmark-left {
+    display: block;
+    height: auto;
+    left: 0;
+    position: relative;
+    top: 0;
+    width: auto;
+}
+.book-mate {
+    border: 0 solid #000000;
+    color: #584F4F;
+    float: left;
+    font-family: helvetica;
+    font-size: 20px;
+    margin: -50px 213px;
+    vertical-align: middle;
+    width: 70px;
+}
+
+
+.control-size {
+    display: -moz-inline-stack;
+    height: 135px;
+    padding: 10px;
+    width: 200px;
+    z-index: 100;
+}
+
+.blockbtn {
+    position: relative;
+    z-index: 1000;
+    margin: -10px auto;
+    display: block;
+    left: -130px;
+}
+
+.bookmark-subs {
+    display: block;
+    height: 48px;
+}
+
+.blocksubmit {
+    display: block;
+    margin: 20px auto;
+}
+
+.block-bg {
+    background-color: #AAAAAA;
+    border: 0 solid #000000;
+    border-radius: 25px;
+    display: block;
+    margin: 5px;
+    opacity: 0.76;
+    width: 245px;
+}
+
+.submit-bookmark {
+    background-attachment: fixed;
+    background-clip: inherit;
+    background-color: transparent;
+    background-image: none;
+    background-origin: padding-box;
+    background-repeat: no-repeat;
+    border: 0 solid #000000;
+    display: block;
+    height: 61px;
+    margin: 0 auto;
+    position: relative;
+    top: -65px;
+    width: 467px;
+}
+
+.bookmark-selection-list {
+    border: 0 solid #CCCCCC;
+    display: block;
+    height: 320px;
+    margin: 0 auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
+    top: -18px;
+    width: 536px;
+}
+
+.img-photo-book {
+    border: 4px solid #EA985B;
+    border-radius: 50px;
+    float: inherit;
+    height: 60px;
+    left: 34%;
+    margin: 6px 0 6px 29px;
+    top: 2%;
+    width: 60px;
+}
