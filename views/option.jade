@@ -77,7 +77,6 @@ block content
                         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
                         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
                     })();
-        script(type='text/javascript')
-            function preventBack(){window.history.forward();}
-            setTimeout("preventBack()", 0);
-            window.onunload=function(){null};
+                    function preventBack(){window.history.forward();}
+                    setTimeout("preventBack()", 0);
+                    window.onunload=function(){null};
