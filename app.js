@@ -153,13 +153,13 @@ app.configure(function(){
 });
 
 //newly added for creating logfiles
-app.use(function(req, res, next){
-	console.log('%s %s', req.method, req.url);
-	next();
-});
+//app.use(function(req, res, next){
+//	console.log('%s %s', req.method, req.url);
+//	next();
+//});
 
-var logFile = fs.createWriteStream('./myLogFile.log', {flags: 'a'});
-app.use(express.logger({stream: logFile}));
+//var logFile = fs.createWriteStream('./myLogFile.log', {flags: 'a'});
+//app.use(express.logger({stream: logFile}));
 
 function auth(req, res, next) {
 	if (req.isAuthenticated()) {
@@ -187,8 +187,8 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new FacebookStrategy(config.fb,
   function(accessToken, refreshToken, profile, done) {
 	profile.photourl = 'http://graph.facebook.com/'+profile.username+'/picture?type=large';
-	console.log("+++facebook profileurl+++");
-	console.log(profile.photourl);
+	//console.log("+++facebook profileurl+++");
+	//console.log(profile.photourl);
     return done(null, profile);
   }
 ));
@@ -196,8 +196,8 @@ passport.use(new FacebookStrategy(config.fb,
 passport.use(new TwitterStrategy(config.tw,
   function(accessToken, refreshToken, profile, done) {
 	profile.photourl = profile.photos[0].value + '?type=large';
-	console.log("+++twitter profileurl+++");
-	console.log(profile.photourl);
+	//console.log("+++twitter profileurl+++");
+	//console.log(profile.photourl);
     return done(null, profile);
   }
 ));
@@ -229,9 +229,9 @@ app.get("/bookmark",function(req,res){
 			datas.forEach(function(data){
 				blocklist.push(data);
 			});
-			console.log("xxXX BOOKMARK XXxx");
-			console.log(user);
-			console.log(blocklist);
+			//console.log("xxXX BOOKMARK XXxx");
+			//console.log(user);
+			//console.log(blocklist);
 			res.render('bookmark',{user:up,blockuser:blocklist});
 		}
 	});
@@ -240,12 +240,12 @@ app.get("/bookmark",function(req,res){
 app.get("/bookmark2",function(req,res){
 	var user = req.user;
 	var todelete = req.query.todelete;
-	console.log("xxXX REQ PARAMS ADN REQ QUERY XXxx");
-	console.log(req.params);
-	console.log(req.query);
-	console.log(req.query['todelete']);
-	console.log(JSON.parse(todelete));
-	console.log(user);
+	//console.log("xxXX REQ PARAMS ADN REQ QUERY XXxx");
+	//console.log(req.params);
+	//console.log(req.query);
+	//console.log(req.query['todelete']);
+	//console.log(JSON.parse(todelete));
+	//console.log(user);
 	client.srem('block:'+user.id,JSON.parse(todelete).id);
 	client.srem('blockinfo:'+user.id,todelete);
 	var blocklist = new Array();
@@ -263,9 +263,9 @@ app.get("/bookmark2",function(req,res){
 			datas.forEach(function(data){
 				blocklist.push(data);
 			});
-			console.log("xxXX BOOKMARK XXxx");
-			console.log(user);
-			console.log(blocklist);
+			//console.log("xxXX BOOKMARK XXxx");
+			//console.log(user);
+			//console.log(blocklist);
 			res.render('bookmark',{user:up,blockuser:blocklist});
 		}
 	});
@@ -273,7 +273,7 @@ app.get("/bookmark2",function(req,res){
 
 app.get("/error",auth,function(req,res){
 	var finishedRemove = function(countListX){
-		console.log(countListX)
+		//console.log(countListX)
 		req.logout();
 		if(countListX.length > 0){
 			res.render('error');
@@ -282,7 +282,7 @@ app.get("/error",auth,function(req,res){
 		}
 	}
 	var removeme = req.user;
-	console.log("+++ removing error +++")
+	//console.log("+++ removing error +++")
 	//console.log(removeme);
 	if(removeme.provider == 'twitter'){
 		client.keys('*le-'+removeme.id,function(err,value){
@@ -308,7 +308,7 @@ app.get("/error",auth,function(req,res){
 	client.del('chatted:'+removeme.id);
 	//client.del('last:'+removeme.id);
 	client.keys('*ale-*',function(err,countList){
-		console.log(countList);
+		//console.log(countList);
 		finishedRemove(countList);
 	});
 });
@@ -333,14 +333,14 @@ app.get('/authtw/callback',
 );
 
 app.get('/subscribe2',function(req,res){
-	console.log("+++++SUBSCRIBE+++++");
-	console.log(req.user);
-	console.log(req.query);
+	//console.log("+++++SUBSCRIBE+++++");
+	//console.log(req.user);
+	//console.log(req.query);
 	client.sadd("email",req.query.inputBox);
 	var gatherEmail = req.query.inputBox + '\r\n';
 	fs.appendFile('email.txt',gatherEmail,function(err){
 		if(err) throw err;
-		console.log('Email saved');
+		//console.log('Email saved');
 	});
 	res.render('subscribe2');
 });
@@ -486,9 +486,9 @@ app.get('/ranking',auth,function(req,res){
 		up.photourl = user.photourl;
 		up.provider = user.provider;
 		up.codename = user.codename;
-		console.log("+++++UP content+++++");
+		//console.log("+++++UP content+++++");
 		//console.log(up);
-		console.log("+++++UP content+++++");
+		//console.log("+++++UP content+++++");
 		//console.log(finalLikes);
 		res.render('ranking',{user:up,chatmate:finalLikes});
 	}
@@ -496,25 +496,25 @@ app.get('/ranking',auth,function(req,res){
 	client.smembers('visitor:'+user.id,function(err,datas){
 		var countData;
 		countData = datas.length;
-		console.log("xxXXxx Count Content Value xxXXxx");
+		//console.log("xxXXxx Count Content Value xxXXxx");
 		if(countData > 0){
 			datas.forEach(function(data){
-				console.log("xxXXxx PEOPLE WHO LIKE YOU");
-				console.log(data);
+				//console.log("xxXXxx PEOPLE WHO LIKE YOU");
+				//console.log(data);
 				likes.push(data);
 				client.smembers('visitor:'+JSON.parse(data).id,function(err,liked){
 					if(!liked[0]){
-						console.log("xxXXxx NO ONE LIKE YOU xxXXxx");
+						//console.log("xxXXxx NO ONE LIKE YOU xxXXxx");
 						liked = {};
 					}
 					else{
-						console.log("xxXXxx OTHER PEOPLE LIKE DATA xxXXxx");
-						console.log(liked);
+						//console.log("xxXXxx OTHER PEOPLE LIKE DATA xxXXxx");
+						//console.log(liked);
 						liked.forEach(function(like){
-							console.log("xxXXxx LIKE DATA xxXXxx");
-							console.log(like);
+							//console.log("xxXXxx LIKE DATA xxXXxx");
+							//console.log(like);
 							if(JSON.parse(like).id == req.user.id){
-								console.log("xxXXxx RESULT OF LIKE xxXXxx");
+								//console.log("xxXXxx RESULT OF LIKE xxXXxx");
 								finalLikes.push(data);
 							}
 						});
@@ -664,34 +664,34 @@ app.io.set('log level', 1);
 app.io.set('authorization', function (handshakeData, callback) {
 	if(handshakeData.headers.cookie){
 	//	console.log(handshakeData.headers.cookie);
-		console.log("xxXX Cookie XXxx");
+		//console.log("xxXX Cookie XXxx");
 		//console.log(handshakeData.headers.cookie);
 		var cookies = handshakeData.headers.cookie.replace("'","").split(";");
-		console.log("declaration");
+		//console.log("declaration");
 		//console.log(cookies);
-		console.log("checking cookies");
+		//console.log("checking cookies");
 		//console.log(cookies.length);
 		for(var i = 0; i<cookies.length; i++){
 			var checkMe = cookies[i].search("peekawoo=");
 			//console.log(checkMe);
 			if(checkMe >= 0){
-				console.log("i'm at Array number "+i+" location "+checkMe);
+				//console.log("i'm at Array number "+i+" location "+checkMe);
 				var sampleMe = cookies[i].split("=");
 				if(sampleMe.length > 1){
-					console.log("goes greater");
+					//console.log("goes greater");
 					sampleMe = sampleMe[1].split("=");
 				}
 				else{
-					console.log("goes lessthan");
+					//console.log("goes lessthan");
 					sampleMe = sampleMe[0].split("=");
 				}
 				break;
 			}
 		}
-		console.log("here is the perfect result");
+		//console.log("here is the perfect result");
 		//console.log(sampleMe);
 		sid = sampleMe[0].replace("s%3A","").split(".")[0];
-		console.log("checking cookies");
+		//console.log("checking cookies");
 		//console.log(sid);
 		//console.log(sampleMe);
 		sessionStore.load(sid, function(err,session){
@@ -702,10 +702,10 @@ app.io.set('authorization', function (handshakeData, callback) {
 					user : session.passport.user,
 					sessionid : sid
 			};
-			console.log("===== Connecting . . . =====");
+			//console.log("===== Connecting . . . =====");
 			return callback(null,true);
 		});
-		console.log("it just end here");
+		//console.log("it just end here");
 	}
 	else{
 		return callback("No cookie transmitted.!",false);
@@ -728,11 +728,12 @@ app.io.sockets.on('connection',function(socket){
 	var usery = socket.handshake.peekawoo.sessionid;
 	if(userx != undefined){
 		if(userx.gender != undefined){
+			console.log("disconnect "+userx.id+" persist");
 			client.persist(userx.gender+'-'+userx.id);
 			client.persist('chatted:'+userx.id)
 		}
 	}
-	console.log("xxXX Normal Data came here XXxx");
+	//console.log("xxXX Normal Data came here XXxx");
 	//console.log(req.data);
 	//console.log(haveData);
 	//console.log(myArray);
@@ -781,6 +782,7 @@ app.io.sockets.on('connection',function(socket){
 		console.log("xxxxxxxxx disconnecting active client xxxxxxxx");
 		if(userx != undefined){
 			if(userx.gender != undefined){
+				console.log("disconnect "+userx.id+" in 20 secs");
 				client.expire(userx.gender+'-'+userx.id,20); //change from 60secs to 20secs
 				client.expire('chatted:'+userx.id,20);
 			}
@@ -1256,7 +1258,7 @@ start_chat = function(vf,vm,cflist,cmlist,cycle){
 												app.io.broadcast(vmx.id, room);
 												loopStop = true;
 												rotationTurn = true;
-												break;
+												//break;
 											}else{
 												console.log("they have block users");
 											}
@@ -1371,7 +1373,7 @@ start_chat = function(vf,vm,cflist,cmlist,cycle){
 														app.io.broadcast(vmx.id, room);
 														loopStop = true;
 														rotationTurn = true;
-														break;
+														//break;
 													}else{
 														console.log("they have block users");
 													}
@@ -1496,7 +1498,7 @@ start_chat = function(vf,vm,cflist,cmlist,cycle){
 												app.io.broadcast(pvmx.id, room);
 												loopStop2 = true;
 												rotationTurn = true;
-												break;
+												//break;
 											}else{
 												console.log("they have block users");
 											}
@@ -1611,7 +1613,7 @@ start_chat = function(vf,vm,cflist,cmlist,cycle){
 														app.io.broadcast(pvmx.id, room);
 														loopStop2 = true;
 														rotationTurn = true;
-														break;
+														//break;
 													}else{
 														console.log("they have block users");
 													}
@@ -1842,7 +1844,7 @@ another_chat = function(vf,vm,cflist,cmlist,cycle){
 												app.io.broadcast(vmx.id, room);
 												loopStop = true;
 												rotationTurn = true;
-												break;
+												//break;
 											}else{
 												console.log("they have block users");
 											}
@@ -1957,7 +1959,7 @@ another_chat = function(vf,vm,cflist,cmlist,cycle){
 														app.io.broadcast(vmx.id, room);
 														loopStop = true;
 														rotationTurn = true;
-														break;
+														//break;
 													}else{
 														console.log("they have block users");
 													}
@@ -2082,7 +2084,7 @@ another_chat = function(vf,vm,cflist,cmlist,cycle){
 												app.io.broadcast(pvmx.id, room);
 												loopStop2 = true;
 												rotationTurn = true;
-												break;
+												//break;
 											}else{
 												console.log("they have block users");
 											}
@@ -2197,7 +2199,7 @@ another_chat = function(vf,vm,cflist,cmlist,cycle){
 														app.io.broadcast(pvmx.id, room);
 														loopStop2 = true;
 														rotationTurn = true;
-														break;
+														//break;
 													}else{
 														console.log("they have block users");
 													}

@@ -70,63 +70,13 @@ $(function(){
 	);
 	
 	$('.blockbtn').click(function(){
-		var link1='/img/hc-theme/unblock.png';
-		var link2='/img/hc-theme/block.png';
-		var title1='Block User';
-		var title2='Unblocked User';
-		var value1='Block User';
-		var value2='Unblocked User';
-		if($(this).attr('value')==value1){
-			$('.button1').attr('src',link2);
-			$('.button1').tooltip('destroy');
-			$('.button1').attr('title', title2);
-			$('.button1').tooltip();
+		var value2='Blocked!';
 			//the upper portion is from hover effect in current chat image
 			$('.blockbtn').attr('value',value2);
 			$('.blockbtn').removeClass('btn-danger');
-			$('.blockbtn').addClass('btn-info');
+			$('.blockbtn').addClass('btn-blocked');
+			$('.blockbtn').attr('disabled', $('.btn-info'));
 			socket.emit('block',contmechatm8);
-		}else{
-			$('.button1').attr('src',link1);
-			$('.button1').tooltip('destroy');
-			$('.button1').attr('title', title1);
-			$('.button1').tooltip();
-			//the upper portion is from hover effect in current chat image
-			$('.blockbtn').attr('value',value1);
-			$('.blockbtn').removeClass('btn-info');
-			$('.blockbtn').addClass('btn-danger');
-			socket.emit('unblock',contmechatm8);
-		}
-	});
-	
-	$('.button1').on('click',function(){
-		var link1='/img/hc-theme/unblock.png';
-		var link2='/img/hc-theme/block.png';
-		var title1='Block User';
-		var title2='Unblocked User';
-		var value1='Block User';
-		var value2='Unblocked User';
-		if($(this).attr('src')==link1){
-			$('.button1').attr('src',link2);
-			$(this).tooltip('destroy');
-			$('.button1').attr('title', title2);
-			$(this).tooltip();
-			//this part is for button in container visible
-			$('.blockbtn').attr('value',value2);
-			$('.blockbtn').removeClass('btn-danger');
-			$('.blockbtn').addClass('btn-info');
-			socket.emit('block',contmechatm8);
-		}else{
-			$('.button1').attr('src',link1);
-			$(this).tooltip('destroy');
-			$('.button1').attr('title', title1);
-			$(this).tooltip();
-			//this part is for button in container visible
-			$('.blockbtn').attr('value',value1);
-			$('.blockbtn').removeClass('btn-info');
-			$('.blockbtn').addClass('btn-danger');
-			socket.emit('unblock',contmechatm8);
-		}
 	});
 	
 	socket.on(user.id,function(data){

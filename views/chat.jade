@@ -10,8 +10,8 @@ block content
                 .chat-container
                     .photo-con
                         .current-photo
-                        .show-book(style='display:none')
-                            img#X.button1(value='X', title='Block User', src='/img/hc-theme/unblock.png')
+                        .chat-block
+                            input#blockuser.btn.blockbtn(type='button' value='Block User')
                         .chat-timer-div
                             .alarm
                             .chat-timer
@@ -22,7 +22,6 @@ block content
                                     #countdown1.digit
                         .next-photo
                         .previous-photo
-                        input#blockuser.btn.btn-danger.btn-large.blockbtn(type="button" value="Block User")
                 .chat-view
                     
                     center
@@ -42,12 +41,6 @@ block content
     script
         $('.current-photo').hover(function(){
             $('.show-book').show();
-            },function(){
-                $('.show-book').hide();
-        });
-        $('.button1').hover(function(){
-            $('.show-book').show();
-            $(this).tooltip();
             },function(){
                 $('.show-book').hide();
         });
