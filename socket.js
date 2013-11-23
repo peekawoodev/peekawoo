@@ -1242,14 +1242,14 @@ another_chat = function(vf,vm,vr,cflist,cmlist,crlist,cycle){
 				//console.log(vr);
 				//console.log(returnRandom);
 				vr.forEach(function(pvr){
-					var removeLoop = returnRandom.indexOf(pvr);
 					var pvrx = JSON.parse(pvr);
-					if(removeLoop >= 0){
-						//returnRandom.splice(removeLoop,1);
-						if(returnRandom.length > 0){
-							client.smembers("chatted:"+pvrx.id,function(err,chats){
-								console.log("RANDOM IF NO CHATTED HISTORY..");
-								
+					console.log("pvrx identity "+pvrx);
+					console.log(pvrx);
+					if(returnRandom.length > 0){
+						client.smembers("chatted:"+pvrx.id,function(err,chats){
+							console.log("RANDOM IF NO CHATTED HISTORY..");
+							var removeLoop = returnRandom.indexOf(pvr);
+							if(removeLoop >= 0){
 								if(!chats || chats.length == 0){
 									//console.log(returnRandom);
 									//var randomChatm8 = returnRandom[Math.floor(Math.random()*returnRandom.length)];
@@ -1261,6 +1261,8 @@ another_chat = function(vf,vm,vr,cflist,cmlist,crlist,cycle){
 												console.log(randomChatm8);
 												console.log(JSON.parse(randomChatm8));
 												var rc8 = JSON.parse(randomChatm8);
+												console.log("rc8 identity "+rc8);
+												console.log(rc8);
 												var room = {
 													name : pvrx.id + "-" + rc8.id,
 													male : pvrx,
@@ -1357,8 +1359,8 @@ another_chat = function(vf,vm,vr,cflist,cmlist,crlist,cycle){
 										}
 									}
 								}
-							});
-						}
+							}
+						});
 					}
 				});
 			}
