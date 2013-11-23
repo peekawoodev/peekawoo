@@ -52,7 +52,7 @@ $(function(){
 			}
 			if (seconds == 0) {
 				clearInterval(countdownTimer);
-			} else {
+			}else {
 				seconds--;
 			}
 		}, 1000);
@@ -89,8 +89,6 @@ $(function(){
 	});
 	
 	$("#signout").click(function(){
-		//alert(roomsend);
-		//socket.emit('leave',{user: user,room:room});
 		socket.emit('leave',{user: user,room:my_chatm8});
 	});
 	
@@ -100,8 +98,14 @@ $(function(){
 		if(data.gender == "male"){
 			$(" .messagewindow").append("<img class='leftp'></img><img class='imgleft' src='"+data.photourl+"'></img><p class='me-chat'><strong>"+data.codename+":</strong> <em>"+data.msg+"</em></p>");
 		}
-		else{
+		else if(data.gender == "female"){
 			$(" .messagewindow").append("<img class='rightp'></img><img class='imgright' src='"+data.photourl+"'></img><p class='you-chat'><strong>"+data.codename+":</strong> <em>"+data.msg+"</em></p>");
+		}else{
+			if(data.id == my_chatm8.male.id){
+				$(" .messagewindow").append("<img class='leftp'></img><img class='imgleft' src='"+data.photourl+"'></img><p class='me-chat'><strong>"+data.codename+":</strong> <em>"+data.msg+"</em></p>");
+			}else{
+				$(" .messagewindow").append("<img class='rightp'></img><img class='imgright' src='"+data.photourl+"'></img><p class='you-chat'><strong>"+data.codename+":</strong> <em>"+data.msg+"</em></p>");
+			}
 		}
 		$(".messagewindow").prop({scrollTop: $(".messagewindow").prop("scrollHeight")});
 	});
@@ -145,9 +149,6 @@ $(function(){
 					}
 				}
 				socket.emit('my msg',user);
-				//socket.emit('my msg', {
-					//msg: chuncks[i]
-				//});
 			}
 			$(this).val('');
 			return false;

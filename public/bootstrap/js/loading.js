@@ -1,5 +1,4 @@
 var socket = io.connect();
-//var changePage = false;
 var user = $("#user").val();
 socket.emit('member',user);
 usernew = JSON.parse(user);
@@ -11,7 +10,6 @@ socket.on(usernew.id,function(data){
 	else{
 		window.location = '/error';
 	}
-
 });
 socket.on('game_stop',function(){
 	window.location = '/loading';
