@@ -10,8 +10,8 @@ block content
                 .chat-container
                     .photo-con
                         .current-photo
-                        .show-book(style='display:none')
-                            img#X.button1(value='X', title='Block User', src='/img/hc-theme/unblock.png')
+                        .chat-block
+                            input#blockuser.btn.blockbtn(type='button' value='Block User')
                         .chat-timer-div
                             .alarm
                             .chat-timer
@@ -22,9 +22,7 @@ block content
                                     #countdown1.digit
                         .next-photo
                         .previous-photo
-                        input#blockuser.btn.btn-danger.btn-large.blockbtn(type="button" value="Block User")
                 .chat-view
-                    
                     center
                         .chatwindow
                             .messagewindow
@@ -40,17 +38,6 @@ block content
     script(src="/socket.io/socket.io.js")
     script(defer, src="/bootstrap/js/chat.js")
     script
-        $('.current-photo').hover(function(){
-            $('.show-book').show();
-            },function(){
-                $('.show-book').hide();
-        });
-        $('.button1').hover(function(){
-            $('.show-book').show();
-            $(this).tooltip();
-            },function(){
-                $('.show-book').hide();
-        });
         $(document).unbind('keydown').bind('keydown', function (event) {
             if (event.keyCode === 116 || event.keyCode === 115) {
                 event.preventDefault();
@@ -68,6 +55,14 @@ block content
                 }
             }
         );
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-43851834-1']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
         window.location.hash="no-back-button";
         window.location.hash="Again-no-back-button";//for google chrome
         window.onhashchange=function(){window.location.hash="no-back-button";}

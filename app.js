@@ -19,85 +19,8 @@ var client = exports.client = redis.createClient();
 var sessionStore = exports.sessionStore = new RedisStore({client : client});
 var app = exports.app = express().http().io();
 //app.http().io();
-//var haveData = new Array();
-//var myArray = new Array();
-//var countDownBoolean = false;
 var fs = require('fs');
 require('./strategy.js');
-
-//var currentTimeCount = new Date().getTime();
-//console.log(currentTimeCount);
-//var setTimeCount = new Date();
-//setTimeCount.setHours(20);
-//console.log(setTimeCount);
-//var computeSample = Math.abs(setTimeCount - currentTimeCount);
-//console.log(computeSample);
-//if(computeSample >= 0){
-//	var secVal = computeSample;
-//	console.log(Number(secVal));
-//	secVal1 = Math.ceil((secVal/1000)-1);
-//	console.log(Number(secVal1));
-//}else{
-//	secVal1 = 0;
-//}
-
-//var myCounter = new Countdown({
-//	seconds: 71000,
-//    onUpdateStatus: function(sec){console.log(sec);}, // callback for each second
-//    onCounterEnd: function(){ console.log('counter ended!');
-//    	console.log("xxXXxx I'm here to Login xxXXxx");
-//    	countDownBoolean = false;
-//    	newCounter.start();
-//    }
-//});
-//myCounter.start();
-//var newCounter = new Countdown({
-//	seconds:15500,
-//	onUpdateStatus: function(sec){console.log(sec);}, // callback for each second
-//    onCounterEnd: function(){ console.log('counter ended!');
-//    console.log("xxXXxx I'm here to CountDown xxXXxx");
-//    	countDownBoolean = true;
-//    	alterCounter.start();
-//    }
-//});
-
-//var alterCounter = new Countdown({
-//	seconds:70000,
-//	onUpdateStatus: function(sec){console.log(sec);}, // callback for each second
-//    onCounterEnd: function(){ console.log('counter alter!');
-//    console.log("xxXXxx I'm here to CountDown xxXXxx");
-//    	countDownBoolean = false;
-//    	newCounter.start();
-//    }
-//});
-
-//function Countdown(options) {
-//    var timer,
-//    instance = this,
-//    seconds = options.seconds,
-//    updateStatus = options.onUpdateStatus || function () {},
-//    counterEnd = options.onCounterEnd || function () {};
-
-//    function decrementCounter() {
-//        updateStatus(seconds);
-//        if (seconds === 0) {
-//            counterEnd();
-//            instance.stop();
-//        }
-//        seconds--;
-//    }
-
-//    this.start = function () {
-//        clearInterval(timer);
-//        timer = 0;
-//        seconds = options.seconds;
-//        timer = setInterval(decrementCounter, 1000);
-//    };
-
-//    this.stop = function () {
-//        clearInterval(timer);
-//    };
-//}
 
 // all environments
 app.configure(function(){

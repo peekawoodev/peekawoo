@@ -29,14 +29,19 @@ module.exports = {
 		console.log("+++ removing error +++");
 		//console.log(removeme);
 		if(removeme.provider == 'twitter'){
-			client.keys('*le-'+removeme.id,function(err,value){
+			client.keys('*ale-'+removeme.id,function(err,value){
 				if(value){
 					if(value.length > 0){
 						var errorGen = value[0].search('female-');
 						if(errorGen >= 0){
 							removeme.gender = 'female';
 						}else{
-							removeme.gender = 'male';
+							var errorRand = value[0].search('randale-');
+							if(errorRand >= 0){
+								removeme.gender = 'randale';
+							}else{
+								removeme.gender = 'male';
+							}
 						}
 					}
 				}
@@ -58,7 +63,6 @@ module.exports = {
 	},
 	fbcallback : function(req, res) {
 		console.log("Authenticated in facebook");
-		console.log(JSON.stringify(req.session.passport.user._json));
 		console.log(req.isAuthenticated());
 		res.redirect('/option');
 	},
@@ -144,57 +148,97 @@ module.exports = {
 		res.render('option',{profile:req.session.passport.user.gender,provider:req.session.passport.user.provider});
 	},
 	loading : function(req,res){
-		//console.log(req.user);
 		console.log("------------------------");
 		console.log(req.query);
 		if(req.user.provider == 'facebook'){
-			console.log("XXX---------------- FACEBOOK GENDER DEFAULT -----------------XXX");
-			req.user.gender = req.query["gender-m"] || req.query["gender-f"] || req.user._json.gender;
-			req.user.codename = req.query.codename || req.user.codename;
-			res.render('loading',{user: req.user});
+			if(rotationGame == 0){
+				console.log("XXX---------------- FACEBOOK GENDER DEFAULT -----------------XXX");
+				req.user.gender = req.query["gender-m"] || req.query["gender-f"] || req.query["gender-r"] || req.user._json.gender;
+				req.user.codename = req.query.codename || req.user.codename;
+				res.render('loading',{user: req.user});
+			}else{
+				if(req.query["gender-m"]){
+					req.user.gender = req.query["gender-m"];
+				}
+				if(req.query["gender-f"]){
+					req.user.gender = req.query["gender-f"];
+				}
+				if(req.query["gender-r"]){
+					req.user.gender = req.query["gender-r"];
+				}
+				console.log(req.query["gender-m"]);
+				console.log(req.query["gender-f"]);
+				console.log(req.query["gender-r"]);
+				if(!req.query["gender-f"] && !req.query["gender-m"] && !req.query["gender-r"]){
+					req.user.codename = req.query.codename || req.user.codename;
+					client.keys('*ale-'+req.user.id,function(err,keys){
+						console.log("facebook checking..");
+						console.log(keys);
+						if(keys){
+							if(keys.length > 0){
+								var locateGen = keys[0].search('female-');
+								console.log(locateGen);
+								if(locateGen >= 0){
+									req.user.gender = 'female';
+									res.render('loading',{user: req.user});
+								}else{
+									var locateRandom = keys[0].search('randale-');
+									if(locateRandom >= 0){
+										req.user.gender = 'randale';
+										res.render('loading',{user: req.user});
+									}else{
+										req.user.gender = 'male';
+										res.render('loading',{user: req.user});
+									}
+								}
+							}
+						}
+						else{
+							console.log("problem occur");
+						}
+					});
+				}else{
+					console.log("req query have a value");
+					req.user.codename = req.query.codename || req.user.codename;
+					res.render('loading',{user: req.user});
+				}
+			}
 		}else{
+			if(req.query["gender-m"]){
+				req.user.gender = req.query["gender-m"];
+			}
+			if(req.query["gender-f"]){
+				req.user.gender = req.query["gender-f"];
+			}
+			if(req.query["gender-r"]){
+				req.user.gender = req.query["gender-r"];
+			}
+			if(req.user._json.gender){
+				req.user.gender = req.user._json.gender;
+			}
+			if(req.query.codename){
+				req.user.codename = req.query.codename;
+			}
+			if(req.user.codename){
+				req.user.codename = req.user.codename;
+			}
 			if(rotationGame == 0){
 				console.log("XXX---------------- TWITTER GENDER DEFAULT -----------------XXX");
 				console.log(req.query["gender-m"]);
 				console.log(req.query["gender-f"]);
+				console.log(req.query["gender-r"]);
 				console.log(req.user._json.gender);
-				if(req.query["gender-m"]){
-					req.user.gender = req.query["gender-m"];
-				}
-				if(req.query["gender-f"]){
-					req.user.gender = req.query["gender-f"];
-				}
-				if(req.user._json.gender){
-					req.user.gender = req.user._json.gender;
-				}
-				req.user.codename = req.query.codename || req.user.codename;
 				res.render('loading',{user: req.user});
 			}
 			else{
 				console.log("XXX---------------- TWITTER GENDER AUTOMATIC -----------------XXX");
-				if(req.query["gender-m"]){
-					req.user.gender = req.query["gender-m"];
-				}
-				if(req.query["gender-f"]){
-					req.user.gender = req.query["gender-f"];
-				}
-				if(req.user._json.gender){
-					req.user.gender = req.user._json.gender;
-				}
-				if(req.query.codename){
-					req.user.codename = req.query.codename;
-				}
-				if(req.user.codename){
-					req.user.codename = req.user.codename
-				}
-				if(req.user.gender == 'male' || req.user.gender == 'female'){
+				if(req.user.gender == 'male' || req.user.gender == 'female' || req.user.gender == 'randale'){
 					console.log(req.user.gender);
 					console.log("it goes to this location");
-					//req.user.codename = req.query.codename || req.user.codename;
 					res.render('loading',{user: req.user});
 				}else{
 					console.log("null goes to this location");
-					client.keys('*le-'+req.user.id,function(err,keys){
+					client.keys('*ale-'+req.user.id,function(err,keys){
 						console.log("twitter checking..");
 						console.log(keys);
 						if(keys){
@@ -202,13 +246,17 @@ module.exports = {
 								var locateGen = keys[0].search('female-');
 								console.log(locateGen);
 								if(locateGen >= 0){
-									req.user.gender = 'male';
-									//req.user.codename = req.query.codename || req.user.codename;
+									req.user.gender = 'female';
 									res.render('loading',{user: req.user});
 								}else{
-									req.user.gender = 'female';
-									//req.user.codename = req.query.codename || req.user.codename;
-									res.render('loading',{user: req.user});
+									var locateRandom = keys[0].search('randale-');
+									if(locateRandom >= 0){
+										req.user.gender = 'randale';
+										res.render('loading',{user: req.user});
+									}else{
+										req.user.gender = 'male';
+										res.render('loading',{user: req.user});
+									}
 								}
 							}
 						}
@@ -225,7 +273,6 @@ module.exports = {
 		//console.log(req.user);
 		var likes = new Array();
 		var finalLikes = new Array();
-
 		var finishedRequest = function(){
 			if(user.provider == 'twitter'){
 				client.keys('*ale-'+user.id,function(err,value){
@@ -235,7 +282,13 @@ module.exports = {
 							if(errorGen >= 0){
 								user.gender = 'female';
 							}else{
-								user.gender = 'male';
+								var errorGenR = value[0].search('randale-');
+								if(errorGenR >= 0){
+									user.gender = 'randale';
+								}
+								else{
+									user.gender = 'male';
+								}
 							}
 						}
 					}
@@ -254,7 +307,6 @@ module.exports = {
 			//console.log(finalLikes);
 			res.render('ranking',{user:up,chatmate:finalLikes});
 		}
-		
 		client.smembers('visitor:'+user.id,function(err,datas){
 			var countData;
 			countData = datas.length;
@@ -286,8 +338,6 @@ module.exports = {
 							finishedRequest();
 						}
 					});
-					
-		
 				});
 			}else{
 				finishedRequest();
@@ -300,8 +350,6 @@ module.exports = {
 		console.log(req.params.room);
 		rotationGame+=1;
 		client.smembers(req.params.room,function(err,data){
-			//console.log(err);
-			//console.log(data);
 			console.log(data);
 			if(err){
 				data = {};
@@ -312,12 +360,12 @@ module.exports = {
 				}
 			}
 			console.log(data);
-			//console.log(req.user.photourl);
+			var container;
 			var listgender = new Array();
 			if(req.user.provider == 'twitter'){
 				console.log("goes to this location due to twitter account");
 				console.log(req.user.id);
-				client.keys('*le-'+req.user.id,function(err,result){
+				client.keys('*ale-'+req.user.id,function(err,result){
 					console.log(result[0]);
 					if(result){
 						if(result.length > 0){
@@ -326,7 +374,12 @@ module.exports = {
 							if(trimGet >= 0){
 								req.user.gender = 'female';
 							}else{
-								req.user.gender = 'male';
+								var trimRan = result[0].search('randale-');
+								if(trimRan >= 0){
+									req.user.gender = 'randale';
+								}else{
+									req.user.gender = 'male';
+								}
 							}
 						}
 					}
@@ -341,12 +394,9 @@ module.exports = {
 					client.lrange('last:'+req.user.id,1,1,function(err,value){
 						if(err){
 							console.log("Error found!!");
-							
 						}
-						//listgender = JSON.parse(value);
 						console.log("$$$$$ checking if value.length have content $$$$$")
 						console.log(value.length);
-						//if()
 						console.log("****LIST of Opposite Gender****");
 						console.log(listgender);
 						if(value.length > 0){
@@ -357,9 +407,16 @@ module.exports = {
 									console.log(JSON.parse(values));
 									res.render('chat',{user: up, room: data, listgen: values});
 								});
-							}else{
+							}else if(req.user.gender == 'female'){
 								console.log("search male");
 								client.get('male-'+value,function(err,values){
+									console.log(values);
+									console.log(JSON.parse(values));
+									res.render('chat',{user: up, room: data, listgen: values});
+								});
+							}else{
+								console.log("search random");
+								client.get('randale-'+value,function(err,values){
 									console.log(values);
 									console.log(JSON.parse(values));
 									res.render('chat',{user: up, room: data, listgen: values});
@@ -385,12 +442,10 @@ module.exports = {
 				client.lrange('last:'+req.user.id,1,1,function(err,value){
 					if(err){
 						console.log("Error found!!");
-						
 					}
 					//listgender = JSON.parse(value);
 					console.log("$$$$$ checking if value.length have content $$$$$")
 					console.log(value.length);
-					//if()
 					console.log("****LIST of Opposite Gender****");
 					console.log(listgender);
 					if(value.length > 0){
@@ -401,9 +456,16 @@ module.exports = {
 								console.log(JSON.parse(values));
 								res.render('chat',{user: up, room: data, listgen: values});
 							});
-						}else{
+						}else if(req.user.gender == 'female'){
 							console.log("search male");
 							client.get('male-'+value,function(err,values){
+								console.log(values);
+								console.log(JSON.parse(values));
+								res.render('chat',{user: up, room: data, listgen: values});
+							});
+						}else{
+							console.log("search random");
+							client.get('randale-'+value,function(err,values){
 								console.log(values);
 								console.log(JSON.parse(values));
 								res.render('chat',{user: up, room: data, listgen: values});

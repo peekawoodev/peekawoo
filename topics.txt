@@ -98,3 +98,66 @@ The Simpsons
 Eiffel Tower
 Clash of Clans
 LSS
+Do you play any sports?
+Do you like to read?
+What kind of music do you like?
+What kinds of movies do you like to watch?
+What are your favorite TV shows?
+Do you like animals? 
+What's your favorite animal?
+Do you have a pet?
+Countries you want to visit
+What is your favourite cuisine?
+What is your favourite restaurant?
+What is your favourite food?
+Do you like going to the beach? 
+Who is your favourite singer?
+What is your favourite dessert?
+Are you good at swimming?
+What do you do for fun? 
+What are you most proud about?
+Do you follow politics? 
+What is your favorite month of the year and why?
+Which is the one job in the world that you would love to do? 
+What makes you laugh?
+What makes you sad?
+Describe your perfect holiday.
+Which T.V. program would you never miss? 
+What is the last CD you bought?
+Are you a morning person or a night person?
+Have you ever climbed a mountain?
+If you could live anywhere in the world, where would it be?
+Who is you favorite actor/actress/celebrity ?
+What’s your favorite color?
+What’s your favorite dessert?
+What was your favorite subject in school?
+Do you like travelling?
+People you’d like to meet
+What’s your favorite time of the day?
+What’s your favorite joke/pick-up line?
+Do you like spicy food?
+If you could learn a random skill, what would you learn?
+Are you an introvert or an extrovert?
+What’s the first thing you notice about people?
+Are you an artistic person?
+Do you like art?
+Biggest turnoff in a man/woman
+Which do you prefer: Call or text?
+Summer, Winter, Fall or Autumn?
+Did you ever hate a teacher?
+Last seen movie
+Things that scare you
+Do you like sushi?
+Do you like anime?
+Do you like superhero movies?
+Your favorite action movie
+Your favorite comedy movie
+Do you like Jackie Chan?
+How many hours are you online per day?
+Cats or Dogs?
+What are your fears? 
+Are you a techie person?
+Console or PC?
+Action or Drama?
+Drama or Romance?
+Do you believe in Horoscope

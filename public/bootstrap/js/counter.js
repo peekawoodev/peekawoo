@@ -1,13 +1,58 @@
 $(function(){
 	var socket = io.connect();
 	var $count = document.getElementById('count');
-	//var locUrl = window.location;
 	var timeAgain = setInterval(function(){
-		//socket.emit('enter',locUrl);
 		socket.emit('enter');
 	},1000);
 	
 	socket.on('listusers',function(data){
+		
+		var seconds = data.users.timeVal;
+		var lockTrigger = data.users.gamelockTrigger;
+		if(lockTrigger){
+			seconds+=5;
+			var countdownTimer = setInterval(function(){
+				var minutes = Math.floor(seconds/60);
+				var remainingSeconds = Math.floor((seconds % 60)/1);
+				if (remainingSeconds < 10) {
+					remainingSeconds = "0" + remainingSeconds; 
+				}
+				document.getElementById('countdown').innerHTML = minutes;
+				document.getElementById('countdown1').innerHTML = remainingSeconds;
+				//$('#countdown').html(value,minutes);
+				//$('#countdown1').html(value,remainingSeconds);
+				if(seconds <= 10){
+					document.getElementById('countdown').style.color = 'red';
+					document.getElementById('countdown1').style.color = 'red';
+				}else{
+					document.getElementById('countdown').style.color = '#584F4F';
+					document.getElementById('countdown1').style.color = '#584F4F';
+				}
+				if (seconds == 0) {
+					clearInterval(countdownTimer);
+				}else {
+					seconds--;
+				}
+			}, 1000);
+		}else{
+			var minutes = Math.floor(seconds/60);
+			var remainingSeconds = Math.floor((seconds % 60)/1);
+			if (remainingSeconds < 10) {
+				remainingSeconds = "0" + remainingSeconds; 
+			}
+			document.getElementById('countdown').innerHTML = minutes;
+			document.getElementById('countdown1').innerHTML = remainingSeconds;
+			//$('#countdown').html(value,minutes);
+			//$('#countdown1').html(value,remainingSeconds);
+			if(seconds <= 10){
+				document.getElementById('countdown').style.color = 'red';
+				document.getElementById('countdown1').style.color = 'red';
+			}else{
+				document.getElementById('countdown').style.color = '#584F4F';
+				document.getElementById('countdown1').style.color = '#584F4F';
+			}
+		}
+		
 		document.getElementById('displayUser').innerHTML = data.count;
 		if(data.count > 0){
 			if(data.count == 1){
@@ -47,6 +92,19 @@ $(function(){
 			document.getElementById('displayTextFemale').innerHTML = "Female";
 			document.getElementById('displayTextFemale').style.color = 'red';
 		}
+		document.getElementById('displayRandom').innerHTML = data.users.rand;
+		if(data.users.rand > 0){
+			if(data.users.rand == 1){
+				document.getElementById('displayTextRandom').innerHTML = "Random";
+			}else{
+				document.getElementById('displayTextRandom').innerHTML = "Random";
+			}
+			document.getElementById('displayTextRandom').style.color = 'green';
+		}
+		else{
+			document.getElementById('displayTextRandom').innerHTML = "Random";
+			document.getElementById('displayTextRandom').style.color = 'red';
+		}
 		document.getElementById('displayUndefine').innerHTML = data.users.undefineduser;
 		if(data.users.undefineduser > 0){
 			if(data.users.undefineduser == 1){
@@ -60,7 +118,5 @@ $(function(){
 			document.getElementById('displayTextUndefine').innerHTML = "Undefine";
 			document.getElementById('displayTextUndefine').style.color = 'red';
 		}
-		//$('')
 	});
-	//$('body').append('<p>"jemo"</p>');
 });
