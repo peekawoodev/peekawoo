@@ -42,10 +42,27 @@ body {
 }
 .index-form-container {
     background-attachment: inherit;
-    display: block;
+    display: inline-block;
     position: inherit;
-    width: 100%;
+    width: 360px;
 }
+
+.text-signin {
+    color: #584F4F;
+    font-family: arial,helvetica;
+    font-size: 33px;
+    font-weight: normal;
+    margin-top: 0;
+    text-align: center;
+}
+.text-signin2 {
+    color: #584F4F;
+    font-family: times new roman;
+    font-size: 10pt;
+    font-weight: normal;
+    text-align: center;
+}
+
 
 .text-signin {
     color: #584F4F;
@@ -63,25 +80,6 @@ body {
     margin-top: 0;
     text-align: center;
 }
-
-
-.text-signin {
-    color: #584F4F;
-    font-family: arial,helvetica;
-    font-size: 33px;
-    font-weight: normal;
-    margin-top: 0;
-    text-align: center;
-}
-.text-signin2 {
-    color: #584F4F;
-    font-family: times new roman;
-    font-size: 10pt;
-    font-weight: normal;
-    margin-top: 0;
-    text-align: center;
-}
-
 
 .sb-facebook {
     background-attachment: inherit;
@@ -91,11 +89,11 @@ body {
     background-position: center center;
     background-repeat: no-repeat;
     background-size: 250px 32px;
-    display: block;
+    display: inline-block;
     height: 33px;
-    margin-top: -9px;
     position: inherit;
     width: 250px;
+    margin: 3px;
 }
 .sb-twitter {
     background-attachment: inherit;
@@ -105,9 +103,9 @@ body {
     background-position: center center;
     background-repeat: no-repeat;
     background-size: 250px 32px;
-    display: block;
-    height: 34px;
-    margin-top: -8px;
+    display: inline-block;
+    height: 33px;
+    margin-top: -9px;
     position: inherit;
     width: 250px;
 }
@@ -209,10 +207,12 @@ body {
     background-attachment: inherit;
     border-radius: 20px 20px 20px 20px;
     display: inline-block;
-    height: 343px;
-    margin-top: 34px;
+    height: 150px;
+    position: absolute;
+    top: 485px;
     width: 100%;
-    position: inherit;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .text-or-box{
@@ -237,20 +237,16 @@ body {
     background-attachment: inherit;
     background-clip: border-box;
     background-color: rgba(0, 0, 0, 0);
-    background-image: url("/img/hc-theme/randomchat.png");
+    background-image: url("/img/hc-theme/rand.png");
     background-origin: padding-box;
     background-position: center center;
-    background-repeat: no-repeat;
-    background-size: 300px 100px;
+    background-repeat: no-repeat;  
     border: 0 solid;
     border-radius: 25px 25px 25px 25px;
-    display: block;
-    float: left;
-    left: -27px;
+    display: inline-block;
     height: 100px;
     position: relative;
-    width: 300px;
-    margin-bottom: 40px;
+    width: 280px;
 }
 
 .choose-random-box {
@@ -274,24 +270,19 @@ body {
 }
 
 .choose-gender-box {
-    margin-right: 30px;
-    margin-left: 30px;
-    display: inline-block;
-    position: inherit;
     background-attachment: inherit;
     background-clip: border-box;
     background-image: url("/img/hc-theme/gender.png");
     background-origin: padding-box;
     background-position: center center;
     background-repeat: no-repeat;
-    background-size: 100% 100%;
-    border: 5px solid #B5AF99;
-    border-radius: 20px 20px 20px 20px;
-    height: 390px;
-    margin-top: 5px;
-    width: 400px;
-    margin-bottom: 5px;
+    background-size: 400px 325px;
+    display: inline-block;
+    position: relative;
+    height: 150px;
+    width: 100%;
 }
+
 .text-gender1 {
     color: #584F4F;
     display: block;
@@ -357,6 +348,7 @@ body {
     margin-top: 7px;
     width: 232px;   
 }
+
 .male {
     background-attachment: inherit;
     background-clip: border-box;
@@ -365,31 +357,27 @@ body {
     background-origin: padding-box;
     background-position: center center;
     background-repeat: no-repeat;
-    background-size: 95% 95%;
     border: 0 solid;
-    border-radius: 25px;
-    display: block;
-    float: left;
-    height: 85px;
+    border-radius: 25px 25px 25px 25px;
+    display: inline-block;
+    height: 100px;
     position: relative;
-    width: 175px;
+    width: 280px;
 }
 .female {
     background-attachment: inherit;
     background-clip: border-box;
-    background-color: rgba(0, 0, 0, 0);
+    background-color: transparent;
     background-image: url("/img/hc-theme/girls.png");
     background-origin: padding-box;
     background-position: center center;
     background-repeat: no-repeat;
-    background-size: 95% 95%;
-    border: 0 solid;
-    border-radius: 25px;
-    display: block;
-    float: left;
-    height: 85px;
+    border: 0px solid;
+    display: inline-block;
+    height: 100px;
     position: relative;
-    width: 175px;
+    width: 280px;
+    border-radius: 25px 25px 25px 25px;
 }
 
 .randuser {
@@ -399,15 +387,13 @@ body {
     background-image: url("/img/hc-theme/rand.png");
     background-origin: padding-box;
     background-position: center center;
-    background-repeat: no-repeat;
-    background-size: 95% 95%;
+    background-repeat: no-repeat;  
     border: 0 solid;
-    border-radius: 25px;
-    display: block;
-    float: inherit;
-    height: 85px;
+    border-radius: 25px 25px 25px 25px;
+    display: inline-block;
+    height: 100px;
     position: relative;
-    width: 175px;
+    width: 280px;
 }
 
 #submit {
@@ -417,14 +403,14 @@ body {
     background-position: center center;
     background-repeat: no-repeat;
     border-radius: 10px 10px 10px 10px;
-    display: block;
-    height: 39px;
-    margin-left: 289px;
-    margin-top: -39px;
-    position: relative;
+    display: inline-block;
+    height: 37px;
+    position: inherit;
     width: 58px;
+    margin-left: 10px;
+    padding: 10px;
+    margin-top: 10px;
 }
-
 
 .subscribe2-container {
     background-attachment: inherit;
@@ -458,16 +444,17 @@ body {
     border: 1px solid #808080;
     border-radius: 7px 7px 7px 7px;
     color: #584F4F;
-    display: block;
+    display: inline-block;
     font-family: helvetica;
     font-size: 19px;
     height: 37px;
-    margin-left: 14px;
-    margin-top: -1px;
     position: inherit;
-    text-align: left;
-    width: 267px;
+    text-align: center;
+    width: 170px;
+    margin-top: 10px;
+    
 }
+
 .text-signin3 {
     color: #FFFFFF;
     font-family: arial,helvetica;
@@ -1459,4 +1446,24 @@ body.counter-page {
 
 #but-random:hover{
     border: 5px solid #9e5acc;
+}
+
+.modal {
+    background-color:#fff;
+    display:none;
+    width:400px;
+    height: 270px;
+    overflow: hidden;
+    padding:15px;
+    text-align:left;
+    border:2px solid #333;
+    opacity:1;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    -moz-box-shadow: 0 0 50px #ccc;
+    -webkit-box-shadow: 0 0 50px #ccc;
+}
+
+body.option-page {
+    background-color: transparent;
 }

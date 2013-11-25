@@ -10,7 +10,8 @@ var rotationGame = 0;
   
 module.exports = {
 	home : function(req,res){
-		res.render('login');
+		//res.render('login');
+		res.render('option');
 	},
 	counter : function(req,res){
 		res.render('counter');
@@ -64,12 +65,16 @@ module.exports = {
 	fbcallback : function(req, res) {
 		console.log("Authenticated in facebook");
 		console.log(req.isAuthenticated());
-		res.redirect('/option');
+		//res.redirect('/option');
+		//console.log(req);
+		res.redirect('/loading');
 	},
 	twcallback : function(req, res) {
 		console.log("Authenticated in twitter");
 		console.log(req.isAuthenticated());
-		res.redirect('/option');
+		//res.redirect('/option');
+		//console.log(req);
+		res.redirect('/loading');
 	},
 	subscribe : function(req,res){
 		console.log("+++++SUBSCRIBE+++++");
@@ -140,17 +145,77 @@ module.exports = {
 			}
 		});
 	},
-	option : function(req,res){
-		console.log("out put the session content");
+	holder : function(req,res){
+		console.log("xxXX HOLDER XXxx");
+		console.log(req.query);
 		console.log(req.session);
 		console.log(req.session.passport.user.gender);
 		console.log(req.session.passport.user.provider);
-		res.render('option',{profile:req.session.passport.user.gender,provider:req.session.passport.user.provider});
+		res.render('holder');
+		//res.redirect('/loading');
+	},
+	option : function(req,res){
+		console.log("xxXX OPTION XXxx");
+		console.log(req.query);
+		provide = req.query["prov"] || req.query["prov1"]; 
+		console.log(provide);
+		if(provide == 'fb'){
+			console.log("Facebook Selected");
+			provide = 'facebook';
+			res.redirect('/authfb');
+		}else if(provide == 'tw'){
+			console.log("Twitter Selected");
+			provide = 'twitter';
+			res.redirect('/authtw');
+			
+		}
+		console.log(req.signedCookies);
+		var info = {};
+		var gendertemp = '';
+		if(req.query["gender-m"]){
+			 info.gender = req.query["gender-m"];
+		}
+		if(req.query["gender-f"]){
+			info.gender = req.query["gender-f"];
+		}
+		if(req.query["gender-r"]){
+			info.gender = req.query["gender-r"];
+		}
+		console.log(info.gender);
+		info.provider = provide;
+		info.codename = req.query['codename'];
+		info.id = req.signedCookies.peekawoo;
+		console.log(info);
+		client.del("id:"+info.id);
+		client.set("id:"+info.id,JSON.stringify(info));
+		//----------OLD CODE----------------
+		//console.log("out put the session content");
+		//console.log(req.session);
+		//console.log(req.session.passport.user.gender);
+		//console.log(req.session.passport.user.provider);
+		//res.render('option',{profile:req.session.passport.user.gender,provider:req.session.passport.user.provider});
 	},
 	loading : function(req,res){
 		console.log("------------------------");
-		console.log(req.query);
-		if(req.user.provider == 'facebook'){
+		console.log(req.user);
+		var info = {};
+		client.get("id:"+req.signedCookies.peekawoo,function(err,data){
+			if(err){
+				res.redirect('/');
+			}else{
+				console.log("xx================xx");
+				console.log(data);
+				data = JSON.parse(data);
+				info.gender = data.gender;
+				info.codename = data.codename;
+				console.log(info);
+				console.log("xx================xx");
+				req.user.gender = info.gender;
+				req.user.codename = info.codename;
+				res.render('loading',{user:req.user});
+			}
+		});
+		/*if(req.user.provider == 'facebook'){
 			if(rotationGame == 0){
 				console.log("XXX---------------- FACEBOOK GENDER DEFAULT -----------------XXX");
 				req.user.gender = req.query["gender-m"] || req.query["gender-f"] || req.query["gender-r"] || req.user._json.gender;
@@ -266,7 +331,7 @@ module.exports = {
 					});
 				}
 			}
-		}
+		}*/
 	},
 	ranking : function(req,res){
 		var user = req.user;

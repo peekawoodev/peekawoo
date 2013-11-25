@@ -69,6 +69,9 @@ if ('development' == app.get('env')) {
 app.get("/",routes.home);
 app.get("/counter",routes.counter);
 app.get("/error",auth,routes.error);
+//---------NEW API----------
+app.get("/holder",routes.holder);
+//--------------------------
 app.get('/authfb',passport.authenticate('facebook'));
 app.get('/authtw',passport.authenticate('twitter'));
 app.get('/authfb/callback',passport.authenticate('facebook', { failureRedirect: '/' }),routes.fbcallback);
@@ -76,7 +79,7 @@ app.get('/authtw/callback',passport.authenticate('twitter', { failureRedirect: '
 app.get('/subscribe2',routes.subscribe);
 app.get('/bookmark',auth,routes.bookmark);
 app.get('/bookmark2',auth,routes.bookmark2);
-app.get('/option',auth,routes.option);
+app.get('/option',routes.option);
 app.get('/loading',auth,routes.loading);
 app.get('/ranking',auth,routes.ranking);
 app.get('/chat/:room',auth,routes.chat);

@@ -1,110 +1,154 @@
 extends layout
 
 block content
-    body.gender-page(oncontextmenu='return false;')
-        #pd1380184526508.pd-embed
-        .head.peekawoo-logo
-        .container
-        form(method='get', action='/loading', id='option')
-            .gender-container
-                    center
-                        .choose-gender-box
-                            p.text-gender1 Are you?
-                            p.text-gender2 Please specify your gender.
-                            .container.chick-container
-                                button#but-male.male(type='button', title='MALE')
-                                    input(type='radio', id='gender-m', name='gender-m', value='male', hidden='true')
-                                button#but-female.female(type='button', title='FEMALE')
-                                    input(type='radio', id='gender-f', name='gender-f', value='female', hidden='true')
-                                button#but-random.randuser(type='button', title='RANDOM')
-                                    input(type='radio', id='gender-r', name='gender-r', value='randale', hidden='true')
-                            .text-gender-container
-                                p.text-gender5 Username
-                                    input#username(type='text', name='codename', maxlength='8',title='Must be at least 2 characters.')
-                                    button#submit(type='submit',name='submit')
-                script
-                    $('#username').tooltip()
-                    $('#but-male').tooltip();
-                    $('#but-female').tooltip();
-                    $('#but-random').tooltip();
-                    $('#but-male').click(function(ev) {
-                        $('#but-male').not(this).css('border', '0px solid #66b3cf').removeClass('s');
-                        if(!$(this).is('.s')){
-                            $(this).css('border', '5px solid #66b3cf').addClass('s');
-                            $('#gender-m').prop("checked", true);
-                            $('#gender-f').prop("checked", false);
-                            $('#gender-r').prop("checked", false);
-                            $('#but-female').css('border', '0px solid #ea985b').removeClass('s');
-                            $('#but-random').css('border', '0px solid #66b3cf').removeClass('s');
-                        }
-                        else{
-                            $('#gender-m').prop("checked", false);
-                            $('#gender-f').prop("checked", false);
-                            $('#gender-r').prop("checked", false);
-                            $(this).css('border', '0px solid #66b3cf').removeClass('s');
-                            //$('#but-female').css('border', '0px solid #ea985b').addClass('s');
-                        }
-                    });
-                    $('#but-female').click(function(ev) {
-                        $('#but-female').not(this).css('border', '0px solid #ea985b').removeClass('s');
-                        if(!$(this).is('.s')){
-                            $(this).css('border', '5px solid #ea985b').addClass('s');
-                            $('#gender-f').prop("checked", true);
-                            $('#gender-m').prop("checked", false);
-                            $('#gender-r').prop("checked", false);
-                            $('#but-male').css('border', '0px solid #66b3cf').removeClass('s');
-                            $('#but-random').css('border', '0px solid #66b3cf').removeClass('s');
-                        }
-                        else{
-                            $('#gender-f').prop("checked", false);
-                            $('#gender-m').prop("checked", false);
-                            $('#gender-r').prop("checked", false);
-                            $(this).css('border', '0px solid #ea985b').removeClass('s');
-                            //$('#but-male').css('border', '5px solid #66b3cf').addClass('s');
-                        }
-                    });
-                    $('#but-random').click(function(ev) {
-                        $('#but-random').not(this).css('border', '0px solid #9e5acc').removeClass('s');
-                        if(!$(this).is('.s')){
-                            $(this).css('border', '5px solid #9e5acc').addClass('s');
-                            $('#gender-r').prop("checked", true);
-                            $('#gender-m').prop("checked", false);
-                            $('#gender-f').prop("checked", false);
-                            $('#but-male').css('border', '0px solid #66b3cf').removeClass('s');
-                            $('#but-female').css('border', '0px solid #ea985b').removeClass('s');
-                        }
-                        else{
-                            $('#gender-r').prop("checked", false);
-                            $('#gender-m').prop("checked", false);
-                            $('#gender-f').prop("checked", false);
-                            $(this).css('border', '0px solid #66b3cf').removeClass('s');
-                            //$('#but-female').css('border', '0px solid #ea985b').addClass('s');
-                        }
-                    });
-                    $('#option').submit(function() {
-                        $('#username').val($('#username').val().replace(" ",""));
-                        var textVal = $('#username').val();
-                        var male = $('#gender-m').prop('checked');
-                        var female = $('#gender-f').prop('checked')
-                        var random = $('#gender-r').prop('checked')
-                        var finalGender = false;
-                        //alert('male-'+male+' female-'+female);
-                        if(male || female || random){
-                            if(textVal.length < 2){
-                                return false;
-                            }
-                        }else{
-                            return false
-                        }
-                    });
-                    var _gaq = _gaq || [];
-                    _gaq.push(['_setAccount', 'UA-43851834-1']);
-                    _gaq.push(['_trackPageview']);
-                    (function() {
-                        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-                        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-                    })();
-                    function preventBack(){window.history.forward();}
-                    setTimeout("preventBack()", 0);
-                    window.onunload=function(){null};
+    body.option-page
+        .gender-container
+             form(method='get', action='/option', id='option')
+                 center
+                     .choose-gender-box
+                          button#but-female.modalInput.female(type='button', title='FEMALE', rel='#prompt')
+                               input(type='radio', id='gender-f', name='gender-f', value='male', hidden='true')
+                          button#but-male.modalInput.male(type='button', title='MALE', rel='#prompt')
+                               input(type='radio', id='gender-m', name='gender-m', value='female', hidden='true')
+                          button#but-random.modalInput.randuser(type='button', title='RANDOM', rel='#prompt')
+                               input(type='radio', id='gender-r', name='gender-r', value='randale', hidden='true')
+                     .modal#prompt
+                          .index-form-container
+                              h1.text-signin Sign In
+                              p.text-signin2 Speed date with random people around the world
+                              center
+                                  button#checkx.sb-facebook(type='button')
+                                     input(type='radio', id='prov', name='prov', value='fb', hidden='true')
+                                  p.text-signin2 or
+                                  center
+                                  button#checky.sb-twitter(type='button')
+                                     input(type='radio', id='prov1', name='prov1', value='tw', hidden='true')
+                                  br
+                                  input#username(type='text', name='codename', value='Codename', onfocus="if (this.value == 'Codename') {this.value=''}", maxlength='8',title='Must be at least 2 characters.')
+                                  button#submit(type='submit',name='submit')
+                     script
+                          $('#checkx').click(function(ev){
+                             $('#checkx').not(this).css('border', '0px solid #66b3cf').removeClass('s');
+                             if(!$(this).is('.s')){
+                                  $(this).css('border', '3px solid #66b3cf').addClass('s');
+                                  $('#prov').prop("checked", true);
+                                  $('#prov1').prop("checked", false);
+                                  $('#checky').css('border', '0px solid #ea985b').removeClass('s');
+                             }
+                             else{
+                                  $('#prov').prop("checked", false);
+                                  $('#prov1').prop("checked", false);
+                                  $(this).css('border', '0px solid #66b3cf').removeClass('s');
+                             }
+                          });
+                          $('#checky').click(function(ev){
+                             $('#checky').not(this).css('border', '0px solid #ea985b').removeClass('s');
+                             if(!$(this).is('.s')){
+                                  $(this).css('border', '3px solid #ea985b').addClass('s');
+                                  $('#prov').prop("checked", false);
+                                  $('#prov1').prop("checked", true);
+                                  $('#checkx').css('border', '0px solid #66b3cf').removeClass('s');
+                             }
+                             else{
+                                  $('#prov').prop("checked", false);
+                                  $('#prov1').prop("checked", false);
+                                  $(this).css('border', '0px solid #ea985b').removeClass('s');                             
+                             }
+                          });
+                          $('#but-male').click(function(ev) {
+                              $('#but-male').not(this).css('border', '0px solid #66b3cf').removeClass('s');
+                              if(!$(this).is('.s')){
+                                  $(this).css('border', '5px solid #66b3cf').addClass('s');
+                                  $('#gender-m').prop("checked", true);
+                                  $('#gender-f').prop("checked", false);
+                                  $('#gender-r').prop("checked", false);
+                                  $('#but-female').css('border', '0px solid #ea985b').removeClass('s');
+                                  $('#but-random').css('border', '0px solid #66b3cf').removeClass('s');
+                              }
+                              else{
+                                  $('#gender-m').prop("checked", false);
+                                  $('#gender-f').prop("checked", false);
+                                  $('#gender-r').prop("checked", false);
+                                  $(this).css('border', '0px solid #66b3cf').removeClass('s');
+                                  //$('#but-female').css('border', '0px solid #ea985b').addClass('s');
+                              }
+                          });
+                          $('#but-female').click(function(ev) {
+                              $('#but-female').not(this).css('border', '0px solid #ea985b').removeClass('s');
+                              if(!$(this).is('.s')){
+                                  $(this).css('border', '5px solid #ea985b').addClass('s');
+                                  $('#gender-f').prop("checked", true);
+                                  $('#gender-m').prop("checked", false);
+                                  $('#gender-r').prop("checked", false);
+                                  $('#but-male').css('border', '0px solid #66b3cf').removeClass('s');
+                                  $('#but-random').css('border', '0px solid #66b3cf').removeClass('s');
+                              }
+                              else{
+                                  $('#gender-f').prop("checked", false);
+                                  $('#gender-m').prop("checked", false);
+                                  $('#gender-r').prop("checked", false);
+                                  $(this).css('border', '0px solid #ea985b').removeClass('s');
+                                  //$('#but-male').css('border', '5px solid #66b3cf').addClass('s');
+                              }
+                          });
+                          $('#but-random').click(function(ev) {
+                              $('#but-random').not(this).css('border', '0px solid #9e5acc').removeClass('s');
+                              if(!$(this).is('.s')){
+                                  $(this).css('border', '5px solid #9e5acc').addClass('s');
+                                  $('#gender-r').prop("checked", true);
+                                  $('#gender-m').prop("checked", false);
+                                  $('#gender-f').prop("checked", false);
+                                  $('#but-male').css('border', '0px solid #66b3cf').removeClass('s');
+                                  $('#but-female').css('border', '0px solid #ea985b').removeClass('s');
+                              }
+                              else{
+                                  $('#gender-r').prop("checked", false);
+                                  $('#gender-m').prop("checked", false);
+                                  $('#gender-f').prop("checked", false);
+                                  $(this).css('border', '0px solid #66b3cf').removeClass('s');
+                                  //$('#but-female').css('border', '0px solid #ea985b').addClass('s');
+                              }
+                          });
+                          $('#option').submit(function() {
+                              $('#username').val($('#username').val().replace(" ",""));
+                              var textVal = $('#username').val();
+                              var check_x = $('#prov').prop('checked');
+                              var check_y = $('#prov1').prop('checked');
+                              var male = $('#gender-m').prop('checked');
+                              var female = $('#gender-f').prop('checked')
+                              var random = $('#gender-r').prop('checked')
+                              var finalGender = false;
+                              //alert('check-'+check_x+check_y+male+female+random);
+                              if(male || female || random){
+                                  if( check_x || check_y){
+                                      if(textVal.length < 2){
+                                          return false;
+                                      }
+                                  }
+                                  else{
+                                      return false;
+                                  }
+                              }else{
+                                  return false
+                              }
+                          });
+                          var _gaq = _gaq || [];
+                          _gaq.push(['_setAccount', 'UA-43851834-1']);
+                          _gaq.push(['_trackPageview']);
+                          (function() {
+                              var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                              ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                              var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                          })();
+        script
+             $(document).ready(function() {
+                 var triggers = $('.modalInput').overlay({
+                    mask: {
+                        color: '#ebecff',
+                        loadSpeed: 200,
+                        opacity: 0.9
+                    },
+                    closeOnClick: false
+                 });
+             });
+        script(src='http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js')
