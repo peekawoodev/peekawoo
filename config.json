@@ -1,12 +1,12 @@
 {
 "fb" : {
-	"clientID": "584276618297699",
-    "clientSecret": "40f90b6491ba942d3276b20a935bf505",
-    "callbackURL": "http://192.168.3.48/authfb/callback"
+	"clientID": "377902852344802",
+    "clientSecret": "06c46942702cc8fc4ee3da13f09af281",
+    "callbackURL": "http://dev.peekawoo.com/authfb/callback"
  },
  "tw" : {
-	"consumerKey": "cHe0sHLluJiIb59BgS2aw",
-	"consumerSecret": "cxGs5V4i6Ps8BS5HyQ4Mc2W5aMSfCq7bIHT5oMZoRA",
-	"callbackURL": "http://192.168.3.48/authtw/callback"
+	"consumerKey": "Pwk7L5KG9ttzkj6nDExYrw",
+	"consumerSecret": "sct9vFktqC7oyp0rjRO2uLwHoIecoUTCLhHmyIR7Hz4",
+	"callbackURL": "http://dev.peekawoo.com/authtw/callback"
  }
 }
