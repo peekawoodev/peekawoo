@@ -118,5 +118,20 @@ $(function(){
 			document.getElementById('displayTextUndefine').innerHTML = "Undefine";
 			document.getElementById('displayTextUndefine').style.color = 'red';
 		}
+		
+		var countingRand = data.users.randCount; 
+		document.getElementById('displayRandCount').innerHTML = countingRand.length;
+		if(countingRand.length > 0){
+			if(countingRand.length == 1){
+				document.getElementById('displayTextRandCount').innerHTML = "Random Login User";
+			}else{
+				document.getElementById('displayTextRandCount').innerHTML = "Random Login Users";
+			}
+			document.getElementById('displayTextRandCount').style.color = 'green';
+		}
+		else{
+			document.getElementById('displayTextRandCount').innerHTML = "Random Login User";
+			document.getElementById('displayTextRandCount').style.color = 'red';
+		}
 	});
 });

@@ -115,6 +115,16 @@ app.io.sockets.on('connection',function(socket){
 	}
 	
 	app.io.route('enter',function(){
+		var randomcount = new Array();
+		client.smembers('randomcounter',function(err,rand){
+			if(rand != null){
+				if(rand.length > 0){
+					rand.forEach(function(ran){
+						randomcount.push(ran);
+					});
+				}
+			}
+		});
 		client.keys('*ale-*',function(err,list){
 			var listFemale = 0;
 			var listMale = 0;
@@ -148,6 +158,8 @@ app.io.sockets.on('connection',function(socket){
 				userList.timeVal = countGlobal;
 				userList.gamelockTrigger = game_lock;
 				userList.undefineduser = undefinedUser;
+				userList.randCount = randomcount;
+				console.log(userList);
 				if(list.length > 0){
 					countUserInside = list.length;
 				}
@@ -185,7 +197,10 @@ app.io.sockets.on('connection',function(socket){
 	app.io.route('timer',function(req){
 		console.log("server current timer");
 		console.log(countGlobal);
-		app.io.room(getRoom(req)).broadcast('sendtime', countGlobal);
+		if(countGlobal > 0){
+			app.io.room(getRoom(req)).broadcast('sendtime', countGlobal);
+		}
+		//app.io.room(getRoom(req)).broadcast('sendtime', countGlobal);
 	});
 	
 	app.io.route('leave',function(req){
@@ -410,6 +425,8 @@ app.io.sockets.on('connection',function(socket){
 				console.log("newuser="+newuser);
 				console.log("newuserCount="+newuserCount);
 				console.log("game_lock="+game_lock);
+				console.log("game_ongoing="+game_ongoing);
+				console.log("catchup_user="+catchup_user);
 				if(!game_lock){
 					game_lock = true;
 					console.log("starting game in 15 sec");
@@ -531,9 +548,9 @@ start_chat = function(vf,vm,vr,cflist,cmlist,crlist,cycle){
 								if(!chats || chats.length == 0){
 									//console.log(returnRandom);
 									//var randomChatm8 = returnRandom[Math.floor(Math.random()*returnRandom.length)];
-									var loopStop = false;
+									var loopStopIf = false;
 									for(var i = 0;i<returnRandom.length;i++){
-										if(!loopStop){
+										if(!loopStopIf){
 											if(pvr != returnRandom[i]){
 												var randomChatm8 = returnRandom[i];
 												console.log(randomChatm8);
@@ -563,7 +580,7 @@ start_chat = function(vf,vm,vr,cflist,cmlist,crlist,cycle){
 												client.sadd("chattingrandom",rc8.id);
 												app.io.broadcast(pvrx.id, room);
 												app.io.broadcast(rc8.id, room);
-												loopStop = true;
+												loopStopIf = true;
 											}
 										}
 									}
@@ -597,9 +614,9 @@ start_chat = function(vf,vm,vr,cflist,cmlist,crlist,cycle){
 									console.log(returnRandom);
 									if(qtyOfChatmate <= 0){
 										if(trimRandomList > 0){
-											var loopStop = false;
+											var loopStopElse = false;
 											for(var i = 0;i<returnRandom.length;i++){
-												if(!loopStop){
+												if(!loopStopElse){
 													if(pvr != returnRandom[i]){
 														var splitId = JSON.parse(returnRandom[i]);
 														if(splitId.id == trimRandomList[0]){
@@ -629,7 +646,7 @@ start_chat = function(vf,vm,vr,cflist,cmlist,crlist,cycle){
 															client.sadd("chattingrandom",rc8.id);
 															app.io.broadcast(pvrx.id, room);
 															app.io.broadcast(rc8.id, room);
-															loopStop = true;
+															loopStopElse = true;
 														}
 													}
 												}
@@ -1143,6 +1160,7 @@ start_chat = function(vf,vm,vr,cflist,cmlist,crlist,cycle){
 				clearInterval(globalTimer);
 				game_lock = false;
 				game_ongoing = false;
+				catchup_user = false;
 				app.io.broadcast('game_stop', true);
 			},123000);
 		},
@@ -1319,9 +1337,9 @@ another_chat = function(vf,vm,vr,cflist,cmlist,crlist,cycle){
 									console.log(returnRandom);
 									if(qtyOfChatmate <= 0){
 										if(trimRandomList > 0){
-											var loopStop = false;
+											var loopStopElse2 = false;
 											for(var i = 0;i<returnRandom.length;i++){
-												if(!loopStop){
+												if(!loopStopElse2){
 													if(pvr != returnRandom[i]){
 														var splitId = JSON.parse(returnRandom[i]);
 														if(splitId.id == trimRandomList[0]){
@@ -1351,7 +1369,7 @@ another_chat = function(vf,vm,vr,cflist,cmlist,crlist,cycle){
 															client.sadd("chattingrandom",rc8.id);
 															app.io.broadcast(pvrx.id, room);
 															app.io.broadcast(rc8.id, room);
-															loopStop = true;
+															loopStopElse2 = true;
 														}
 													}
 												}
@@ -2055,12 +2073,15 @@ catchup_game = function(){
 			console.log(catchDetailFemale);
 			console.log(catchDetailMale);
 			console.log(catchDetailRandom);
+			//-----newly add-------
+			catchup_user = false;
+			//---------------------
 			if((catchFinalFemale.length >= 1 && catchFinalMale.length >= 1) || catchFinalRandom.length > 1){
 				console.log("PROCEED CATCH UP TO CHAT");
 				another_chat(catchDetailFemale,catchDetailMale,catchDetailRandom,catchFinalFemale,catchFinalMale,catchFinalRandom,0);
 			}else{
 				console.log("WAITING FOR OTHER USER TO BE PAIRED");
-				catchup_user = false;
+				//catchup_user = false;
 			}
 		}]
 	});

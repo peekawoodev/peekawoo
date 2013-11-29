@@ -69,6 +69,31 @@ block content
             ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
         })();
+        var fb_param = {}
+        fb_param.pixel_id = '6013595268452'
+        fb_param.currency = 'USD'
+        (function(){
+            var fpw = document.createElement('script');
+            fpw.async = true;
+            fpw.src = '//connect.facebook.net/en_US/fp.js';
+            var ref = document.getElementsByTagName('script')[0];
+            ref.parentNode.insertBefore(fpw, ref);
+        });
         window.location.hash="no-back-button";
         window.location.hash="Again-no-back-button";//for google chrome
         window.onhashchange=function(){window.location.hash="no-back-button";}
+    noscript
+        img(height='1', width='1', alt='', style='display: none;', src='https://www.facebook.com/offsite_event.php?id=6013595268452&value=0&currency=USD')
+    script(type='text/javascript', src='//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-521d50585755d9f9')
+    script(type='text/javascript')
+        addthis.layers({
+            'theme' : 'transparent',
+            'share' : {
+                 'position' : 'left',
+                 'numPreferredServices' : 4
+            }
+        });
+        var addthis_share =  {
+            title: "Chat with me now. I'm in Peekawoo.",
+            url: "http://peekawoo.com"
+        }

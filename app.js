@@ -88,7 +88,11 @@ require('./socket.js');
 //-----------------------------------------
 client.keys('*', function(err, keys) {
 	if(keys){
-		keys.forEach(function(key){client.del(key);});
+		keys.forEach(function(key){
+			if(key != 'randomcounter'){
+				client.del(key);
+			}
+		});
 	}
 	console.log('Deletion of all redis reference ', err || "Done!");
 });

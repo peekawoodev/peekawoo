@@ -20,12 +20,13 @@ block content
                                   button#checkx.sb-facebook(type='button')
                                      input(type='radio', id='prov', name='prov', value='fb', hidden='true')
                                   p.text-signin2 or
-                                  center
                                   button#checky.sb-twitter(type='button')
                                      input(type='radio', id='prov1', name='prov1', value='tw', hidden='true')
                                   br
                                   input#username(type='text', name='codename', value='Codename', onfocus="if (this.value == 'Codename') {this.value=''}", maxlength='8',title='Must be at least 2 characters.')
-                                  button#submit(type='submit',name='submit')
+                                  button#submit2.btn.btn-large.btn-warning.btnenter(type='submit',name='submit')
+                                     .col-md-1.glyphicon.glyphicon-heart.marginremove
+                                     p.col-md-2.marginremove Enter Chat
                      script
                           $('#checkx').click(function(ev){
                              $('#checkx').not(this).css('border', '0px solid #66b3cf').removeClass('s');
@@ -148,7 +149,7 @@ block content
                         loadSpeed: 200,
                         opacity: 0
                     },
-                    closeOnClick: false
+                    closeOnClick: true
                  });
              });
         script(src='http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js')

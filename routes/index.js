@@ -204,20 +204,28 @@ module.exports = {
 				res.redirect('/');
 			}else{
 				console.log("xx================xx");
-				console.log(data);
-				data = JSON.parse(data);
-				info.gender = data.gender;
-				info.codename = data.codename;
-				console.log(info);
-				console.log("xx================xx");
-				req.user.gender = info.gender;
-				req.user.codename = info.codename;
-				res.render('loading',{user:req.user});
+				if(data==null){
+					res.redirect('http://peekawoo.com');
+				}else{
+					console.log(data);
+					data = JSON.parse(data);
+					info.gender = data.gender;
+					info.codename = data.codename;
+					console.log(info);
+					console.log("xx================xx");
+					req.user.gender = info.gender;
+					req.user.codename = info.codename;
+					if(req.user.gender == 'randale'){
+						client.srem('randomcounter',req.user.id);
+						client.sadd('randomcounter',req.user.id);
+					}
+					res.render('loading',{user:req.user});
+				}
 			}
 		});
 		/*if(req.user.provider == 'facebook'){
 			if(rotationGame == 0){
-				console.log("XXX---------------- FACEBOOK GENDER DEFAULT -----------------XXX");
+				console.log("xxXXX---------------- FACEBOOK GENDER DEFAULT -----------------XXXxx");
 				req.user.gender = req.query["gender-m"] || req.query["gender-f"] || req.query["gender-r"] || req.user._json.gender;
 				req.user.codename = req.query.codename || req.user.codename;
 				res.render('loading',{user: req.user});

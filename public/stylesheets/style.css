@@ -57,10 +57,11 @@ body {
 }
 .text-signin2 {
     color: #584F4F;
-    font-family: times new roman;
+    font-family: arial, helvetica;
     font-size: 10pt;
     font-weight: normal;
     text-align: center;
+    margin: 0 10px;
 }
 
 
@@ -74,7 +75,7 @@ body {
 }
 .text-signin2 {
     color: #584F4F;
-    font-family: times new roman;
+    font-family: arial, helvetica;
     font-size: 10pt;
     font-weight: normal;
     margin-top: 0;
@@ -105,7 +106,7 @@ body {
     background-size: 250px 32px;
     display: inline-block;
     height: 33px;
-    margin-top: -9px;
+    margin: 3px;
     position: inherit;
     width: 250px;
 }
@@ -357,27 +358,29 @@ body {
     background-origin: padding-box;
     background-position: center center;
     background-repeat: no-repeat;
+    background-size: 90% 90%;
     border: 0 solid;
-    border-radius: 25px 25px 25px 25px;
+    border-radius: 25px;
     display: inline-block;
-    height: 100px;
+    height: 120px;
     position: relative;
-    width: 280px;
+    width: 300px;
 }
 .female {
     background-attachment: inherit;
     background-clip: border-box;
-    background-color: transparent;
+    background-color: rgba(0, 0, 0, 0);
     background-image: url("/img/hc-theme/girls.png");
     background-origin: padding-box;
     background-position: center center;
     background-repeat: no-repeat;
-    border: 0px solid;
+    background-size: 90% 90%;
+    border: 0 solid;
+    border-radius: 25px;
     display: inline-block;
-    height: 100px;
+    height: 120px;
     position: relative;
-    width: 280px;
-    border-radius: 25px 25px 25px 25px;
+    width: 300px;
 }
 
 .randuser {
@@ -387,13 +390,14 @@ body {
     background-image: url("/img/hc-theme/rand.png");
     background-origin: padding-box;
     background-position: center center;
-    background-repeat: no-repeat;  
+    background-repeat: no-repeat;
+    background-size: 98% 92%;
     border: 0 solid;
-    border-radius: 25px 25px 25px 25px;
+    border-radius: 25px;
     display: inline-block;
-    height: 100px;
+    height: 120px;
     position: relative;
-    width: 280px;
+    width: 300px;
 }
 
 #submit {
@@ -465,7 +469,7 @@ body {
 }
 .text-signin4 {
     color: #000000;
-    font-family: times new roman;
+    font-family: arial, helvetica;
     font-size: 14pt;
     font-weight: normal;
     text-align: center;
@@ -1456,7 +1460,8 @@ body.counter-page {
     overflow: hidden;
     padding:15px;
     text-align:left;
-    border:2px solid #333;
+    border:4px solid #333;
+    border-radius: 30px;
     opacity:1;
     -moz-border-radius:6px;
     -webkit-border-radius:6px;
@@ -1466,4 +1471,74 @@ body.counter-page {
 
 body.option-page {
     background-color: transparent;
+}
+
+.btnenter {
+    margin: -4px 0 0 15px;
+    padding: 6px 0px;
+}
+
+.marginremove {
+    margin: 0 auto;
+}
+
+.subscribe-container {
+    background-attachment: inherit;
+    display: block;
+    height: 88px;
+    width: 100%;
+}
+.subscribe2-image-facebook {
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("/img/hc-theme/facebook.png");
+    background-origin: content-box;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 50px 50px;
+    border: 0 solid;
+    border-radius: 1px 1px 1px 1px;
+    display: block;
+    height: 50px;
+    margin-left: -169px;
+    margin-top: 17px;
+    width: 50px;
+}
+.subscribe2-image-twitter {
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("/img/hc-theme/twitter.png");
+    background-origin: content-box;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 45px 44px;
+    border: 0 solid;
+    border-radius: 1px 1px 1px 1px;
+    display: block;
+    height: 50px;
+    margin-left: 1px;
+    margin-top: -49px;
+    width: 50px;
+}
+.subscribe2-image-instagram {
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("/img/hc-theme/instagram.png");
+    background-origin: content-box;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 50px 50px;
+    border: 0 solid;
+    border-radius: 1px 1px 1px 1px;
+    display: block;
+    height: 50px;
+    margin-left: 168px;
+    margin-top: -48px;
+    width: 50px;
+}
+.text-subscribe2 {
+    color: #584F4F;
+    font-family: helvetica;
+    font-size: 15px;
+    text-align: center;
 }
