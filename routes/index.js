@@ -13,6 +13,11 @@ module.exports = {
 		//res.render('login');
 		res.render('option');
 	},
+	//--------------sample
+	sample: function(req,res){
+		res.render('sample');
+	},
+	//--------------------
 	counter : function(req,res){
 		res.render('counter');
 	},

@@ -67,6 +67,9 @@ if ('development' == app.get('env')) {
 }
 //location of passport content before transferring the codes to module
 app.get("/",routes.home);
+//---------sample-----------
+app.get("/sample",routes.sample);
+//--------------------------
 app.get("/counter",routes.counter);
 app.get("/error",auth,routes.error);
 //---------NEW API----------

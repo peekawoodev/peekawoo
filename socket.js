@@ -433,7 +433,7 @@ app.io.sockets.on('connection',function(socket){
 					setTimeout(function(){
 						newuserCount = 0;
 						start_game();
-					},5000);
+					},10000);
 				}
 				else{
 					if(game_ongoing && !catchup_user){
