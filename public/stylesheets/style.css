@@ -943,6 +943,32 @@ body {
     float: left;
 }
 
+.contleftrand {
+    border: 4px solid #b3afe5;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    -khtml-border-radius: 50%;
+    height: 50px;
+    left: 0px;
+    margin: 0px 0px 0px 50px;
+    width: 50px;
+    float: left;
+}
+
+.contrightrand {
+    border: 4px solid #8580C5;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    -khtml-border-radius: 50%;
+    height: 50px;
+    right: 0px;
+    margin: 0px 50px 0px 0px;
+    width: 50px;
+    float: right;
+}
+
 .me-chat:after {
     border-color: #87CFE0 rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
     border-style: solid none solid solid;
@@ -999,6 +1025,65 @@ body {
     word-wrap: break-word;
     top: 10px;
 }
+
+/* random balloons */
+.me-chat-rand:after {
+    border-color: #b3afe5 rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+    border-style: solid none solid solid;
+    border-width: 18px medium 18px 18px;
+    bottom: 5px;
+    content: "";
+    display: block;
+    height: 0;
+    left: -1.214em;
+    position: absolute;
+    width: 0;
+    z-index: 899;
+    word-wrap: break-word;
+    top: 5px;
+}
+.me-chat-rand {
+    background-color: #b3afe5;
+    border-radius: 10px 10px 10px 10px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
+    padding: 5px;
+    position: relative;
+    text-align: left;
+    width: 294px;
+    z-index: 999;
+    font-size:14px;
+    word-wrap: break-word;
+    top: 10px;
+}
+.you-chat-rand:after {
+    border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) #8580c5;
+    border-style: solid solid solid none;
+    border-width: 18px 18px 18px medium;
+    bottom: 5px;
+    content: "";
+    display: block;
+    height: 0px;
+    left: 20.80em;
+    position: absolute;
+    width: 0;
+    z-index: 899;
+    word-wrap: break-word;
+    top: -13px;
+}
+.you-chat-rand {
+    background-color: #8580c5;
+    border-radius: 10px 10px 10px 10px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
+    padding: 5px;
+    position: relative;
+    text-align: left;
+    width: 294px;
+    z-index: 899;
+    font-size:14px;
+    word-wrap: break-word;
+    top: 10px;
+}
+/* --------------- */
 
 .leftp {
 	display: block;
@@ -1621,37 +1706,4 @@ body.option-page {
     font-family: helvetica;
     font-size: 15px;
     text-align: center;
-}
-
-label.iPhoneCheckLabelOff {
-    color: #8b8b8b;
-    background: url('/img/hc-theme/off.png?1284697268') no-repeat right 0;
-    text-shadow: 0px 0px 2px rgba(255, 255, 255, 0.6);
-    text-align: right;
-    right: 0;
-}
-
-.iPhoneCheckHandle {
-    display: block;
-    height: 27px;
-    cursor: pointer;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    background: url('/img/hc-theme/slider_left.png?1284697268') no-repeat;
-    padding-left: 3px;
-}
-
-.iPhoneCheckHandleRight {
-    height: 100%;
-    width: 100%;
-    padding-right: 3px;
-    background: url('/img/hc-theme/slider_right.png?1284697268') no-repeat right 0;
-}
-
-.iPhoneCheckHandleCenter {
-    height: 100%;
-    width: 100%;
-    background: url('/img/hc-theme/slider_center.png?1284697268');
 }

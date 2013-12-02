@@ -102,9 +102,9 @@ $(function(){
 			$(" .messagewindow").append("<div class='rightp'><div class='contright'><img class='imgright' src='"+data.photourl+"'></img></div><p class='you-chat'><strong>"+data.codename+":</strong> <em>"+data.msg+"</em></p></div>");
 		}else{
 			if(data.id == my_chatm8.male.id){
-				$(" .messagewindow").append("<div class='leftp'><div class='contleft'><img class='imgleft' src='"+data.photourl+"'></img></div><p class='me-chat'><strong>"+data.codename+":</strong> <em>"+data.msg+"</em></p></div>");
+				$(" .messagewindow").append("<div class='leftp'><div class='contleftrand'><img class='imgleft' src='"+data.photourl+"'></img></div><p class='me-chat-rand'><strong>"+data.codename+":</strong> <em>"+data.msg+"</em></p></div>");
 			}else{
-				$(" .messagewindow").append("<div class='rightp'><div class='contright'><img class='imgright' src='"+data.photourl+"'></img></div><p class='you-chat'><strong>"+data.codename+":</strong> <em>"+data.msg+"</em></p></div>");
+				$(" .messagewindow").append("<div class='rightp'><div class='contrightrand'><img class='imgright' src='"+data.photourl+"'></img></div><p class='you-chat-rand'><strong>"+data.codename+":</strong> <em>"+data.msg+"</em></p></div>");
 			}
 		}
 		$(".messagewindow").prop({scrollTop: $(".messagewindow").prop("scrollHeight")});

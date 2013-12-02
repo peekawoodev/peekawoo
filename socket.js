@@ -1477,7 +1477,9 @@ another_chat = function(vf,vm,vr,cflist,cmlist,crlist,cycle){
 									});
 									console.log(trimRandomList);
 									var searchTempMe = trimRandomList.indexOf(pvrx.id);
-									trimRandomList.splice(searchTempMe,1);
+									if(searchTempMe >= 0){
+										trimRandomList.splice(searchTempMe,1);
+									}
 									var qtyOfChatmate = chats.length;
 									chats.forEach(function(chat){
 										console.log("else content chat");
