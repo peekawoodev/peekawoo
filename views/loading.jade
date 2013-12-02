@@ -9,6 +9,16 @@ block content
             center
                 .loading-image
                 p.text-loading Please wait while we pair you up..
+                label.left(for='on_off_on') Default On
+                .iPhoneCheckContainer(style='width: 91px;')
+                    input#on_off_on.checkRendered(type='checkbox', style='opacity: 0;', checked='checked')
+                    label.iPhoneCheckLabelOff(style='width: 4px;')
+                        span(style='margin-right: -51px;') OFF
+                    label.iPhoneCheckLabelOn(style='width: 55px;')
+                        span(style='margin-left: 0px;') ON
+                    .iPhoneCheckHandle(style='width: 34px; left: 51px;')
+                        .iPhoneCheckHandleRight
+                            .iPhoneCheckHandleCenter
                 br
                 br
                 center

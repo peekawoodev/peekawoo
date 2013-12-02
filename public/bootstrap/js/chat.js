@@ -96,15 +96,15 @@ $(function(){
 		console.log("++++++++data++++++");
 		console.log(data);
 		if(data.gender == "male"){
-			$(" .messagewindow").append("<img class='leftp'></img><img class='imgleft' src='"+data.photourl+"'></img><p class='me-chat'><strong>"+data.codename+":</strong> <em>"+data.msg+"</em></p>");
+			$(" .messagewindow").append("<div class='leftp'><div class='contleft'><img class='imgleft' src='"+data.photourl+"'></img></div><p class='me-chat'><strong>"+data.codename+":</strong> <em>"+data.msg+"</em></p></div>");
 		}
 		else if(data.gender == "female"){
-			$(" .messagewindow").append("<img class='rightp'></img><img class='imgright' src='"+data.photourl+"'></img><p class='you-chat'><strong>"+data.codename+":</strong> <em>"+data.msg+"</em></p>");
+			$(" .messagewindow").append("<div class='rightp'><div class='contright'><img class='imgright' src='"+data.photourl+"'></img></div><p class='you-chat'><strong>"+data.codename+":</strong> <em>"+data.msg+"</em></p></div>");
 		}else{
 			if(data.id == my_chatm8.male.id){
-				$(" .messagewindow").append("<img class='leftp'></img><img class='imgleft' src='"+data.photourl+"'></img><p class='me-chat'><strong>"+data.codename+":</strong> <em>"+data.msg+"</em></p>");
+				$(" .messagewindow").append("<div class='leftp'><div class='contleft'><img class='imgleft' src='"+data.photourl+"'></img></div><p class='me-chat'><strong>"+data.codename+":</strong> <em>"+data.msg+"</em></p></div>");
 			}else{
-				$(" .messagewindow").append("<img class='rightp'></img><img class='imgright' src='"+data.photourl+"'></img><p class='you-chat'><strong>"+data.codename+":</strong> <em>"+data.msg+"</em></p>");
+				$(" .messagewindow").append("<div class='rightp'><div class='contright'><img class='imgright' src='"+data.photourl+"'></img></div><p class='you-chat'><strong>"+data.codename+":</strong> <em>"+data.msg+"</em></p></div>");
 			}
 		}
 		$(".messagewindow").prop({scrollTop: $(".messagewindow").prop("scrollHeight")});

@@ -612,7 +612,12 @@ body {
 }*/
 
 .chat-timer-div {
-    background: url("/img/hc-theme/chatorange.png") no-repeat scroll center center / 137px 39px rgba(0, 0, 0, 0);
+	background-image: url("/img/hc-theme/chatorange.png");
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: center center;
+    background-size: 137px 39px;
+    box-shadow: rgba(0, 0, 0, 0);
     height: 41px;
     left: 271px;
     margin: 0 auto;
@@ -623,13 +628,18 @@ body {
     z-index: 999;
 }
 .alarm {
-    background: url("/img/hc-theme/alarm.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background-image: url("/img/hc-theme/alarm.png");
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: 0 0;
+    box-shadow: rgba(0, 0, 0, 0);
     display: block;
     height: 21px;
-    margin-left: -51px;
+    margin-left: 43px;
     margin-top: 7px;
     position: relative;
     width: 22px;
+    float: left;
 }
 .chat-timer{
         
@@ -714,7 +724,12 @@ body {
     z-index: 998;
 }
 .next-photo {
-    background: url("/img/hc-theme/instawoo-chat-photoblack.png") no-repeat scroll center center / 135px 135px transparent;
+    background-attachment: scroll;
+    background-color: transparent;
+    background-image: url("/img/hc-theme/instawoo-chat-photoblack.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 135px 135px;
     border: 6px solid #5C5353;
     border-radius: 100px 100px 100px 100px;
     display: block;
@@ -773,7 +788,7 @@ body {
     margin-top: 110px;
     overflow-y: auto;
     position: inherit;
-    top: -33px;
+    top: -55px;
     width: 571px;
 }
 .chat-text {
@@ -814,28 +829,41 @@ body {
 }
 .rate_widget {  
     border: 0px solid #CCCCCC;
-    float: left;
-    height: 6%;
-    left: 0;
-    margin: 5% 0 6% 2px;
-    overflow: visible;
+    height: 75px;
+    left: 50px;
     padding: 1px;
     position: relative;
-    width: 55%;
+    width: 100px;
+    top: -45px;
+    float: left;
 }
 .ratings_chick-sel {
-    background: url("/img/hc-theme/chick-show.png.png") no-repeat scroll 0 -5px / 80px 80px rgba(0, 0, 0, 0);
-    height: 71px;
-    margin-left: -188px;
-    margin-top: -76px;
-    width: 80px;
+    background-image: url("/img/hc-theme/chick-show.png.png");
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: 0 -5px;
+    background-size: 80px 80px;
+    box-shadow: rgba(0, 0, 0, 0);
+    height: 84px;
+    margin-left: 0;
+    margin-top: 0;
+    width: 90px;
+    float: left;
+    position: relative;
 }
 .ratings_chick {
-    background: url("/img/hc-theme/like.png") no-repeat scroll 0 -5px / 80px 80px rgba(0, 0, 0, 0);
-    height: 71px;
-    margin-left: -188px;
-    margin-top: -76px;
-    width: 80px;
+    background-image: url("/img/hc-theme/like.png");
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: 0 -5px;
+    background-size: 80px 80px;
+    box-shadow: rgba(0, 0, 0, 0);
+    height: 84px;
+    margin-left: 0;
+    margin-top: 0;
+    width: 90px;
+    float: left;
+    position: relative;
 }
 .cpimg {
     border-radius: 100px 100px 100px 100px;
@@ -864,28 +892,63 @@ body {
     font-size: 18px;
     font-style: normal;
     height: auto;
-    margin: 0 auto;
+    margin: 0 auto 20px;
     opacity: 1;
     position: relative;
     text-align: center;
     width: 375px;
 }
 
-.messagewindow .imgleft {
-    border: 4px solid #66B3CF;
-    border-radius: 30px 30px 30px 30px;
-    height: 49px;
-    left: -240px;
-    margin: 15px;
-    position: relative;
-    width: 50px;
+.messagewindow .imgright {
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    -khtml-border-radius: 50%;
+    height: 42px;
+    width: 42px;
 }
+
+.messagewindow .imgleft {
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    -khtml-border-radius: 50%;
+    height: 42px;
+    width: 42px;
+}
+
+.contright {
+    border: 4px solid #EA985B;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    -khtml-border-radius: 50%;
+    height: 50px;
+    right: 0px;
+    margin: 0px 50px 0px 0px;
+    width: 50px;
+    float: right;
+}
+
+.contleft {
+    border: 4px solid #66B3CF;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    -khtml-border-radius: 50%;
+    height: 50px;
+    left: 0px;
+    margin: 0px 0px 0px 50px;
+    width: 50px;
+    float: left;
+}
+
 .me-chat:after {
-    border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) #87CFE0;
+    border-color: #87CFE0 rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
     border-style: solid none solid solid;
     border-width: 18px medium 18px 18px;
     bottom: 5px;
-    content: "";        
+    content: "";
     display: block;
     height: 0;
     left: -1.214em;
@@ -893,12 +956,12 @@ body {
     width: 0;
     z-index: 899;
     word-wrap: break-word;
+    top: 5px;
 }
 .me-chat {
     background-color: #87CFE0;
     border-radius: 10px 10px 10px 10px;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
-    margin: -60px 0 0 -92px;
     padding: 5px;
     position: relative;
     text-align: left;
@@ -906,6 +969,7 @@ body {
     z-index: 999;
     font-size:14px;
     word-wrap: break-word;
+    top: 10px;
 }
 .you-chat:after {
     border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) #ED8453;
@@ -914,18 +978,18 @@ body {
     bottom: 5px;
     content: "";
     display: block;
-    height: 2px;
-    left: 20.96em;
+    height: 0px;
+    left: 20.80em;
     position: absolute;
     width: 0;
     z-index: 899;
-        word-wrap: break-word;
+    word-wrap: break-word;
+    top: -13px;
 }
 .you-chat {
     background-color: #ED8453;
     border-radius: 10px 10px 10px 10px;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
-    margin: -44px 0 0 38px;
     padding: 5px;
     position: relative;
     text-align: left;
@@ -933,16 +997,21 @@ body {
     z-index: 899;
     font-size:14px;
     word-wrap: break-word;
+    top: 10px;
 }
-.messagewindow .imgright {
-    background-size: 0 11px;
-    border: 4px solid #EA985B;
-    border-radius: 50px 50px 50px 50px;
-    height: 49px;
-    margin: 15px 0 0 431px;
-    position: relative;
-    width: 50px;
+
+.leftp {
+	display: block;
+	min-height: 52px;
+	margin-top: 5px;
 }
+
+.rightp {
+	display: block;
+	min-height: 52px;
+	margin-top: 5px;
+}
+
 .ranking-page {
     background-attachment: inherit;
     background-image: url("/img/hc-theme/dimension.png");
@@ -963,7 +1032,12 @@ body {
     width: 100%;
 }
 .ranking-selection-box {
-    background: url("/img/hc-theme/instawoo-woos-ranking.png") no-repeat scroll 51.5% -7px / 591px 505px rgba(0, 0, 0, 0);
+    background-image: url("/img/hc-theme/instawoo-woos-ranking.png");
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: 51.5% -7px;
+    background-size: 591px 505px;
+    box-shadow: rgba(0, 0, 0, 0);
     height: 494px;
     margin: auto;
     width: 574px;
@@ -1081,7 +1155,12 @@ body {
     width: 467px;
 }
 #submit_rating {
-    background: url("/img/hc-theme/instawoo-woos-btn.png") no-repeat scroll center center / 492px 65px transparent;
+    background-image: url("/img/hc-theme/instawoo-woos-btn.png");
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: center center;
+    background-size: 492px 65px;
+    background-color: transparent;
     border: 0 solid #000000;
     cursor: pointer;
     display: block;
@@ -1117,7 +1196,7 @@ body {
     font-family: helvetica;
     font-size: 20px;
     height: 42px;
-    margin-left: -149px;
+    margin-left: 0px;
     width: 62%;
 }
 .subscribe-button2 {
@@ -1130,9 +1209,10 @@ body {
     background-size: auto auto;
     border-radius: 8px 8px 8px 8px;
     display: block;
+    float: right;
     height: 46px;
-    margin: -46px 0 0 351px;
     position: relative;
+    right: 25px;
     width: 138px;
 }
 .text-skipfornow2 {
@@ -1141,10 +1221,10 @@ body {
     font-family: helvetica;
     font-size: 17px;
     height: 41px;
-    margin: -18px auto 0;
+    margin: -20px auto 0;
     text-align: center;
     text-decoration: underline;
-    width: 100%;
+    width: 100px;
 }
 .text-signin3 {
     color: #FFFFFF;
@@ -1541,4 +1621,37 @@ body.option-page {
     font-family: helvetica;
     font-size: 15px;
     text-align: center;
+}
+
+label.iPhoneCheckLabelOff {
+    color: #8b8b8b;
+    background: url('/img/hc-theme/off.png?1284697268') no-repeat right 0;
+    text-shadow: 0px 0px 2px rgba(255, 255, 255, 0.6);
+    text-align: right;
+    right: 0;
+}
+
+.iPhoneCheckHandle {
+    display: block;
+    height: 27px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    background: url('/img/hc-theme/slider_left.png?1284697268') no-repeat;
+    padding-left: 3px;
+}
+
+.iPhoneCheckHandleRight {
+    height: 100%;
+    width: 100%;
+    padding-right: 3px;
+    background: url('/img/hc-theme/slider_right.png?1284697268') no-repeat right 0;
+}
+
+.iPhoneCheckHandleCenter {
+    height: 100%;
+    width: 100%;
+    background: url('/img/hc-theme/slider_center.png?1284697268');
 }

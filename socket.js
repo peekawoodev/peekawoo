@@ -159,7 +159,7 @@ app.io.sockets.on('connection',function(socket){
 				userList.gamelockTrigger = game_lock;
 				userList.undefineduser = undefinedUser;
 				userList.randCount = randomcount;
-				console.log(userList);
+				//console.log(userList);
 				if(list.length > 0){
 					countUserInside = list.length;
 				}
@@ -540,14 +540,37 @@ start_chat = function(vf,vm,vr,cflist,cmlist,crlist,cycle){
 					var pvrx = JSON.parse(pvr);
 					console.log("pvrx identity "+pvrx);
 					console.log(pvrx);
-					if(returnRandom.length > 0){
+					if(returnRandom.length > 1){
 						client.smembers("chatted:"+pvrx.id,function(err,chats){
 							console.log("RANDOM IF NO CHATTED HISTORY..");
 							var removeLoop = returnRandom.indexOf(pvr);
 							if(removeLoop >= 0){
+								//---------------------------new block code for random-------------------------
+								console.log("xxXXxx list of all the blocklist user entered the chat xxXXxx ");
+								var myBlock = new Array();
+								console.log(blockAllList);
+								if(blockAllList.length > 0){
+									console.log("blockAllList is not empty");
+									blockAllList.forEach(function(block){
+										if(block.id == pvrx.id){
+											var lenBlock = block.mylist;
+											if(lenBlock.length > 0){
+												console.log("myList of "+pvrx.id+" is not empty");
+												lenBlock.forEach(function(list){
+													myBlock.push(list);
+												});
+											}else{
+												console.log("myList of "+pvrx.id+" is empty");
+											}
+										}
+										console.log(block.id);
+										console.log(block.mylist);
+									});
+								}else{
+									console.log("blockAllList is empty");
+								}
+								//-----------------------------------------------------------------------------
 								if(!chats || chats.length == 0){
-									//console.log(returnRandom);
-									//var randomChatm8 = returnRandom[Math.floor(Math.random()*returnRandom.length)];
 									var loopStopIf = false;
 									for(var i = 0;i<returnRandom.length;i++){
 										if(!loopStopIf){
@@ -558,73 +581,37 @@ start_chat = function(vf,vm,vr,cflist,cmlist,crlist,cycle){
 												var rc8 = JSON.parse(randomChatm8);
 												console.log("rc8 identity "+rc8);
 												console.log(rc8);
-												var room = {
-													name : pvrx.id + "-" + rc8.id,
-													male : pvrx,
-													female : rc8
-												};
-												client.del(room.name,JSON.stringify(room));
-												client.sadd(room.name,JSON.stringify(room));
-												rooms.push(room);
-												var removeChatm8  = returnRandom.indexOf(randomChatm8);
-												var removeMe = returnRandom.indexOf(pvr);
-												returnRandom.splice(removeChatm8,1);
-												returnRandom.splice(removeMe,1);
-												console.log("after removing maleList");
-												console.log(returnRandom);
-												client.sadd("chatted:"+pvrx.id,rc8.id);
-												client.sadd("chatted:"+rc8.id,pvrx.id);
-												client.lpush("last:"+pvrx.id,rc8.id);
-												client.lpush("last:"+rc8.id,pvrx.id);
-												client.sadd("chattingrandom",pvrx.id);
-												client.sadd("chattingrandom",rc8.id);
-												app.io.broadcast(pvrx.id, room);
-												app.io.broadcast(rc8.id, room);
-												loopStopIf = true;
-											}
-										}
-									}
-								}else{
-									console.log("RANDOM WITH CHATTED HISTORY..");
-									console.log(chats);
-									var trimRandomList = new Array();
-									returnRandom.forEach(function(rand){
-										var randx = JSON.parse(rand);
-										trimRandomList.push(randx.id);
-									});
-									var searchTempMe = trimRandomList.indexOf(pvrx.id);
-									trimRandomList.splice(searchTempMe,1);
-									var qtyOfChatmate = chats.length;
-									chats.forEach(function(chat){
-										console.log("else content chat");
-										console.log(chat);
-										var ifAlreadyExist = trimRandomList.indexOf(chat);
-										console.log(ifAlreadyExist);
-										if(ifAlreadyExist >= 0){
-											trimRandomList.splice(ifAlreadyExist,1);
-										}
-										console.log("trimmalelist content after splice");
-										console.log(trimRandomList);
-										console.log(returnRandom);
-										qtyOfChatmate-=1;
-									});
-									console.log("trimmalelist final content");
-									console.log(trimRandomList);
-									console.log(trimRandomList[0]);
-									console.log(returnRandom);
-									if(qtyOfChatmate <= 0){
-										if(trimRandomList > 0){
-											var loopStopElse = false;
-											for(var i = 0;i<returnRandom.length;i++){
-												if(!loopStopElse){
-													if(pvr != returnRandom[i]){
-														var splitId = JSON.parse(returnRandom[i]);
-														if(splitId.id == trimRandomList[0]){
-															var randomChatm8 = returnRandom[i];
-															console.log(randomChatm8);
-															console.log(JSON.parse(randomChatm8));
-															var rc8 = JSON.parse(randomChatm8);
-															var room = {
+												//----------------------new here--------------------------
+												var theirBlock = new Array();
+												if(blockAllList.length > 0){
+													console.log("blockAllList is not empty");
+													blockAllList.forEach(function(block){
+														if(block.id == rc8.id){
+															var lenBlock = block.mylist;
+															if(lenBlock.length > 0){
+																console.log("myList of "+rc8.id+" is not empty");
+																lenBlock.forEach(function(list){
+																	theirBlock.push(list);
+																});
+															}else{
+																console.log("myList of "+rc8.id+" is empty");
+															}
+														}
+														console.log(block.id);
+														console.log(block.mylist);
+													});
+												}else{
+													console.log("blockAllList is empty");
+												}
+												var blockusers = myBlock.indexOf(rc8.id);
+												console.log("if chatted is in blocklist");
+												console.log(blockusers);
+												if(blockusers < 0){
+													var theirblockusers = theirBlock.indexOf(pvrx.id);
+													if(theirblockusers < 0){
+														console.log("they did not have block users");
+												//--------------------------------------------------------
+														var room = {
 																name : pvrx.id + "-" + rc8.id,
 																male : pvrx,
 																female : rc8
@@ -646,7 +633,119 @@ start_chat = function(vf,vm,vr,cflist,cmlist,crlist,cycle){
 															client.sadd("chattingrandom",rc8.id);
 															app.io.broadcast(pvrx.id, room);
 															app.io.broadcast(rc8.id, room);
-															loopStopElse = true;
+															loopStopIf = true;
+												//--------------------new here------------------------------
+													}else{
+														console.log("they have block users");
+													}
+												}
+												//----------------------------------------------------------
+											}
+										}
+									}
+								}else{
+									console.log("RANDOM WITH CHATTED HISTORY..");
+									console.log(chats);
+									console.log(returnRandom);
+									var trimRandomList = new Array();
+									returnRandom.forEach(function(rand){
+										var randx = JSON.parse(rand);
+										if(pvrx.id != randx.id){
+											trimRandomList.push(randx.id);
+										}
+									});
+									console.log(trimRandomList);
+									var searchTempMe = trimRandomList.indexOf(pvrx.id);
+									if(searchTempMe >= 0){
+										trimRandomList.splice(searchTempMe,1);
+									}
+									var qtyOfChatmate = chats.length;
+									chats.forEach(function(chat){
+										console.log("else content chat");
+										console.log(chat);
+										var ifAlreadyExist = trimRandomList.indexOf(chat);
+										console.log(ifAlreadyExist);
+										if(ifAlreadyExist >= 0){
+											trimRandomList.splice(ifAlreadyExist,1);
+										}
+										console.log("trimmalelist content after splice");
+										console.log(trimRandomList);
+										console.log(returnRandom);
+										qtyOfChatmate-=1;
+									});
+									console.log("trimmalelist final content");
+									console.log(trimRandomList);
+									console.log(trimRandomList[0]);
+									console.log(returnRandom);
+									if(qtyOfChatmate <= 0){
+										if(trimRandomList.length > 0){
+											var loopStopElse = false;
+											for(var i = 0;i<returnRandom.length;i++){
+												if(!loopStopElse){
+													if(pvr != returnRandom[i]){
+														var splitId = JSON.parse(returnRandom[i]);
+														if(splitId.id == trimRandomList[0]){
+															var randomChatm8 = returnRandom[i];
+															console.log(randomChatm8);
+															console.log(JSON.parse(randomChatm8));
+															var rc8 = JSON.parse(returnRandom[i]);
+															//---------------------insert block-------------------------
+															var theirBlock = new Array();
+															if(blockAllList.length > 0){
+																console.log("blockAllList is not empty");
+																blockAllList.forEach(function(block){
+																	if(block.id == rc8.id){
+																		var lenBlock = block.mylist;
+																		if(lenBlock.length > 0){
+																			console.log("myList of "+rc8.id+" is not empty");
+																			lenBlock.forEach(function(list){
+																				theirBlock.push(list);
+																			});
+																		}else{
+																			console.log("myList of "+rc8.id+" is empty");
+																		}
+																	}
+																	console.log(block.id);
+																	console.log(block.mylist);
+																});
+															}else{
+																console.log("blockAllList is empty");
+															}
+															var blockusers = myBlock.indexOf(rc8.id);
+															if(blockusers < 0){
+																var theirblockusers = theirBlock.indexOf(pvrx.id);
+																if(theirblockusers < 0){
+																	console.log("they did not have block users");
+																	//--------------------------------------------------
+																	var room = {
+																			name : pvrx.id + "-" + rc8.id,
+																			male : pvrx,
+																			female : rc8
+																		};
+																		client.del(room.name,JSON.stringify(room));
+																		client.sadd(room.name,JSON.stringify(room));
+																		rooms.push(room);
+																		var removeChatm8  = returnRandom.indexOf(randomChatm8);
+																		var removeMe = returnRandom.indexOf(pvr);
+																		returnRandom.splice(removeChatm8,1);
+																		returnRandom.splice(removeMe,1);
+																		console.log("after removing maleList");
+																		console.log(returnRandom);
+																		client.sadd("chatted:"+pvrx.id,rc8.id);
+																		client.sadd("chatted:"+rc8.id,pvrx.id);
+																		client.lpush("last:"+pvrx.id,rc8.id);
+																		client.lpush("last:"+rc8.id,pvrx.id);
+																		client.sadd("chattingrandom",pvrx.id);
+																		client.sadd("chattingrandom",rc8.id);
+																		app.io.broadcast(pvrx.id, room);
+																		app.io.broadcast(rc8.id, room);
+																		loopStopElse = true;
+																	//------------block area----------------------------
+																}
+															}else{
+																console.log("they have block users");
+															}
+															//----------------------------------------------------------
 														}
 													}
 												}
@@ -1263,17 +1362,40 @@ another_chat = function(vf,vm,vr,cflist,cmlist,crlist,cycle){
 					var pvrx = JSON.parse(pvr);
 					console.log("pvrx identity "+pvrx);
 					console.log(pvrx);
-					if(returnRandom.length > 0){
+					if(returnRandom.length > 1){
 						client.smembers("chatted:"+pvrx.id,function(err,chats){
 							console.log("RANDOM IF NO CHATTED HISTORY..");
 							var removeLoop = returnRandom.indexOf(pvr);
 							if(removeLoop >= 0){
+								//---------------------------new block code for random-------------------------
+								console.log("xxXXxx list of all the blocklist user entered the chat xxXXxx ");
+								var myBlock = new Array();
+								console.log(blockAllList);
+								if(blockAllList.length > 0){
+									console.log("blockAllList is not empty");
+									blockAllList.forEach(function(block){
+										if(block.id == pvrx.id){
+											var lenBlock = block.mylist;
+											if(lenBlock.length > 0){
+												console.log("myList of "+pvrx.id+" is not empty");
+												lenBlock.forEach(function(list){
+													myBlock.push(list);
+												});
+											}else{
+												console.log("myList of "+pvrx.id+" is empty");
+											}
+										}
+										console.log(block.id);
+										console.log(block.mylist);
+									});
+								}else{
+									console.log("blockAllList is empty");
+								}
+								//-----------------------------------------------------------------------------
 								if(!chats || chats.length == 0){
-									//console.log(returnRandom);
-									//var randomChatm8 = returnRandom[Math.floor(Math.random()*returnRandom.length)];
-									var loopStop = false;
+									var loopStopIf = false;
 									for(var i = 0;i<returnRandom.length;i++){
-										if(!loopStop){
+										if(!loopStopIf){
 											if(pvr != returnRandom[i]){
 												var randomChatm8 = returnRandom[i];
 												console.log(randomChatm8);
@@ -1281,73 +1403,37 @@ another_chat = function(vf,vm,vr,cflist,cmlist,crlist,cycle){
 												var rc8 = JSON.parse(randomChatm8);
 												console.log("rc8 identity "+rc8);
 												console.log(rc8);
-												var room = {
-													name : pvrx.id + "-" + rc8.id,
-													male : pvrx,
-													female : rc8
-												};
-												client.del(room.name,JSON.stringify(room));
-												client.sadd(room.name,JSON.stringify(room));
-												rooms.push(room);
-												var removeChatm8  = returnRandom.indexOf(randomChatm8);
-												var removeMe = returnRandom.indexOf(pvr);
-												returnRandom.splice(removeChatm8,1);
-												returnRandom.splice(removeMe,1);
-												console.log("after removing maleList");
-												console.log(returnRandom);
-												client.sadd("chatted:"+pvrx.id,rc8.id);
-												client.sadd("chatted:"+rc8.id,pvrx.id);
-												client.lpush("last:"+pvrx.id,rc8.id);
-												client.lpush("last:"+rc8.id,pvrx.id);
-												client.sadd("chattingrandom",pvrx.id);
-												client.sadd("chattingrandom",rc8.id);
-												app.io.broadcast(pvrx.id, room);
-												app.io.broadcast(rc8.id, room);
-												loopStop = true;
-											}
-										}
-									}
-								}else{
-									console.log("RANDOM WITH CHATTED HISTORY..");
-									console.log(chats);
-									var trimRandomList = new Array();
-									returnRandom.forEach(function(rand){
-										var randx = JSON.parse(rand);
-										trimRandomList.push(randx.id);
-									});
-									var searchTempMe = trimRandomList.indexOf(pvrx.id);
-									trimRandomList.splice(searchTempMe,1);
-									var qtyOfChatmate = chats.length;
-									chats.forEach(function(chat){
-										console.log("else content chat");
-										console.log(chat);
-										var ifAlreadyExist = trimRandomList.indexOf(chat);
-										console.log(ifAlreadyExist);
-										if(ifAlreadyExist >= 0){
-											trimRandomList.splice(ifAlreadyExist,1);
-										}
-										console.log("trimmalelist content after splice");
-										console.log(trimRandomList);
-										console.log(returnRandom);
-										qtyOfChatmate-=1;
-									});
-									console.log("trimmalelist final content");
-									console.log(trimRandomList);
-									console.log(trimRandomList[0]);
-									console.log(returnRandom);
-									if(qtyOfChatmate <= 0){
-										if(trimRandomList > 0){
-											var loopStopElse2 = false;
-											for(var i = 0;i<returnRandom.length;i++){
-												if(!loopStopElse2){
-													if(pvr != returnRandom[i]){
-														var splitId = JSON.parse(returnRandom[i]);
-														if(splitId.id == trimRandomList[0]){
-															var randomChatm8 = returnRandom[i];
-															console.log(randomChatm8);
-															console.log(JSON.parse(randomChatm8));
-															var rc8 = JSON.parse(randomChatm8);
-															var room = {
+												//----------------------new here--------------------------
+												var theirBlock = new Array();
+												if(blockAllList.length > 0){
+													console.log("blockAllList is not empty");
+													blockAllList.forEach(function(block){
+														if(block.id == rc8.id){
+															var lenBlock = block.mylist;
+															if(lenBlock.length > 0){
+																console.log("myList of "+rc8.id+" is not empty");
+																lenBlock.forEach(function(list){
+																	theirBlock.push(list);
+																});
+															}else{
+																console.log("myList of "+rc8.id+" is empty");
+															}
+														}
+														console.log(block.id);
+														console.log(block.mylist);
+													});
+												}else{
+													console.log("blockAllList is empty");
+												}
+												var blockusers = myBlock.indexOf(rc8.id);
+												console.log("if chatted is in blocklist");
+												console.log(blockusers);
+												if(blockusers < 0){
+													var theirblockusers = theirBlock.indexOf(pvrx.id);
+													if(theirblockusers < 0){
+														console.log("they did not have block users");
+												//--------------------------------------------------------
+														var room = {
 																name : pvrx.id + "-" + rc8.id,
 																male : pvrx,
 																female : rc8
@@ -1369,7 +1455,116 @@ another_chat = function(vf,vm,vr,cflist,cmlist,crlist,cycle){
 															client.sadd("chattingrandom",rc8.id);
 															app.io.broadcast(pvrx.id, room);
 															app.io.broadcast(rc8.id, room);
-															loopStopElse2 = true;
+															loopStopIf = true;
+												//--------------------new here------------------------------
+													}else{
+														console.log("they have block users");
+													}
+												}
+												//----------------------------------------------------------
+											}
+										}
+									}
+								}else{
+									console.log("RANDOM WITH CHATTED HISTORY..");
+									console.log(chats);
+									var trimRandomList = new Array();
+									returnRandom.forEach(function(rand){
+										var randx = JSON.parse(rand);
+										if(pvrx.id != randx.id){
+											trimRandomList.push(randx.id);
+										}
+									});
+									console.log(trimRandomList);
+									var searchTempMe = trimRandomList.indexOf(pvrx.id);
+									trimRandomList.splice(searchTempMe,1);
+									var qtyOfChatmate = chats.length;
+									chats.forEach(function(chat){
+										console.log("else content chat");
+										console.log(chat);
+										var ifAlreadyExist = trimRandomList.indexOf(chat);
+										console.log(ifAlreadyExist);
+										if(ifAlreadyExist >= 0){
+											trimRandomList.splice(ifAlreadyExist,1);
+										}
+										console.log("trimmalelist content after splice");
+										console.log(trimRandomList);
+										console.log(returnRandom);
+										qtyOfChatmate-=1;
+									});
+									console.log("trimmalelist final content");
+									console.log(trimRandomList);
+									console.log(trimRandomList[0]);
+									console.log(returnRandom);
+									if(qtyOfChatmate <= 0){
+										if(trimRandomList.length > 0){
+											var loopStopElse = false;
+											for(var i = 0;i<returnRandom.length;i++){
+												if(!loopStopElse){
+													if(pvr != returnRandom[i]){
+														var splitId = JSON.parse(returnRandom[i]);
+														if(splitId.id == trimRandomList[0]){
+															var randomChatm8 = returnRandom[i];
+															console.log(randomChatm8);
+															console.log(JSON.parse(randomChatm8));
+															var rc8 = JSON.parse(returnRandom[i]);
+															//---------------------insert block-------------------------
+															var theirBlock = new Array();
+															if(blockAllList.length > 0){
+																console.log("blockAllList is not empty");
+																blockAllList.forEach(function(block){
+																	if(block.id == rc8.id){
+																		var lenBlock = block.mylist;
+																		if(lenBlock.length > 0){
+																			console.log("myList of "+rc8.id+" is not empty");
+																			lenBlock.forEach(function(list){
+																				theirBlock.push(list);
+																			});
+																		}else{
+																			console.log("myList of "+rc8.id+" is empty");
+																		}
+																	}
+																	console.log(block.id);
+																	console.log(block.mylist);
+																});
+															}else{
+																console.log("blockAllList is empty");
+															}
+															var blockusers = myBlock.indexOf(rc8.id);
+															if(blockusers < 0){
+																var theirblockusers = theirBlock.indexOf(pvrx.id);
+																if(theirblockusers < 0){
+																	console.log("they did not have block users");
+																	//--------------------------------------------------
+																	var room = {
+																			name : pvrx.id + "-" + rc8.id,
+																			male : pvrx,
+																			female : rc8
+																		};
+																		client.del(room.name,JSON.stringify(room));
+																		client.sadd(room.name,JSON.stringify(room));
+																		rooms.push(room);
+																		var removeChatm8  = returnRandom.indexOf(randomChatm8);
+																		var removeMe = returnRandom.indexOf(pvr);
+																		returnRandom.splice(removeChatm8,1);
+																		returnRandom.splice(removeMe,1);
+																		console.log("after removing maleList");
+																		console.log(returnRandom);
+																		client.sadd("chatted:"+pvrx.id,rc8.id);
+																		client.sadd("chatted:"+rc8.id,pvrx.id);
+																		client.lpush("last:"+pvrx.id,rc8.id);
+																		client.lpush("last:"+rc8.id,pvrx.id);
+																		client.sadd("chattingrandom",pvrx.id);
+																		client.sadd("chattingrandom",rc8.id);
+																		app.io.broadcast(pvrx.id, room);
+																		app.io.broadcast(rc8.id, room);
+																		loopStopElse = true;
+																	//------------block area----------------------------
+																}
+															}else{
+																console.log("they have block users");
+															}
+															//----------------------------------------------------------
 														}
 													}
 												}
