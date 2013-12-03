@@ -38,8 +38,9 @@ block content
                                    .con_third
                                         .num_con3
                                         .part_con3
-                                             button#submitnew(type='submit',name='submit')                          
+                                             button#submitnew(type='submit',name='submit')
                      script
+                          $('#username').tooltip();
                           $('#checkx').click(function(ev){
                              $('#checkx').not(this).css('border', '0px solid #66b3cf').removeClass('s');
                              if(!$(this).is('.s')){
@@ -65,7 +66,7 @@ block content
                              else{
                                   $('#prov').prop("checked", false);
                                   $('#prov1').prop("checked", false);
-                                  $(this).css('border', '0px solid #ea985b').removeClass('s');                             
+                                  $(this).css('border', '0px solid #ea985b').removeClass('s');
                              }
                           });
                           $('#but-male').click(function(ev) {
