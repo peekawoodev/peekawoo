@@ -40,9 +40,15 @@ block content
                                 input.email.ranking-email(type="email", name="inputBox", placeholder="Enter your email here", required='required')
                                 button.subscribe-button2(type='submit',name='input.email')
                     center
-                        a.text-skipfornow2(href='http://peekawoo.com') skip for now
+                        input(type="hidden",id="url",value=JSON.parse(baseurl).url)
+                        a#send.text-skipfornow2(href="") skip for now
                 center
         script
+            var xurl = $('#url').val();
+            $(document).ready(function(){
+                alert(xurl);
+                $('#send').attr('href',xurl);
+            });
             $('#submit_rating').click(function(){
                 var userme = $('#user1').val();
                 if(userme == 'facebook'){

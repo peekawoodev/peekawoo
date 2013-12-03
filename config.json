@@ -8,5 +8,6 @@
 	"consumerKey": "Pwk7L5KG9ttzkj6nDExYrw",
 	"consumerSecret": "sct9vFktqC7oyp0rjRO2uLwHoIecoUTCLhHmyIR7Hz4",
 	"callbackURL": "http://dev.peekawoo.com/authtw/callback"
- }
+ },
+ "base_url" : "http://dev.peekawoo.com"
 }

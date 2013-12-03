@@ -4,7 +4,8 @@ var async = require('async')
   , passport = require('passport')
   , FacebookStrategy = require('passport-facebook').Strategy
   , TwitterStrategy = require('passport-twitter').Strategy
-  , fs = require('fs');;
+  , fs = require('fs')
+  , config = require('../config.json');
 
 var rotationGame = 0;
   
@@ -25,10 +26,16 @@ module.exports = {
 		var finishedRemove = function(countListX){
 			console.log(countListX);
 			req.logout();
+			var sendurl = {};
+			sendurl.url = config['base_url'];
 			if(countListX.length > 0){
-				res.render('error');
+				console.log("=====baseurl=====");
+				console.log(sendurl);
+				res.render('error',{baseurl:JSON.stringify(sendurl)});
 			}else{
-				res.render('error2');
+				console.log("=====baseurl=====");
+				console.log(sendurl);
+				res.render('error2',{baseurl:JSON.stringify(sendurl)});
 			}
 		};
 		var removeme = req.user;
@@ -210,7 +217,7 @@ module.exports = {
 			}else{
 				console.log("xx================xx");
 				if(data==null){
-					res.redirect('http://peekawoo.com');
+					res.redirect(config['base_url']);
 				}else{
 					console.log(data);
 					data = JSON.parse(data);
@@ -383,7 +390,9 @@ module.exports = {
 			//console.log(up);
 			console.log("+++++UP content+++++");
 			//console.log(finalLikes);
-			res.render('ranking',{user:up,chatmate:finalLikes});
+			var sendurl = {};
+			sendurl.url = config['base_url'];
+			res.render('ranking',{user:up,chatmate:finalLikes,baseurl:JSON.stringify(sendurl)});
 		}
 		client.smembers('visitor:'+user.id,function(err,datas){
 			var countData;

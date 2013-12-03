@@ -9,4 +9,10 @@ block content
             p.text-error1 Something went kookoo!
             p.text-error2 Come back later or Go back to Login
             center
-                input.btn.btn-info.btn-large(type="button" onclick="window.location='http://peekawoo.com'" value="Go to Login").buttonerror
+                input(type="hidden",id="url",value=JSON.parse(baseurl).url)
+                input#send.btn.btn-info.btn-large(type="button" onclick="" value="Go to Login").buttonerror
+        script
+            var xurl = $('#url').val();
+            $(document).ready(function(){
+                $('#send').attr('onclick',"window.location='"+xurl+"'");
+            });
