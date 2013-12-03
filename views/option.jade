@@ -14,19 +14,31 @@ block content
                                input(type='radio', id='gender-r', name='gender-r', value='randale', hidden='true')
                      .modal#prompt
                           .index-form-container
-                              h1.text-signin Sign In
-                              p.text-signin2 Speed date with random people around the world
-                              center
-                                  button#checkx.sb-facebook(type='button')
-                                     input(type='radio', id='prov', name='prov', value='fb', hidden='true')
-                                  p.text-signin2 or
-                                  button#checky.sb-twitter(type='button')
-                                     input(type='radio', id='prov1', name='prov1', value='tw', hidden='true')
-                                  br
-                                  input#username(type='text', name='codename', value='Codename', onfocus="if (this.value == 'Codename') {this.value=''}", maxlength='8',title='Must be at least 2 characters.')
-                                  button#submit2.btn.btn-large.btn-warning.btnenter(type='submit',name='submit')
-                                     .col-md-1.glyphicon.glyphicon-heart.marginremove
-                                     p.col-md-2.marginremove Enter Chat
+                               center
+                                   br
+                                   .go_on
+                                   br 
+                                   br
+                                   .con_first
+                                        .num_con1
+                                        .part_con1
+                                             button#checkx.sb-facebook(type='button')
+                                                 input(type='radio', id='prov', name='prov', value='fb', hidden='true')
+                                             p.text-signin2 or
+                                             button#checky.sb-twitter(type='button')
+                                                 input(type='radio', id='prov1', name='prov1', value='tw', hidden='true')
+                                   br
+                                   br
+                                   .con_second
+                                        .num_con2
+                                        .part_con2
+                                             input#username(type='text', name='codename', value='Mysterious Username here!', onfocus="if (this.value == 'Mysterious Username here!') {this.value=''}", maxlength='8',title='Must be at least 2 characters.')
+                                   br
+                                   br
+                                   .con_third
+                                        .num_con3
+                                        .part_con3
+                                             button#submitnew(type='submit',name='submit')                          
                      script
                           $('#checkx').click(function(ev){
                              $('#checkx').not(this).css('border', '0px solid #66b3cf').removeClass('s');

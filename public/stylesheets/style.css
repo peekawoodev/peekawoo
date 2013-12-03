@@ -447,16 +447,16 @@ body {
 #username {
     border: 1px solid #808080;
     border-radius: 7px 7px 7px 7px;
-    color: #584F4F;
+    color: #5b400a;
     display: inline-block;
     font-family: helvetica;
-    font-size: 19px;
-    height: 37px;
-    position: inherit;
+    font-size: 14px;
+    height: 32px;
     text-align: center;
-    width: 170px;
-    margin-top: 10px;
-    
+    width: 250px;
+    vertical-align: middle;
+    margin-top: 20px;
+    background-color: #ddd4c2;
 }
 
 .text-signin3 {
@@ -1618,10 +1618,9 @@ body.counter-page {
 }
 
 .modal {
-    background-color:#fff;
-    display:none;
+    background-color:#e7cbaf;
     width:400px;
-    height: 270px;
+    height: 400px;
     overflow: hidden;
     padding:15px;
     text-align:left;
@@ -1706,4 +1705,115 @@ body.option-page {
     font-family: helvetica;
     font-size: 15px;
     text-align: center;
+}
+
+.go_on {
+    display: inline-block;
+    background-attachment: inherit;
+    background-image: url("/img/hc-theme/go_on.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 320px 20px;
+    width: 320px;
+    height: 20px;
+}
+
+.con_first {
+    display: inline-block;
+    width: 350px;
+    background-attachment: inherit;
+    
+}
+
+.con_second {
+    display: inline-block;
+    width: 350px;
+    height: 65px;
+    background-attachment: inherit;
+}
+
+.con_thrid {
+    display: inline-block;
+    width: 350px;
+    background-attachment: inherit;
+}
+
+.num_con1 {
+    background-attachment: inherit;
+    background-image: url("/img/hc-theme/one.png");
+    background-size: 45px 44px;
+        background-position: center center;
+    background-repeat: no-repeat;
+    width: 50px;
+    height: 96px; 
+    display: inline-block;
+    vertical-align: top;
+}
+
+.num_con2 {
+    background-attachment: inherit;
+    background-image: url("/img/hc-theme/two.png");
+    background-size: 45px 44px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    width: 50px;
+    height: 65px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.num_con3 {
+    background-attachment: inherit;
+    background-image: url("/img/hc-theme/three.png");
+    background-size: 45px 44px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    width: 50px;
+    height: 90px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.part_con1 {
+    background-attachment: inherit;
+    width: 300px;
+    display: inline-block;
+    vertical-align: top;
+    
+}
+.part_con2 {
+    background-attachment: inherit;
+    width: 300px;
+    height: 65px;
+    display: inline-block;
+    vertical-align: top;
+
+}
+
+.part_con3 {
+    background-attachment: inherit;
+    width: 300px;
+    display: inline-block;
+    vertical-align: top;
+    
+}
+
+#submitnew {
+    background-attachment: inherit;
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("/img/hc-theme/chat.png");
+    background-origin: padding-box;
+    border: 0 solid;
+    border-radius: 25px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    display: inline-block;
+    position: relative;
+    width: 250px;
+    height: 90px;
+}
+
+#submitnew:hover{
+    border: 5px solid #dead7c;
 }
