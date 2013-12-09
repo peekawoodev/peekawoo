@@ -11,8 +11,8 @@ var rotationGame = 0;
   
 module.exports = {
 	home : function(req,res){
-		//res.render('login');
-		res.render('option');
+		res.render('login');
+		//res.render('option');
 	},
 	//--------------sample
 	sample: function(req,res){
@@ -77,16 +77,16 @@ module.exports = {
 	fbcallback : function(req, res) {
 		console.log("Authenticated in facebook");
 		console.log(req.isAuthenticated());
-		//res.redirect('/option');
+		res.redirect('/option');
 		//console.log(req);
-		res.redirect('/loading');
+		//res.redirect('/loading');
 	},
 	twcallback : function(req, res) {
 		console.log("Authenticated in twitter");
 		console.log(req.isAuthenticated());
-		//res.redirect('/option');
+		res.redirect('/option');
 		//console.log(req);
-		res.redirect('/loading');
+		//res.redirect('/loading');
 	},
 	subscribe : function(req,res){
 		console.log("+++++SUBSCRIBE+++++");
@@ -167,7 +167,7 @@ module.exports = {
 		//res.redirect('/loading');
 	},
 	option : function(req,res){
-		console.log("xxXX OPTION XXxx");
+	/*	console.log("xxXX OPTION XXxx");
 		console.log(req.query);
 		provide = req.query["prov"] || req.query["prov1"]; 
 		console.log(provide);
@@ -199,16 +199,16 @@ module.exports = {
 		info.id = req.signedCookies.peekawoo;
 		console.log(info);
 		client.del("id:"+info.id);
-		client.set("id:"+info.id,JSON.stringify(info));
+		client.set("id:"+info.id,JSON.stringify(info)); */
 		//----------OLD CODE----------------
-		//console.log("out put the session content");
-		//console.log(req.session);
-		//console.log(req.session.passport.user.gender);
-		//console.log(req.session.passport.user.provider);
-		//res.render('option',{profile:req.session.passport.user.gender,provider:req.session.passport.user.provider});
+		console.log("out put the session content");
+		console.log(req.session);
+		console.log(req.session.passport.user.gender);
+		console.log(req.session.passport.user.provider);
+		res.render('option',{profile:req.session.passport.user.gender,provider:req.session.passport.user.provider});
 	},
 	loading : function(req,res){
-		console.log("------------------------");
+	/*	console.log("------------------------");
 		console.log(req.user);
 		var info = {};
 		client.get("id:"+req.signedCookies.peekawoo,function(err,data){
@@ -234,8 +234,8 @@ module.exports = {
 					res.render('loading',{user:req.user});
 				}
 			}
-		});
-		/*if(req.user.provider == 'facebook'){
+		}); */
+		if(req.user.provider == 'facebook'){
 			if(rotationGame == 0){
 				console.log("xxXXX---------------- FACEBOOK GENDER DEFAULT -----------------XXXxx");
 				req.user.gender = req.query["gender-m"] || req.query["gender-f"] || req.query["gender-r"] || req.user._json.gender;
@@ -351,7 +351,7 @@ module.exports = {
 					});
 				}
 			}
-		}*/
+		}
 	},
 	ranking : function(req,res){
 		var user = req.user;

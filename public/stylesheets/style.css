@@ -40,10 +40,22 @@ body {
     height: inherit;
     opacity: 0.67;
 }
+/* new index-form-container */
+/*
+.index-form-container {
+    background-attachment: inherit;
+    display: inline;
+    position: inherit;
+    width: 360px;
+} */
+/* old index-form-container */
 .index-form-container {
     background-attachment: inherit;
     display: inline-block;
-    position: inherit;
+    float: right;
+    position: relative;
+    right: 100px;
+    top: 90px;
     width: 360px;
 }
 
@@ -149,10 +161,20 @@ body {
     width: 104px;
 }
 
+/* new desktopframe */
+/*
 .desktopframe {
     height: 242px;
     margin-top: 38px;
     width: 61%;
+} */
+/* old desktopframe */
+.desktopframe {
+    display: inline-block;
+    float: left;
+    left: 127px;
+    margin-top: 38px;
+    position: relative;
 }
 
 .login1{
@@ -203,7 +225,8 @@ body {
     display:block;
     width:110px;
 }
-
+/* new gender -container */
+/*
 .gender-container {
     background-attachment: inherit;
     border-radius: 20px 20px 20px 20px;
@@ -214,6 +237,17 @@ body {
     width: 100%;
     margin-left: auto;
     margin-right: auto;
+} */
+
+/* old gender-container */
+.gender-container {
+    background-attachment: inherit;
+    border-radius: 20px;
+    display: block;
+    height: 343px;
+    margin-top: 15px;
+    position: inherit;
+    width: 100%;
 }
 
 .text-or-box{
@@ -270,6 +304,8 @@ body {
     margin-bottom: 5px;
 }
 
+/* new choose-gender-box */
+/*
 .choose-gender-box {
     background-attachment: inherit;
     background-clip: border-box;
@@ -282,6 +318,22 @@ body {
     position: relative;
     height: 150px;
     width: 100%;
+} */
+/* old choose-gender-box */
+.choose-gender-box {
+    background-attachment: inherit;
+    background-clip: border-box;
+    background-image: url("/img/hc-theme/gender.png");
+    background-origin: padding-box;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    border: 5px solid #B5AF99;
+    border-radius: 20px 20px 20px 20px;
+    display: block;
+    height: 400px;
+    margin-top: 3px;
+    width: 400px;
 }
 
 .text-gender1 {
@@ -290,6 +342,7 @@ body {
     font-family: helvetica;
     font-size: 36pt;
     font-style: normal;
+    margin-bottom: 0px;
 }
 .text-gender2 {
     color: #584F4F;
@@ -326,6 +379,8 @@ body {
     margin-top:-35px;
     margin-right: 7px;
 }
+/* new text-gender5 */
+/*
 .text-gender5 {
     border: 1px solid #808080;
     border-radius: 14px;
@@ -338,16 +393,41 @@ body {
     text-align: left;
     text-indent: 25px;
     width: 357px;
+} */
+/* old text-gender5 */
+.text-gender5 {
+    border: 1px solid #808080;
+    border-radius: 14px;
+    color: #584F4F;
+    display: inline-block;
+    font-family: helvetica;
+    font-size: 16pt;
+    height: 85px;
+    margin: 0 auto;
+    text-align: left;
+    text-indent: 25px;
+    width: 365px;
 }
+
 .chick-container{
     display: block;
     width: 391px;
 }
+/* new text-gender-container */
+/*
 .text-gender-container {
     display: block;
     height: 29px;
     margin-top: 7px;
     width: 232px;   
+} */
+
+/* old text-gender-container */
+.text-gender-container {
+    display: block;
+    height: 100px;
+    margin-top: 30px;
+    width: 390px;
 }
 
 .male {
@@ -362,9 +442,11 @@ body {
     border: 0 solid;
     border-radius: 25px;
     display: inline-block;
-    height: 120px;
+    height: 90px;
+    /* height: 120px; */
     position: relative;
-    width: 300px;
+    width: 215px;
+    /* width: 300px; */
 }
 .female {
     background-attachment: inherit;
@@ -378,9 +460,11 @@ body {
     border: 0 solid;
     border-radius: 25px;
     display: inline-block;
-    height: 120px;
+    height: 90px;
+    /* height: 120px; */
     position: relative;
-    width: 300px;
+    width: 215px;
+    /* width: 300px; */
 }
 
 .randuser {
@@ -395,11 +479,14 @@ body {
     border: 0 solid;
     border-radius: 25px;
     display: inline-block;
-    height: 120px;
+    height: 90px;
+    /* height: 120px; */
     position: relative;
-    width: 300px;
+    width: 215px;
+    /* width: 300px; */
 }
-
+/* new #submit */
+/*
 #submit {
     background-attachment: inherit;
     background-clip: border-box;
@@ -414,6 +501,22 @@ body {
     margin-left: 10px;
     padding: 10px;
     margin-top: 10px;
+} */
+/* old #submit */
+#submit {
+    background-attachment: inherit;
+    background-clip: border-box;
+    background-image: url("/img/hc-theme/submit.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    border-radius: 10px;
+    display: inline-block;
+    height: 37px;
+    margin-left: 10px;
+    margin-top: 0;
+    padding: 10px;
+    position: absolute;
+    width: 58px;
 }
 
 .subscribe2-container {
@@ -444,6 +547,9 @@ body {
     display:block;
     
 }
+
+/* new #username */
+/*
 #username {
     border: 1px solid #808080;
     border-radius: 7px 7px 7px 7px;
@@ -457,6 +563,22 @@ body {
     vertical-align: middle;
     margin-top: 20px;
     background-color: #ddd4c2;
+} */
+
+/* old #username */
+#username {
+    border: 1px solid #808080;
+    border-radius: 7px;
+    color: #584F4F;
+    display: inline-block;
+    font-family: helvetica;
+    font-size: 19px;
+    height: 37px;
+    margin-left: 14px;
+    margin-top: 0;
+    position: inherit;
+    text-align: left;
+    width: 267px;
 }
 
 .text-signin3 {
