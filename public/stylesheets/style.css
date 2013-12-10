@@ -340,9 +340,11 @@ body {
     color: #584F4F;
     display: block;
     font-family: helvetica;
-    font-size: 36pt;
+    font-size: 22pt;
     font-style: normal;
+    font-weight: bold;
     margin-bottom: 0px;
+    margin-top: 12px;
 }
 .text-gender2 {
     color: #584F4F;
@@ -426,7 +428,7 @@ body {
 .text-gender-container {
     display: block;
     height: 100px;
-    margin-top: 30px;
+    margin-top: 37px;
     width: 390px;
 }
 
