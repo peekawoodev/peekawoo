@@ -1941,3 +1941,299 @@ body.option-page {
 #submitnew:hover{
     border: 5px solid #dead7c;
 }
+
+.credit-bg {
+    background-attachment: inherit;
+    background-image: url("/img/hc-theme/dimension.png");
+    background-repeat: repeat;
+    background-size: auto auto;
+}
+
+.credit_container {
+    display: block;
+    width: 100%;
+    height: 400px;
+    background-attachment: inherit;    
+}
+
+.credit_text {
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    background-attachment: inherit;       
+}
+
+.buy_credit {
+    color: #584F4F;
+    font-family: arial,helvetica;
+    font-size: 33px;
+    font-weight: normal;
+    margin-top: 0;
+    text-align: center;
+}
+
+.credit_img_button_container {
+    width: 100%;
+    height: 200px;
+    display: inline-block;
+    background-attachment: inherit;
+}
+
+#credit_button {
+    background-origin: padding-box;
+    border: 0 solid;
+    border-radius: 25px;
+    background-color: rgba(0, 0, 0, 0);
+	background-size: 153px 134px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-attachment: inherit;
+	display: inline-block;
+	width: 160px;
+	height: 140px;
+	color: transparent;
+	text-align: center;
+	margin: 10px 10px;
+	vertical-align: bottom;
+	position: relative;
+	
+}
+
+.ten_credit {
+    background-image: url("/img/hc-theme/credits/ten.png");
+}
+
+.twenty_credit {
+    background-image: url("/img/hc-theme/credits/twenty.png");
+}
+
+.thirty_credit {
+    background-image: url("/img/hc-theme/credits/thirty.png");
+}
+
+#credit_button:hover {
+    border: 3px solid #e0ae11;
+}
+
+.credit_button_container {
+    display: inline-block;
+    background-attachment: inherit;
+    width: 100%;
+    height: 100px;
+    margin: 0 10px;
+}
+
+.buy_button {
+    display: inline-block;
+    width: 160px;
+    height: 100px;
+    vertical-align: top;
+}
+
+#submitBtn {
+    margin-top: 30px;
+    background-origin: padding-box;
+  	border: 0 solid;
+    border-radius: 25px;
+    background-color: rgba(0, 0, 0, 0);
+	height: 30px;
+	width:	160px;
+	background-repeat: no-repeat;
+	bacground-position: center center;
+	background-image: url("https://www.paypal.com/en_US/i/btn/btn_dg_pay_w_paypal.gif");
+}
+
+.chat_button {
+    display: inline-block;
+    width: 230px;
+    height: 100px;
+    vertical-align: top;
+}
+
+.proceed {
+    background-image: url("/img/hc-theme/proceed.png");
+    background-size: 228px 86px;
+    background-origin: padding-box;
+  	border: 0 solid;
+    border-radius: 25px;
+    background-color: rgba(0, 0, 0, 0);
+	height: 90px;
+	width:	230px;
+	background-repeat: no-repeat;
+	bacground-position: center center;
+}
+
+/*For Virtual gifts*/
+.modal_chat {
+    display: none;
+    background-color:#fff;
+    width:500px;
+    height: 400px;
+    overflow: hidden;
+    padding:15px;
+    text-align:left;
+    border:4px solid #333;
+    border-radius: 30px;
+    opacity:1;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    -moz-box-shadow: 0 0 50px #ccc;
+    -webkit-box-shadow: 0 0 50px #ccc;
+}
+
+.gifts_container {
+    display: inline-block;
+    width: 480px;
+    height: 370px;
+    background-attachment: inherit;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.gift_text {
+    color: #584F4F;
+    font-family: arial,helvetica;
+    font-size: 18px;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: bottom;
+}
+
+/*must be used by all gifts*/
+
+#gift_button_rose:hover {
+    border: 3px solid #ff0000;
+}
+
+#gift_button_cup:hover {
+    border: 3px solid #ff0000;
+}
+
+#gift_button_cookie:hover {
+    border: 3px solid #ff0000;
+}
+
+#gift_button_milk:hover {
+    border: 3px solid #ff0000;
+}
+
+#gift_button_date:hover {
+    border: 3px solid #ff0000;
+}
+
+.gift_desc {
+    color: #ff0000;
+    font-family: arial,helvetica;
+    font-size: 22px;
+    font-weight: normal;
+    width: 150px;
+    text-align: center;
+    position: absolute;
+    vertical-align: center;
+    top: 0;
+}
+
+.rose {
+    background-image: url("/img/hc-theme/rose.png");
+        background-origin: padding-box;
+    border: 0 solid;
+    border-radius: 25px;
+    background-color: rgba(0, 0, 0, 0);
+    background-size: 150px 150px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: inherit;
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+    color: transparent;
+    text-align: center;
+    margin: 0px auto;
+    vertical-align: bottom;
+    position: relative;
+}
+
+.cupcake {
+    background-image: url("/img/hc-theme/cupcake.png");
+        background-origin: padding-box;
+    border: 0 solid;
+    border-radius: 25px;
+    background-color: rgba(0, 0, 0, 0);
+    background-size: 150px 150px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: inherit;
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+    color: transparent;
+    text-align: center;
+    margin: 0px auto;
+    vertical-align: bottom;
+    position: relative;
+}
+
+.cookie {
+    background-image: url("/img/hc-theme/cookies.png");
+        background-origin: padding-box;
+    border: 0 solid;
+    border-radius: 25px;
+    background-color: rgba(0, 0, 0, 0);
+    background-size: 150px 150px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: inherit;
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+    color: transparent;
+    text-align: center;
+    margin: 0px auto;
+    vertical-align: bottom;
+    position: relative;
+}
+
+.milktea {
+    background-image: url("/img/hc-theme/milktea.png");
+        background-origin: padding-box;
+    border: 0 solid;
+    border-radius: 25px;
+    background-color: rgba(0, 0, 0, 0);
+    background-size: 150px 150px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: inherit;
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+    color: transparent;
+    text-align: center;
+    margin: 0px auto;
+    vertical-align: bottom;
+    position: relative;
+}
+
+.askdate {
+    background-image: url("/img/hc-theme/date.png");
+        background-origin: padding-box;
+    border: 0 solid;
+    border-radius: 25px;
+    background-color: rgba(0, 0, 0, 0);
+    background-size: 150px 150px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: inherit;
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+    color: transparent;
+    text-align: center;
+    margin: 0px auto;
+    vertical-align: bottom;
+    position: relative;
+}
+
+.chatGift {
+    height: 120px;
+    width: 120px;
+}

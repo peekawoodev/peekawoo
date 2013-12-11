@@ -1,0 +1,37 @@
+extends layout
+
+block content
+    body.credit-bg
+        .head.peekawoo-logo2
+        center
+            br
+            br
+            br
+            form.credit_container(method='get', action='/credit', id='credit')
+                .credit_text
+                    p.buy_credit Buy credits
+                .credit_img_button_container
+                    button#credit_button.ten_credit(type='button', name='ten')
+                    button#credit_button.twenty_credit(type='button', name='twenty')
+                    button#credit_button.thirty_credit(type='button', name='thrity')
+                .credit_button_container
+                    .buy_button
+                        button#submitBtn(type='button', name='submit')
+                        input(type='hidden', name='success_url', value='sucess')
+                        input(type='hidden', name='cancel_url', value='cancel')
+                    .chat_button
+                        button#on_chat.proceed(type='button')
+                            input(type='radio', id='cred', name='cred', value='chat', hidden='true')
+                        button#iSubmit(type='submit', name='submit', hidden='true')
+                    
+        script(src="https://www.paypalobjects.com/js/external/dg.js")
+        script
+             var dg = new PAYPAL.apps.DGFlow({
+                   trigger: 'submitBtn',
+                   expType: 'instant'
+             }); 
+    script
+        $('#on_chat').click(function(ev){
+            $('#cred').prop("checked", true);
+            $('#iSubmit').click();
+        });  

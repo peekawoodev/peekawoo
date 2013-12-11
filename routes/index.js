@@ -16,7 +16,48 @@ module.exports = {
 	},
 	//--------------sample
 	sample: function(req,res){
-		res.render('sample');
+		console.log("xxXX AJAX request XXxx");
+		console.log(req.query);
+		var data = {};
+		client.get('credit:'+req.query.id,function(err,value){
+			var boolValue = false;
+			if(err){
+				console.log("theres an error");
+				value = 0;
+				data.cValue = value;
+				data.bValue = boolValue;
+				res.send(JSON.stringify(data));
+			}else{
+				if(value == null){
+					var setValue = 0;
+					boolValue = false;
+					client.set('credit:'+req.query.id,setValue);
+					data.cValue = setValue;
+					data.bValue = boolValue;
+					res.send(JSON.stringify(data));
+				}else{
+					console.log("theres an value");
+					console.log(value);
+					var qValue = Number(value);
+					if(qValue > 0){
+						boolValue = true;
+						qValue-=2;
+						client.set('credit:'+req.query.id,qValue);
+						data.cValue = qValue;
+						data.bValue = boolValue;
+						res.send(JSON.stringify(data));
+					}else{
+						boolValue = false;
+						data.cValue = value;
+						data.bValue = boolValue;
+						res.send(JSON.stringify(data));
+					}
+				}
+			}
+		});
+		//data.id = "1234";
+		//data.name = "jemo";
+		//res.send(JSON.stringify(data));
 	},
 	//--------------------
 	counter : function(req,res){
@@ -78,15 +119,11 @@ module.exports = {
 		console.log("Authenticated in facebook");
 		console.log(req.isAuthenticated());
 		res.redirect('/option');
-		//console.log(req);
-		//res.redirect('/loading');
 	},
 	twcallback : function(req, res) {
 		console.log("Authenticated in twitter");
 		console.log(req.isAuthenticated());
 		res.redirect('/option');
-		//console.log(req);
-		//res.redirect('/loading');
 	},
 	subscribe : function(req,res){
 		console.log("+++++SUBSCRIBE+++++");
@@ -157,14 +194,48 @@ module.exports = {
 			}
 		});
 	},
-	holder : function(req,res){
-		console.log("xxXX HOLDER XXxx");
-		console.log(req.query);
-		console.log(req.session);
-		console.log(req.session.passport.user.gender);
-		console.log(req.session.passport.user.provider);
-		res.render('holder');
-		//res.redirect('/loading');
+	process : function(req,res){
+		//-----------Gender and Codename-------------
+		var info = {};
+		if(req.query["gender-m"]){
+			 info.gender = req.query["gender-m"];
+		}
+		if(req.query["gender-f"]){
+			info.gender = req.query["gender-f"];
+		}
+		if(req.query["gender-r"]){
+			info.gender = req.query["gender-r"];
+		}
+		console.log(info.gender);
+		info.codename = req.query['codename'];
+		info.id = req.signedCookies.peekawoo;
+		console.log(info);
+		client.del("id:"+info.id);
+		client.set("id:"+info.id,JSON.stringify(info))
+		//-------------------------------------------
+		res.redirect('/credit');
+	},
+	credit : function(req,res){
+		console.log("User is now on buying credit page.");
+		console.log(req.user);
+		//res.render('credit');
+		if(req.query["cred"] != "chat"){
+			client.get('credit:'+req.user.id,function(err,value){
+				if(err){
+					res.render('credit');
+				}else{
+					if(value > 0){
+						console.log("you have "+value+" credit")
+						res.redirect('/loading');
+					}else{
+						console.log("you don't have credit")
+						res.render('credit');
+					}
+				}
+			});
+		}else{
+			res.redirect('/loading');
+		}
 	},
 	option : function(req,res){
 	/*	console.log("xxXX OPTION XXxx");
@@ -208,7 +279,7 @@ module.exports = {
 		res.render('option',{profile:req.session.passport.user.gender,provider:req.session.passport.user.provider});
 	},
 	loading : function(req,res){
-	/*	console.log("------------------------");
+		console.log("------------------------");
 		console.log(req.user);
 		var info = {};
 		client.get("id:"+req.signedCookies.peekawoo,function(err,data){
@@ -234,7 +305,8 @@ module.exports = {
 					res.render('loading',{user:req.user});
 				}
 			}
-		}); */
+		});
+		/*
 		if(req.user.provider == 'facebook'){
 			if(rotationGame == 0){
 				console.log("xxXXX---------------- FACEBOOK GENDER DEFAULT -----------------XXXxx");
@@ -351,7 +423,7 @@ module.exports = {
 					});
 				}
 			}
-		}
+		}*/
 	},
 	ranking : function(req,res){
 		var user = req.user;
@@ -436,6 +508,17 @@ module.exports = {
 		console.log(req.params);
 		console.log(req.params.room);
 		rotationGame+=1;
+		//-----------for Credit purpose------------
+		var creditCon = 0;
+		client.get('credit:'+req.user.id,function(err,data){
+			if(err){
+				data = 0;
+				creditCon = creditCon + data;
+			}else{
+				creditCon+=Number(data);
+			}
+		});
+		//-----------------------------------------
 		client.smembers(req.params.room,function(err,data){
 			console.log(data);
 			if(err){
@@ -449,6 +532,8 @@ module.exports = {
 			console.log(data);
 			var container;
 			var listgender = new Array();
+			console.log("xxXX Value of Credits after query XXxx");
+			console.log(creditCon);
 			if(req.user.provider == 'twitter'){
 				console.log("goes to this location due to twitter account");
 				console.log(req.user.id);
@@ -492,34 +577,34 @@ module.exports = {
 								client.get('female-'+value,function(err,values){
 									console.log(values);
 									console.log(JSON.parse(values));
-									res.render('chat',{user: up, room: data, listgen: values});
+									res.render('chat',{user: up, room: data, listgen: values, creditquery: creditCon});
 								});
 							}else if(req.user.gender == 'female'){
 								console.log("search male");
 								client.get('male-'+value,function(err,values){
 									console.log(values);
 									console.log(JSON.parse(values));
-									res.render('chat',{user: up, room: data, listgen: values});
+									res.render('chat',{user: up, room: data, listgen: values, creditquery: creditCon});
 								});
 							}else{
 								console.log("search random");
 								client.get('randale-'+value,function(err,values){
 									console.log(values);
 									console.log(JSON.parse(values));
-									res.render('chat',{user: up, room: data, listgen: values});
+									res.render('chat',{user: up, room: data, listgen: values, creditquery: creditCon});
 								});
 							}
 						}
 						else{
 							console.log("yyyyyyyy null value yyyyyyyy");
 							listgender = value;
-							res.render('chat',{user: up, room: data, listgen: listgender});
+							res.render('chat',{user: up, room: data, listgen: listgender, creditquery: creditCon});
 						}
 					});
 				});
 			}else{
 				var up = {};
-				console.log("****GENDER IF Twitter USE****");
+				console.log("****GENDER IF Facebook USE****");
 				up.id = req.user.id;
 				up.username = req.user.username;
 				up.gender = req.user.gender;
@@ -541,28 +626,28 @@ module.exports = {
 							client.get('female-'+value,function(err,values){
 								console.log(values);
 								console.log(JSON.parse(values));
-								res.render('chat',{user: up, room: data, listgen: values});
+								res.render('chat',{user: up, room: data, listgen: values, creditquery: creditCon});
 							});
 						}else if(req.user.gender == 'female'){
 							console.log("search male");
 							client.get('male-'+value,function(err,values){
 								console.log(values);
 								console.log(JSON.parse(values));
-								res.render('chat',{user: up, room: data, listgen: values});
+								res.render('chat',{user: up, room: data, listgen: values, creditquery: creditCon});
 							});
 						}else{
 							console.log("search random");
 							client.get('randale-'+value,function(err,values){
 								console.log(values);
 								console.log(JSON.parse(values));
-								res.render('chat',{user: up, room: data, listgen: values});
+								res.render('chat',{user: up, room: data, listgen: values, creditquery: creditCon});
 							});
 						}
 					}
 					else{
 						console.log("yyyyyyyy null value yyyyyyyy");
 						listgender = value;
-						res.render('chat',{user: up, room: data, listgen: listgender});
+						res.render('chat',{user: up, room: data, listgen: listgender, creditquery: creditCon});
 					}
 				});
 			}

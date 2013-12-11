@@ -283,6 +283,27 @@ app.io.sockets.on('connection',function(socket){
 		client.srem("blockinfo:"+user.id,JSON.stringify(mate));
 	});
 	
+	app.io.route('checkcreditvalue',function(req){
+		client.get('credit:'+req.data.id,function(err,value){
+			var boolValue = false;
+			if(err){
+				value = 0;
+				app.io.broadcast('returncreditvalue',{cValue:value,bValue:boolValue});
+			}else{
+				var qValue = Number(value);
+				if(qValue > 0){
+					boolValue = true;
+					qValue-=2;
+					client.set('credit:'+req.data.id,qValue);
+					app.io.broadcast('returncreditvalue',{cValue:qValue,bValue:boolValue});
+				}else{
+					boolValue = false;
+					app.io.broadcast('returncreditvalue',{cValue:qValue,bValue:boolValue});
+				}
+			}
+		});
+	});
+	
 	app.io.route('my msg',function(req){
 		app.io.room(getRoom(req)).broadcast('new msg', req.data);
 	});

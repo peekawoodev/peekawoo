@@ -73,7 +73,8 @@ app.get("/sample",routes.sample);
 app.get("/counter",routes.counter);
 app.get("/error",auth,routes.error);
 //---------NEW API----------
-app.get("/holder",routes.holder);
+app.get("/credit",routes.credit);
+app.get('/process',routes.process);
 //--------------------------
 app.get('/authfb',passport.authenticate('facebook'));
 app.get('/authtw',passport.authenticate('twitter'));
@@ -92,8 +93,11 @@ require('./socket.js');
 client.keys('*', function(err, keys) {
 	if(keys){
 		keys.forEach(function(key){
+			var getCredit = key.search('credit:');
 			if(key != 'randomcounter'){
-				client.del(key);
+				if(getCredit < 0){
+					client.del(key);
+				}
 			}
 		});
 	}

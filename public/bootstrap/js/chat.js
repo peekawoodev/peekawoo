@@ -10,7 +10,65 @@ $(function(){
 	my_chatm8 = JSON.parse(my_chatm8);
 	var list_gen = $("#list").val();
 	//list_gen = JSON.parse(list_gen);
-		
+	
+	//-----------------------------------
+	//------for Credit-------------------
+	//script for gifts
+    var giftItem;
+    $('#gift_button_rose').click(function(ev){
+        giftItem = " ";
+        giftItem = $('#gift_button_rose').val();
+        showNoPay();
+    });
+    $('#gift_button_cup').click(function(ev){
+        giftItem = " ";
+        giftItem = $('#gift_button_cup').val();
+        onCredit();
+    });
+    $('#gift_button_cookie').click(function(ev){
+        giftItem = " ";
+        giftItem = $('#gift_button_cookie').val();
+        onCredit();
+    });
+    $('#gift_button_milk').click(function(ev){
+        giftItem = " ";
+        giftItem = $('#gift_button_milk').val();
+        onCredit();
+    });
+    $('#gift_button_date').click(function(ev){
+        giftItem = " ";
+        giftItem = $('#gift_button_date').val();
+        onCredit();
+    });        
+    function showNoPay() {
+        $('#message').val('<img src="/img/hc-theme/' + giftItem + '.png" class="chatGift">');
+        $('#reply').click();
+        $('.modalInput').overlay().close();
+    }
+    function onCredit() {
+            //must deduct credit here
+        //deductCredit(); //psuedo-function for deducting credits
+            //show giftItem
+    	var request = $.ajax({
+    		type: "GET",
+    		url: "/sample",
+    		data: { id : user.id }
+    	});
+    	request.done(function(data){
+    		var receiveData = JSON.parse(data);
+    		if(receiveData.bValue == false){
+    			alert("You dont have enough credits!");
+    			$('#credit').val(receiveData.cValue);
+    		}else{
+    			$('#message').val('<img src="/img/hc-theme/' + giftItem + '.png" class="chatGift">');
+    	        $('#reply').click();
+    	        $('.modalInput').overlay().close();
+    	        $('#credit').val(receiveData.cValue);
+    		}
+    	});
+    }
+	//-----------------------------------
+	//-----------------------------------
 	var contmechatm8 = {};
 	if(user.id == my_chatm8.male.id){
 		$(".current-photo").html("<img class='cpimg' src='"+my_chatm8.female.photourl+"'></img>");
