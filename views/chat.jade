@@ -3,9 +3,10 @@ extends layout
 block content
     body.chat-page(oncontextmenu='return false;')
         .head.peekawoo-logo2
-            .credit-display
-                #credit.creditvalue 0
             .signout-container
+                .creditText
+                    p.textSpan Credit
+                p#credit.creditvalue 0
                 button.signout(onclick="window.location='/ranking'")
         .container
             center
@@ -89,8 +90,8 @@ block content
                     $(this).prevAll().andSelf().addClass('ratings_chick-sel');
                 }
                 else{
-                    $(this).prevAll().andSelf().removeClass('ratings_chick-sel');
-                    $(this).prevAll().andSelf().addClass('ratings_chick');
+                    //$(this).prevAll().andSelf().removeClass('ratings_chick-sel');
+                    //$(this).prevAll().andSelf().addClass('ratings_chick');
                 }
             }
         );

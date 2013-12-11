@@ -645,13 +645,7 @@ body {
     height: 84px;
     margin-top: 0;
 }
-.signout-container {
-    display: block;
-    height: 65px;
-    margin: 21px auto;
-    position: relative;
-    width: 700px;
-}
+
 .pcn {
     height: 26px;
     margin: -2% 0;
@@ -659,21 +653,7 @@ body {
     hidden: hidden;
     font-size: 0px;
 }
-.signout {
-    background-attachment: inherit;
-    background-clip: border-box;
-    background-image: url("/img/hc-theme/peekawoo-chatsignout.png");
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: auto auto;
-    border-radius:0 0 9px 9px;
-    background-color: rgba(0, 0, 0, 0);
-    display: block;
-    float: right;
-    height: 36px;
-    position: relative;
-    width: 98px;
-}
+
 .chat-container {
     color: #333333;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -2236,4 +2216,68 @@ body.option-page {
 .chatGift {
     height: 120px;
     width: 120px;
+}
+
+.signout-container {
+    display: block;
+    height: 65px;
+    margin: 21px auto;
+    position: relative;
+    width: 700px;
+}
+
+.signout {
+    background-attachment: inherit;
+    background-clip: border-box;
+    background-image: url("/img/hc-theme/peekawoo-chatsignout.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: auto auto;
+    border-radius:0 0 9px 9px;
+    background-color: rgba(0, 0, 0, 0);
+    display: block;
+    float: right;
+    height: 36px;
+    position: relative;
+    width: 98px;
+}
+
+.creditvalue {
+	border: 6px solid #66B3CF;
+    border-radius: 9px;
+    color: #EA985B;
+    display: block;
+    float: left;
+    font-family: helvetica;
+    font-weight: bold;
+    height: 36px;
+    left: 37px;
+    padding: 3px;
+    position: relative;
+    text-align: center;
+    vertical-align: middle;
+    width: 66px;
+}
+
+.creditText {
+    display: block;
+    float: left;
+    height: 36px;
+    left: 39px;
+    line-height: 40px;
+    margin-top: 0;
+    padding: 3px;
+    position: relative;
+    text-align: center;
+    vertical-align: middle;
+    width: 66px;
+}
+
+.textSpan {
+	display: inline-block;
+    font-family: helvetica;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: normal;
+    vertical-align: middle;
 }

@@ -58,12 +58,12 @@ $(function(){
     		var receiveData = JSON.parse(data);
     		if(receiveData.bValue == false){
     			alert("You dont have enough credits!");
-    			$('#credit').val(receiveData.cValue);
+    			$('#credit').text(receiveData.cValue);
     		}else{
     			$('#message').val('<img src="/img/hc-theme/' + giftItem + '.png" class="chatGift">');
     	        $('#reply').click();
     	        $('.modalInput').overlay().close();
-    	        $('#credit').val(receiveData.cValue);
+    	        $('#credit').text(receiveData.cValue);
     		}
     	});
     }
@@ -119,7 +119,7 @@ $(function(){
 	$('.ratings_chick').click(
 		function(){
 			if($(this).is('.ratings_chick')){
-				socket.emit('uninsert',contmechatm8);
+				//socket.emit('uninsert',contmechatm8);
 			}
 			else{
 				socket.emit('insert',contmechatm8);
