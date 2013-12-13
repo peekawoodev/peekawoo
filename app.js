@@ -73,8 +73,12 @@ app.get("/sample",routes.sample);
 app.get("/counter",routes.counter);
 app.get("/error",auth,routes.error);
 //---------NEW API----------
-app.get("/credit",routes.credit);
+app.get('/credit',routes.credit);
+app.post('/checkout', routes.checkout);
 app.get('/process',routes.process);
+app.get('/confirm', routes.confirm);
+app.get('/status', routes.status);
+app.get('/paypalError', routes.paypalError);
 //--------------------------
 app.get('/authfb',passport.authenticate('facebook'));
 app.get('/authtw',passport.authenticate('twitter'));

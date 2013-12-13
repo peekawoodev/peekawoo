@@ -7,29 +7,83 @@ block content
             br
             br
             br
-            form.credit_container(method='get', action='/credit', id='credit')
+            .credit_container
                 .credit_text
                     p.buy_credit Buy credits
-                .credit_img_button_container
-                    button#credit_button.ten_credit(type='button', name='ten')
-                    button#credit_button.twenty_credit(type='button', name='twenty')
-                    button#credit_button.thirty_credit(type='button', name='thrity')
-                .credit_button_container
-                    .buy_button
-                        button#submitBtn(type='button', name='submit')
-                        input(type='hidden', name='success_url', value='success')
-                        input(type='hidden', name='cancel_url', value='cancel')
+                form.credit_img_container(method='post', action='/checkout')
+                    #imgBtn_con
+                        button#credit_img_button10.ten_credit(type='button')
+                            input(type='radio', id='btn10', name='plan', value='credit10', hidden='true')
+                        p.price Price: $10
+                    #imgBtn_con                   
+                        button#credit_img_button20.twenty_credit(type='button')
+                            input(type='radio', id='btn20', name='plan', value='credit20', hidden='true')
+                        p.price Price: $20
+                    #imgBtn_con                            
+                        button#credit_img_button30.thirty_credit(type='button')
+                            input(type='radio', id='btn30', name='plan', value='credit30', hidden='true')
+                        p.price Price: $30
+                    #paypalSubmit_con
+                        input(id='submitBtn', type='submit', value='Checkout')
+                p.or_chat OR
+                form.chatBtn_container(method='get', action='/credit', id='credit')
                     .chat_button
                         button#on_chat.proceed(type='button')
                             input(type='radio', id='cred', name='cred', value='chat', hidden='true')
                         button#iSubmit(type='submit', name='submit', hidden='true')
-                    
+            script
+                $('#credit_img_button10').click(function(ev){
+                    $('#credit_img_button10').not(this).css('border', '0px solid #e0ae11').removeClass('s');
+                    if(!$(this).is('s')){
+                        $(this).css('border', '3px solid #e0ae11').addClass('s');
+                        $('#btn10').prop("checked", true);
+                        $('#btn20').prop("checked", false);
+                        $('#btn30').prop("checked", false);
+                        $('#credit_img_button20').css('border', '0px solid #e0ae11').removeClass('s');
+                        $('#credit_img_button30').css('border', '0px solid #e0ae11').removeClass('s');
+                    }
+                    else {
+                        $('#btn10').prop("checked", false);
+                        $('#btn20').prop("checked", false);
+                        $('#btn30').prop("checked", false);
+                        $(this).css('border', '0px solid #e0ae11').removeClass('s');
+                    }
+                });
+                $('#credit_img_button20').click(function(ev){
+                    $('#credit_img_button20').not(this).css('border', '0px solid #e0ae11').removeClass('s');
+                    if(!$(this).is('s')){
+                        $(this).css('border', '3px solid #e0ae11').addClass('s');
+                        $('#btn20').prop("checked", true);
+                        $('#btn10').prop("checked", false);
+                        $('#btn30').prop("checked", false);
+                        $('#credit_img_button10').css('border', '0px solid #e0ae11').removeClass('s');
+                        $('#credit_img_button30').css('border', '0px solid #e0ae11').removeClass('s');
+                    }
+                    else {
+                        $('#btn10').prop("checked", false);
+                        $('#btn20').prop("checked", false);
+                        $('#btn30').prop("checked", false);
+                        $(this).css('border', '0px solid #e0ae11').removeClass('s');
+                    }
+                });
+                $('#credit_img_button30').click(function(ev){
+                    $('#credit_img_button30').not(this).css('border', '0px solid #e0ae11').removeClass('s');
+                    if(!$(this).is('s')){
+                        $(this).css('border', '3px solid #e0ae11').addClass('s');
+                        $('#btn30').prop("checked", true);
+                        $('#btn20').prop("checked", false);
+                        $('#btn10').prop("checked", false);
+                        $('#credit_img_button20').css('border', '0px solid #e0ae11').removeClass('s');
+                        $('#credit_img_button10').css('border', '0px solid #e0ae11').removeClass('s');
+                    }
+                    else {
+                        $('#btn10').prop("checked", false);
+                        $('#btn20').prop("checked", false);
+                        $('#btn30').prop("checked", false);
+                        $(this).css('border', '0px solid #e0ae11').removeClass('s');
+                    }
+                });                   
         script(src="https://www.paypalobjects.com/js/external/dg.js")
-        script
-             var dg = new PAYPAL.apps.DGFlow({
-                   trigger: 'submitBtn',
-                   expType: 'instant'
-             }); 
     script
         $('#on_chat').click(function(ev){
             $('#cred').prop("checked", true);

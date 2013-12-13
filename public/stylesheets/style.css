@@ -1922,6 +1922,7 @@ body.option-page {
     border: 5px solid #dead7c;
 }
 
+/*for buying credits*/
 .credit-bg {
     background-attachment: inherit;
     background-image: url("/img/hc-theme/dimension.png");
@@ -1932,7 +1933,7 @@ body.option-page {
 .credit_container {
     display: block;
     width: 100%;
-    height: 400px;
+    height: 450px;
     background-attachment: inherit;    
 }
 
@@ -1952,31 +1953,74 @@ body.option-page {
     text-align: center;
 }
 
-.credit_img_button_container {
+.credit_img_container {
     width: 100%;
-    height: 200px;
+    height: 180px;
     display: inline-block;
     background-attachment: inherit;
 }
 
-#credit_button {
+#imgBtn_con {
+    display: inline-block;
+    width: 160px;
+    height: 170px;
+}
+
+#credit_img_button10 {
     background-origin: padding-box;
     border: 0 solid;
     border-radius: 25px;
     background-color: rgba(0, 0, 0, 0);
-	background-size: 153px 134px;
-	background-repeat: no-repeat;
-	background-position: center center;
-	background-attachment: inherit;
-	display: inline-block;
-	width: 160px;
-	height: 140px;
-	color: transparent;
-	text-align: center;
-	margin: 10px 10px;
-	vertical-align: bottom;
-	position: relative;
-	
+        background-size: 153px 134px;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: inherit;
+        display: inline-block;
+        width: 160px;
+        height: 140px;
+        color: transparent;
+        text-align: center;
+        margin: 0px 10px;
+        vertical-align: bottom;
+        position: relative;
+}
+
+#credit_img_button20 {
+    background-origin: padding-box;
+    border: 0 solid;
+    border-radius: 25px;
+    background-color: rgba(0, 0, 0, 0);
+        background-size: 153px 134px;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: inherit;
+        display: inline-block;
+        width: 160px;
+        height: 140px;
+        color: transparent;
+        text-align: center;
+        margin: 0px 10px;
+        vertical-align: bottom;
+        position: relative;
+}
+
+#credit_img_button30 {
+    background-origin: padding-box;
+    border: 0 solid;
+    border-radius: 25px;
+    background-color: rgba(0, 0, 0, 0);
+        background-size: 153px 134px;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: inherit;
+        display: inline-block;
+        width: 160px;
+        height: 140px;
+        color: transparent;
+        text-align: center;
+        margin: 0px 10px;
+        vertical-align: bottom;
+        position: relative;
 }
 
 .ten_credit {
@@ -1991,43 +2035,62 @@ body.option-page {
     background-image: url("/img/hc-theme/credits/thirty.png");
 }
 
-#credit_button:hover {
+#credit_img_button10:hover {
     border: 3px solid #e0ae11;
 }
 
-.credit_button_container {
-    display: inline-block;
-    background-attachment: inherit;
-    width: 100%;
-    height: 100px;
-    margin: 0 10px;
+#credit_img_button20:hover {
+    border: 3px solid #e0ae11;
 }
 
-.buy_button {
+#credit_img_button30:hover {
+    border: 3px solid #e0ae11;
+}
+
+.price {
+    width: 100px;
+    height: 20px;
     display: inline-block;
+}
+#paypalSubmit_con {
     width: 160px;
-    height: 100px;
-    vertical-align: top;
+    height: 30px;
+    display: block;
 }
 
 #submitBtn {
-    margin-top: 30px;
     background-origin: padding-box;
-  	border: 0 solid;
+          border: 0 solid;
     border-radius: 25px;
     background-color: rgba(0, 0, 0, 0);
-	height: 30px;
-	width:	160px;
-	background-repeat: no-repeat;
-	bacground-position: center center;
-	background-image: url("https://www.paypal.com/en_US/i/btn/btn_dg_pay_w_paypal.gif");
+        height: 30px;
+        width:        160px;
+        background-repeat: no-repeat;
+        bacground-position: center center;
+        background-image: url("https://www.paypal.com/en_US/i/btn/btn_dg_pay_w_paypal.gif");
+}
+
+.or_chat {
+    width: 100%;
+    height: 30px;
+    text-align: center;
+    color: #584F4F;
+    font-family: arial,helvetica;
+    font-size: 20px;
+    font-weight: normal;
+    margin-top: 10px;
+}
+
+.chatBtn_container {
+    display: inline-block;
+    width: 230px;
+    height: 90px;
 }
 
 .chat_button {
     display: inline-block;
     width: 230px;
-    height: 100px;
-    vertical-align: top;
+    height: 90px;
 }
 
 .proceed {

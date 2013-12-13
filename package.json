@@ -16,6 +16,7 @@
     "connect-redis": "*",
     "connect": "2.7.3",
     "cookie": "*",
-    "async": "*"
+    "async": "*",
+    "paypal-ec": "0.2.6"
   }
 }

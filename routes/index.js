@@ -5,10 +5,93 @@ var async = require('async')
   , FacebookStrategy = require('passport-facebook').Strategy
   , TwitterStrategy = require('passport-twitter').Strategy
   , fs = require('fs')
-  , config = require('../config.json');
+  , config = require('../config.json')
+  , extend = require('util')._extend;
 
 var rotationGame = 0;
-  
+
+//Paypal
+var PayPalEC = require('paypal-ec');
+
+/*Live Account - but still not available*/
+/*
+var cred = {
+	username : 'valenice.balace_api1.gmail.com',
+	password : 'H76XXJHTSWZ9HKWR',
+	signature : 'ACUe-E7Hjxmeel8FjYAtjnx-yjHAAjzA-F7dbe8uq-Vb1h5UpDRp93nU'
+};*/
+/*Sandbox Account*/
+var cred = {
+		  username  : 'valenice.balace-facilitator_api1.gmail.com',
+		  password  : '1386296783',
+		  signature : 'A-SP7JVyevmeLU.JriRo2VJT1iiJA1RKOLWgYVdGQBh7PG2dzSFDRbQb'
+};
+/*Another Sandbox Account*/
+/*var cred = {
+		  username  : 'peekawoo_api1.peekawoo.com',
+		  password  : '1386915530',
+		  signature : 'ACUe-E7Hjxmeel8FjYAtjnx-yjHAAKLTqd.tnbmmkMI3OvzqEarcfOWG'
+};*/
+
+var opts = {
+	sandbox : true, /*Must change to false if going live*/
+	version : '109.0'
+};
+
+var plans = {
+	credit10 : {
+		returnUrl : 'http://192.168.3.35/confirm?plan=credit10',
+		cancelUrl : 'http://192.168.3.35/credit',
+		PAYMENTREQUEST_0_AMT             : '10.00',
+		PAYMENTREQUEST_0_DESC            : '10 Peekawoo Credits',
+		PAYMENTREQUEST_0_CURRENCYCODE    : 'USD',
+		PAYMENTREQUEST_0_PAYMENTACTION   : 'Sale',
+		L_PAYMENTREQUEST_0_ITEMCATEGORY0 : 'Digital',
+		L_PAYMENTREQUEST_0_NAME0         : '10 Peekawoo Credits',
+		L_PAYMENTREQUEST_0_AMT0          : '10.00',
+		L_PAYMENTREQUEST_0_QTY0          : '1',
+		REQCONFIRMSHIPPING				 : '0',
+		NOSHIPPING						 : '1',
+		ALLOWNOTE						 : '0',
+		ADDOVERRIDE						 : '0'
+	},
+	credit20 : {
+		returnUrl : 'http://192.168.3.35/confirm?plan=credit20',
+		cancelUrl : 'http://192.168.3.35/credit',
+		PAYMENTREQUEST_0_AMT             : '20.00',
+		PAYMENTREQUEST_0_DESC            : '20 Peekawoo Credits',
+		PAYMENTREQUEST_0_CURRENCYCODE    : 'USD',
+		PAYMENTREQUEST_0_PAYMENTACTION   : 'Sale',
+		L_PAYMENTREQUEST_0_ITEMCATEGORY0 : 'Digital',
+		L_PAYMENTREQUEST_0_NAME0         : '20 Peekawoo Credits',
+		L_PAYMENTREQUEST_0_AMT0          : '20.00',
+		L_PAYMENTREQUEST_0_QTY0          : '1',
+		REQCONFIRMSHIPPING				 : '0',
+		NOSHIPPING						 : '1',
+		ALLOWNOTE						 : '0',
+		ADDOVERRIDE						 : '0'
+	},
+	credit30 : {
+		returnUrl : 'http://192.168.3.35/confirm?plan=credit30',
+		cancelUrl : 'http://192.168.3.35/credit',
+		PAYMENTREQUEST_0_AMT             : '30.00',
+		PAYMENTREQUEST_0_DESC            : '30 Peekawoo Credits',
+		PAYMENTREQUEST_0_CURRENCYCODE    : 'USD',
+		PAYMENTREQUEST_0_PAYMENTACTION   : 'Sale',
+		L_PAYMENTREQUEST_0_ITEMCATEGORY0 : 'Digital',
+		L_PAYMENTREQUEST_0_NAME0         : '30 Peekawoo Credits',
+		L_PAYMENTREQUEST_0_AMT0          : '30.00',
+		L_PAYMENTREQUEST_0_QTY0          : '1',
+		REQCONFIRMSHIPPING				 : '0',
+		NOSHIPPING						 : '1',
+		ALLOWNOTE						 : '0',
+		ADDOVERRIDE						 : '0'
+	}
+};
+
+var ec = new PayPalEC(cred, opts);
+//end of Paypal declarations
+
 module.exports = {
 	home : function(req,res){
 		res.render('login');
@@ -211,7 +294,7 @@ module.exports = {
 		info.id = req.signedCookies.peekawoo;
 		console.log(info);
 		client.del("id:"+info.id);
-		client.set("id:"+info.id,JSON.stringify(info))
+		client.set("id:"+info.id,JSON.stringify(info));
 		//-------------------------------------------
 		res.redirect('/credit');
 	},
@@ -225,10 +308,10 @@ module.exports = {
 					res.render('credit');
 				}else{
 					if(value > 0){
-						console.log("you have "+value+" credit")
+						console.log("you have "+value+" credit");
 						res.redirect('/loading');
 					}else{
-						console.log("you don't have credit")
+						console.log("you don't have credit");
 						res.render('credit');
 					}
 				}
@@ -236,6 +319,59 @@ module.exports = {
 		}else{
 			res.redirect('/loading');
 		}
+	},
+	checkout: function (req, res, next){
+		var params = extend({}, plans[req.body.plan]);
+		
+		ec.set(params, function (err, data){
+			if (err) return next(err);//must be another page saying error on paying
+			
+			console.log("Returned by setExpress data:");
+			console.log(data);
+			
+			res.redirect(data.PAYMENTURL);
+		});
+	},
+	confirm: function (req, res, next){
+		var plan = req.query.plan;
+		var params = extend({}, plans[ plan ]);
+		
+		params.TOKEN = req.query.token;
+		params.PAYERID = req.query.PayerID;
+					
+		ec.do_payment(params, function(err,data){
+			console.log("Returned by doExpress data:");
+			console.log(data);
+			
+			if (err) return next(err);//must be another page saying error on paying
+			
+			res.redirect('/status?token=' + params.TOKEN);
+		});			
+	},
+	status: function (req,res) {
+		var token = req.query.token;
+		console.log('User successfully purchased credits!');
+		ec.get_details({token : token}, function (err,data){
+			if(err) return next(err); //must be another page saying error on paying
+			console.log("Returned by getDetails data:");
+			console.log(data);
+			
+			if(data.CHECKOUTSTATUS == "PaymentActionCompleted"){
+				if(data.AMT == "10.00"){
+					//user purchase 10 credits
+				}else if(data.AMT == "20.00"){
+					//user purchase 20 credits
+				}else if(data.AMT == "30.00"){
+					//user purchase 30 credits
+				}
+			}
+			res.redirect('/loading');
+		});
+	},
+	paypalError: function(req, res) {
+		setTimeout(
+				res.redirect('/credit'), 3000
+		);
 	},
 	option : function(req,res){
 	/*	console.log("xxXX OPTION XXxx");
