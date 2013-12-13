@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    h1 Peekawoo
+    title
+    p=getInfo
+    script
+        $(document).ready(function(){
+            setTimeout(function(){
+                self.close();
+            },10000);
+        });

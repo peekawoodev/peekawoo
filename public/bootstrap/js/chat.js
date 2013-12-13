@@ -14,59 +14,88 @@ $(function(){
 	//-----------------------------------
 	//------for Credit-------------------
 	//script for gifts
-    var giftItem;
-    $('#gift_button_rose').click(function(ev){
-        giftItem = " ";
-        giftItem = $('#gift_button_rose').val();
-        showNoPay();
-    });
-    $('#gift_button_cup').click(function(ev){
-        giftItem = " ";
-        giftItem = $('#gift_button_cup').val();
-        onCredit();
-    });
-    $('#gift_button_cookie').click(function(ev){
-        giftItem = " ";
-        giftItem = $('#gift_button_cookie').val();
-        onCredit();
-    });
-    $('#gift_button_milk').click(function(ev){
-        giftItem = " ";
-        giftItem = $('#gift_button_milk').val();
-        onCredit();
-    });
-    $('#gift_button_date').click(function(ev){
-        giftItem = " ";
-        giftItem = $('#gift_button_date').val();
-        onCredit();
-    });        
-    function showNoPay() {
-        $('#message').val('<img src="/img/hc-theme/' + giftItem + '.png" class="chatGift">');
-        $('#reply').click();
-        $('.modalInput').overlay().close();
-    }
-    function onCredit() {
-            //must deduct credit here
-        //deductCredit(); //psuedo-function for deducting credits
-            //show giftItem
-    	var request = $.ajax({
-    		type: "GET",
-    		url: "/sample",
-    		data: { id : user.id }
-    	});
-    	request.done(function(data){
-    		var receiveData = JSON.parse(data);
-    		if(receiveData.bValue == false){
-    			alert("You dont have enough credits!");
-    			$('#credit').text(receiveData.cValue);
-    		}else{
-    			$('#message').val('<img src="/img/hc-theme/' + giftItem + '.png" class="chatGift">');
-    	        $('#reply').click();
-    	        $('.modalInput').overlay().close();
-    	        $('#credit').text(receiveData.cValue);
-    		}
-    	});
-    }
+	var giftItem;
+	$('#gift_button_rose').click(function(ev){
+		giftItem = " ";
+		giftItem = $('#gift_button_rose').val();
+		showNoPay();
+	});
+	$('#gift_button_cup').click(function(ev){
+		giftItem = " ";
+		giftItem = $('#gift_button_cup').val();
+		onCredit();
+	});
+	$('#gift_button_cookie').click(function(ev){
+		giftItem = " ";
+		giftItem = $('#gift_button_cookie').val();
+		onCredit();
+	});
+	$('#gift_button_milk').click(function(ev){
+		giftItem = " ";
+		giftItem = $('#gift_button_milk').val();
+		onCredit();
+	});
+	$('#gift_button_date').click(function(ev){
+		giftItem = " ";
+		giftItem = $('#gift_button_date').val();
+		onCredit();
+	});
+	function showNoPay() {
+		$('#message').val('<img src="/img/hc-theme/' + giftItem + '.png" class="chatGift">');
+		$('#reply').click();
+		$('.modalInput').overlay().close();
+	}
+	function onCredit() {
+		//must deduct credit here
+		//deductCredit(); //psuedo-function for deducting credits
+		//show giftItem
+		var sendMe = {};
+		sendMe.me = user;
+		if(user.id == my_chatm8.male.id){
+			sendMe.m8 = my_chatm8.female;
+		}else{
+			sendMe.m8 = my_chatm8.male;
+		}
+		sendMe.gift = giftItem;
+		var request = $.ajax({
+			type: "GET",
+			url: "/sample",
+			data: { chat : sendMe }
+		});
+		request.done(function(data){
+			var receiveData = JSON.parse(data);
+			if(receiveData.bValue == false){
+				alert("You dont have enough credits!");
+				$('#credit').text(receiveData.cValue);
+			}else{
+				$('#message').val('<img src="/img/hc-theme/' + giftItem + '.png" class="chatGift">');
+				$('#reply').click();
+				$('.modalInput').overlay().close();
+				$('#credit').text(receiveData.cValue);
+				if(user.provider == 'facebook'){
+					uponSuccessFB();
+				}else{
+					uponSuccessTW()
+				}
+			}
+		});
+	}
+	
+	function uponSuccessTW() {
+		window.open("/auth/twitter",'_blank',"width=250,height=150");
+	}
+	
+	function uponSuccessFB() {
+		window.open("/auth/facebook",'_blank',"width=250,height=150");
+	//	var postprovider = $.ajax({
+	//		type: "GET",
+	//		url: "/auth/facebook"//,
+	//		//data: { chatmate : sendMe }
+	//	});
+	//	postprovider.done(function(data){
+	//		alert(data);
+	//	});
+	}
 	//-----------------------------------
 	//-----------------------------------
 	var contmechatm8 = {};

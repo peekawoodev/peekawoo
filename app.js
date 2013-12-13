@@ -79,6 +79,9 @@ app.get('/process',routes.process);
 app.get('/confirm', routes.confirm);
 app.get('/status', routes.status);
 app.get('/paypalError', routes.paypalError);
+app.get('/auth/facebook',auth,routes.fbauth);
+app.get('/auth/twitter',auth,routes.twauth);
+app.get('/postfbtw',auth,routes.postfbtw);
 //--------------------------
 app.get('/authfb',passport.authenticate('facebook'));
 app.get('/authtw',passport.authenticate('twitter'));

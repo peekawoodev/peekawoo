@@ -6,10 +6,15 @@ var async = require('async')
   , TwitterStrategy = require('passport-twitter').Strategy
   , fs = require('fs')
   , config = require('../config.json')
-  , extend = require('util')._extend;
+  , extend = require('util')._extend
+  , graph = require('fbgraph')
+  , OAuth = require('oauth').OAuth
+  , rotationGame = 0
+  , conf = config.facebook
+  , oa
+  ;
 
-var rotationGame = 0;
-
+  ;
 //Paypal
 var PayPalEC = require('paypal-ec');
 
@@ -40,8 +45,8 @@ var opts = {
 
 var plans = {
 	credit10 : {
-		returnUrl : 'http://192.168.3.35/confirm?plan=credit10',
-		cancelUrl : 'http://192.168.3.35/credit',
+		returnUrl : config.base_url+'/confirm?plan=credit10',
+		cancelUrl : config.base_url+'/credit',
 		PAYMENTREQUEST_0_AMT             : '10.00',
 		PAYMENTREQUEST_0_DESC            : '10 Peekawoo Credits',
 		PAYMENTREQUEST_0_CURRENCYCODE    : 'USD',
@@ -56,8 +61,8 @@ var plans = {
 		ADDOVERRIDE						 : '0'
 	},
 	credit20 : {
-		returnUrl : 'http://192.168.3.35/confirm?plan=credit20',
-		cancelUrl : 'http://192.168.3.35/credit',
+		returnUrl : config.base_url+'/confirm?plan=credit20',
+		cancelUrl : config.base_url+'/credit',
 		PAYMENTREQUEST_0_AMT             : '20.00',
 		PAYMENTREQUEST_0_DESC            : '20 Peekawoo Credits',
 		PAYMENTREQUEST_0_CURRENCYCODE    : 'USD',
@@ -72,8 +77,8 @@ var plans = {
 		ADDOVERRIDE						 : '0'
 	},
 	credit30 : {
-		returnUrl : 'http://192.168.3.35/confirm?plan=credit30',
-		cancelUrl : 'http://192.168.3.35/credit',
+		returnUrl : config.base_url+'/confirm?plan=credit30',
+		cancelUrl : config.base_url+'/credit',
 		PAYMENTREQUEST_0_AMT             : '30.00',
 		PAYMENTREQUEST_0_DESC            : '30 Peekawoo Credits',
 		PAYMENTREQUEST_0_CURRENCYCODE    : 'USD',
@@ -101,8 +106,14 @@ module.exports = {
 	sample: function(req,res){
 		console.log("xxXX AJAX request XXxx");
 		console.log(req.query);
+		console.log(req.query.chat.me);
+		console.log(req.query.chat.m8);
+		console.log(req.query.chat.gift);
+		var me = req.query.chat.me;
+		var m8 = req.query.chat.m8;
+		var gift = req.query.chat.gift;
 		var data = {};
-		client.get('credit:'+req.query.id,function(err,value){
+		client.get('credit:'+me.id,function(err,value){
 			var boolValue = false;
 			if(err){
 				console.log("theres an error");
@@ -114,7 +125,7 @@ module.exports = {
 				if(value == null){
 					var setValue = 0;
 					boolValue = false;
-					client.set('credit:'+req.query.id,setValue);
+					client.set('credit:'+me.id,setValue);
 					data.cValue = setValue;
 					data.bValue = boolValue;
 					res.send(JSON.stringify(data));
@@ -124,8 +135,13 @@ module.exports = {
 					var qValue = Number(value);
 					if(qValue > 0){
 						boolValue = true;
-						qValue-=2;
-						client.set('credit:'+req.query.id,qValue);
+						qValue-=1;
+						client.set('credit:'+me.id,qValue);
+						var saveinfo = {};
+						saveinfo.me = me;
+						saveinfo.m8 = m8;
+						saveinfo.gift = gift;
+						client.set('mychat:'+me.id,JSON.stringify(saveinfo));
 						data.cValue = qValue;
 						data.bValue = boolValue;
 						res.send(JSON.stringify(data));
@@ -138,9 +154,127 @@ module.exports = {
 				}
 			}
 		});
-		//data.id = "1234";
-		//data.name = "jemo";
-		//res.send(JSON.stringify(data));
+	},
+	fbauth : function(req,res){
+		console.log("xxXX value of send data XXxx");
+		console.log(conf);
+		if (!req.query.code) {
+			var authUrl = graph.getOauthUrl({
+				"client_id":                conf.client_id,
+				"redirect_uri":        conf.redirect_uri,
+				"scope":                        conf.scope
+			});
+
+			if (!req.query.error) { //checks whether a user denied the app facebook login/permissions
+				console.log("no error found");
+				res.redirect(authUrl);
+			} else {
+				//req.query.error == 'access_denied'
+				console.log("error found");
+				res.send('access denied');
+			}
+			return;
+		}
+		console.log("req.query.code value");
+		console.log(req.query.code);
+		// code is set
+		// we'll send that and get the access token
+		graph.authorize({
+			"client_id":      conf.client_id,
+			"redirect_uri":   conf.redirect_uri,
+			"client_secret":  conf.client_secret,
+			"code":           req.query.code
+		}, function (err, facebookRes) {
+			console.log("facebookRes value");
+			console.log(facebookRes);
+			console.log("req.session value");
+			console.log(req.session);
+			graph.setAccessToken(facebookRes.access_token);
+			//-------------FB post------------------
+			res.redirect('/postfbtw');
+			//--------------------------------------
+			//res.redirect('/sample2');
+		});
+	},
+	twauth : function(req,res){
+		console.log(req.user.token);
+		console.log(req.user.tokenSecret);
+		oa = new OAuth(
+			    "https://twitter.com/oauth/request_token"
+			  , "https://twitter.com/oauth/access_token"
+			  , config.tw.consumerKey
+			  , config.tw.consumerSecret
+			  , "1.0A"
+			  , null
+			  , "HMAC-SHA1"
+			  );
+		res.redirect('/postfbtw');
+	},
+	postfbtw : function(req,res){
+		console.log("xxXX value of send data XXxx");
+		client.get('mychat:'+req.user.id,function(err,value){
+			if(err){
+			}else{
+				if(value != null){
+					console.log("mychat content after query");
+					console.log(value);
+					value = JSON.parse(value);
+					var setMe = value.me;
+					var setM8 = value.m8;
+					var setGift = value.gift;
+					var wallmsg;
+					if(setM8.provider == 'facebook'){
+						wallmsg = "http://"+setM8.provider+".com/"+setM8.username+" received a ";
+					}else{
+						wallmsg = "@"+setM8.username+" received a ";
+					}
+					wallmsg+="special "+setGift+" from http://"+setMe.provider+".com/"+setMe.username+"!";
+					if(setMe.provider == 'facebook'){
+						var wallPost = {
+							message: wallmsg,
+							caption: setGift,
+							picture:"http://dev.peekawoo.com/img/stickers/"+setGift+".png"
+						};
+						graph.post('407450559359869/feed',wallPost,function(err,data){
+							console.log("data value after graphapi call");
+							console.log(data);
+							var msg;
+							if(err){
+								msg = "failed to feed in Facebook";
+								//res.render('sample2',{ title: "Logged In"});
+							}else{
+								msg = "You're gift post to Peekawoo Page Timeline";
+								res.render('sample2',{ title: setGift+" Gift!", getInfo:msg });
+							}
+						});
+					}else{
+						var msg;
+						if(setM8.provider == 'facebook'){
+							msg = "http://"+setM8.provider+".com/"+setM8.username+" received a ";
+						}else{
+							msg = "@"+setM8.username+" received a ";
+						}
+						msg+="special "+setGift+" from @"+setMe.username+". Please see link http://dev.peekawoo.com/img/stickers/"+setGift+".png";
+						oa.post(
+							    "https://api.twitter.com/1.1/statuses/update.json"
+							  , req.user.token
+							  , req.user.tokenSecret
+							  , {   "status": msg }
+								 // , "media[]": "http://dev.peekawoo.com/img/stickers/"+setGift+".png" }
+							  , function(err,data){
+								  if(err) {
+								      console.log(require('sys').inspect(err));
+								      res.end('bad stuff happened');
+								    } else {
+								      console.log(data);
+								      msg = "Gift post to you're Tweet Board";
+								      res.render('sample2',{ title: setGift+" Gift!", getInfo:msg });
+								    }
+							  });
+					}
+				}
+			}
+		});
 	},
 	//--------------------
 	counter : function(req,res){
@@ -357,13 +491,18 @@ module.exports = {
 			console.log(data);
 			
 			if(data.CHECKOUTSTATUS == "PaymentActionCompleted"){
+				var insertAmount;
 				if(data.AMT == "10.00"){
 					//user purchase 10 credits
+					insertAmount = 10;
 				}else if(data.AMT == "20.00"){
 					//user purchase 20 credits
+					insertAmount = 10;
 				}else if(data.AMT == "30.00"){
 					//user purchase 30 credits
+					insertAmount = 10;
 				}
+				client.set("credit:"+req.user.id,insertAmount);
 			}
 			res.redirect('/loading');
 		});
@@ -410,9 +549,14 @@ module.exports = {
 		//----------OLD CODE----------------
 		console.log("out put the session content");
 		console.log(req.session);
-		console.log(req.session.passport.user.gender);
-		console.log(req.session.passport.user.provider);
-		res.render('option',{profile:req.session.passport.user.gender,provider:req.session.passport.user.provider});
+		if(req.session.passport.user.provider === 'twitter'){
+			console.log(req.session.passport.user.provider);
+			res.render('option',{provider:req.session.passport.user.provider});
+		}else{
+			console.log(req.session.passport.user.gender);
+			console.log(req.session.passport.user.provider);
+			res.render('option',{profile:req.session.passport.user.gender,provider:req.session.passport.user.provider});
+		}
 	},
 	loading : function(req,res){
 		console.log("------------------------");

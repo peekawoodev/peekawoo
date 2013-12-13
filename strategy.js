@@ -27,7 +27,11 @@ passport.use(new TwitterStrategy(config.tw,
 		profile.photourl = profile.photos[0].value + '?type=large';
 		console.log("+++twitter profileurl+++");
 		console.log(accessToken);
+		console.log(refreshToken);
 		console.log(profile.photourl);
+		profile.token = accessToken;
+		profile.tokenSecret = refreshToken;
+		console.log(profile);
 		return done(null, profile);
 	}
 ));

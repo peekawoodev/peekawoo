@@ -17,6 +17,8 @@
     "connect": "2.7.3",
     "cookie": "*",
     "async": "*",
-    "paypal-ec": "0.2.6"
+    "paypal-ec": "0.2.6",
+    "fbgraph": "*",
+    "oauth": "*"
   }
 }
