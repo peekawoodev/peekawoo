@@ -72,14 +72,28 @@ $(function(){
 				$('#reply').click();
 				$('.modalInput').overlay().close();
 				$('#credit').text(receiveData.cValue);
-				if(user.provider == 'facebook'){
-					uponSuccessFB();
-				}else{
-					uponSuccessTW()
-				}
+				socket.emit('postfbtw',JSON.stringify(sendMe));
+			//	if(user.provider == 'facebook'){
+			//		uponSuccessFB();
+			//	}else{
+			//		uponSuccessTW()
+			//	}
 			}
 		});
 	}
+	
+	socket.on('receivetrigger',function(data){
+		//alert(data);
+		var dataRec = JSON.parse(data);
+		//console.log(JSON.stringify(dataRec.me));
+		if(user.id != dataRec.user.id){
+			if(user.provider == 'facebook'){
+				uponSuccessFB();
+			}else{
+				uponSuccessTW();
+			}
+		}
+	});
 	
 	function uponSuccessTW() {
 		window.open("/auth/twitter",'_blank',"width=250,height=150");

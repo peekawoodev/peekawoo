@@ -2,18 +2,18 @@
  "fb" : {
     "clientID": "584276618297699",
     "clientSecret": "40f90b6491ba942d3276b20a935bf505",
-    "callbackURL": "http://192.168.1.7/authfb/callback"
+    "callbackURL": "http://192.168.1.2/authfb/callback"
  },
  "tw" : {
     "consumerKey": "sV6IIsEuAgtlZhrCOcvrA",
     "consumerSecret": "8W7u7SUWFPCAqk2bQoIe8SK9Uo9xWIfKYRwtJlnJcM",
-    "callbackURL": "http://192.168.1.7/authtw/callback"
+    "callbackURL": "http://192.168.1.2/authtw/callback"
  },
- "base_url" : "http://192.168.1.7",
+ "base_url" : "http://192.168.1.2",
  "facebook" : {
-    "client_id": "507412666024792",
-    "client_secret": "3bd5cb26507224b8705be02a9ad3b71e",
+    "client_id": "681046865273367",
+    "client_secret": "82108fd43b848f783b67ae611c96eb24",
     "scope": "email, user_about_me, user_birthday, user_location, publish_stream, read_stream, friends_location, publish_actions",
-    "redirect_uri": "http://192.168.1.7/auth/facebook"
+    "redirect_uri": "http://192.168.1.2/auth/facebook"
  }
 }

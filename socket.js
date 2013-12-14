@@ -194,6 +194,17 @@ app.io.sockets.on('connection',function(socket){
 		app.io.room(req.data.room).broadcast('roomtopic',topic[Math.floor(Math.random() * topic.length)]);
 	});
 	
+	app.io.route('postfbtw',function(req){
+		var users = req.data;
+		users = JSON.parse(users);
+		console.log("xxXX display users info via chat credit XXxx");
+		console.log(users);
+		var forSend = {};
+		forSend.user = users.me;
+		forSend.gift = users.gift;
+		req.io.room(getRoom(req)).broadcast('receivetrigger',JSON.stringify(forSend));
+	});
+	
 	app.io.route('timer',function(req){
 		console.log("server current timer");
 		console.log(countGlobal);

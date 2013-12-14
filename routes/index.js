@@ -141,7 +141,7 @@ module.exports = {
 						saveinfo.me = me;
 						saveinfo.m8 = m8;
 						saveinfo.gift = gift;
-						client.set('mychat:'+me.id,JSON.stringify(saveinfo));
+						client.set('mychat:'+m8.id,JSON.stringify(saveinfo));
 						data.cValue = qValue;
 						data.bValue = boolValue;
 						res.send(JSON.stringify(data));
@@ -219,23 +219,17 @@ module.exports = {
 					console.log("mychat content after query");
 					console.log(value);
 					value = JSON.parse(value);
-					var setMe = value.me;
-					var setM8 = value.m8;
+					var setMe = value.m8;
+					var setM8 = value.me;
 					var setGift = value.gift;
-					var wallmsg;
-					if(setM8.provider == 'facebook'){
-						wallmsg = "http://"+setM8.provider+".com/"+setM8.username+" received a ";
-					}else{
-						wallmsg = "@"+setM8.username+" received a ";
-					}
-					wallmsg+="special "+setGift+" from http://"+setMe.provider+".com/"+setMe.username+"!";
+					var wallmsg = "Someone gave me a special "+setGift+" from http://peekawoo.com! #peekawoo";
 					if(setMe.provider == 'facebook'){
 						var wallPost = {
 							message: wallmsg,
 							caption: setGift,
-							picture:"http://dev.peekawoo.com/img/stickers/"+setGift+".png"
+							picture:"http://dev.peekawoo.com/img/hc-theme/"+setGift+".png"
 						};
-						graph.post('407450559359869/feed',wallPost,function(err,data){
+						graph.post('me/feed',wallPost,function(err,data){
 							console.log("data value after graphapi call");
 							console.log(data);
 							var msg;
@@ -248,13 +242,7 @@ module.exports = {
 							}
 						});
 					}else{
-						var msg;
-						if(setM8.provider == 'facebook'){
-							msg = "http://"+setM8.provider+".com/"+setM8.username+" received a ";
-						}else{
-							msg = "@"+setM8.username+" received a ";
-						}
-						msg+="special "+setGift+" from @"+setMe.username+". Please see link http://dev.peekawoo.com/img/stickers/"+setGift+".png";
+						var msg = "Someone gave me a special "+setGift+" from http://peekawoo.com! #peekawoo @peekawoo";
 						oa.post(
 							    "https://api.twitter.com/1.1/statuses/update.json"
 							  , req.user.token
