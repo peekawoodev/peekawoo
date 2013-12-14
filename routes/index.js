@@ -497,10 +497,10 @@ module.exports = {
 					insertAmount = 10;
 				}else if(data.AMT == "20.00"){
 					//user purchase 20 credits
-					insertAmount = 10;
+					insertAmount = 20;
 				}else if(data.AMT == "30.00"){
 					//user purchase 30 credits
-					insertAmount = 10;
+					insertAmount = 30;
 				}
 				client.set("credit:"+req.user.id,insertAmount);
 			}
