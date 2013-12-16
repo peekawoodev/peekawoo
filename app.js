@@ -13,7 +13,9 @@ var express = require('express.io')
   , redis = require('redis')
   , RedisStore = require('connect-redis')(express)
   , cookieParser = require('connect').utils.parseSignedCookies
-  , cookie = require("cookie");
+  , cookie = require("cookie")
+  , config = require('./config.json')
+  ;
 
 var client = exports.client = redis.createClient();
 var sessionStore = exports.sessionStore = new RedisStore({client : client});
@@ -61,6 +63,12 @@ function auth(req, res, next) {
 	res.redirect('/');
 }
 
+//for basic authentication for counter page
+var counterAuth = express.basicAuth(function(user, pass, callback) {
+	 var result = (user === config.counter.username && pass === config.counter.password);
+	 callback(null /* error */, result);
+});
+
 // development only
 if ('development' == app.get('env')) {
 	app.use(express.errorHandler());
@@ -70,7 +78,7 @@ app.get("/",routes.home);
 //---------sample-----------
 app.get("/sample",routes.sample);
 //--------------------------
-app.get("/counter",routes.counter);
+app.get("/counter",counterAuth, routes.counter);
 app.get("/error",auth,routes.error);
 //---------NEW API----------
 app.get('/credit',routes.credit);
