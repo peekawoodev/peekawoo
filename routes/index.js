@@ -461,12 +461,12 @@ module.exports = {
 		var params = extend({}, plans[req.body.plan]);
 		
 		ec.set(params, function (err, data){
-			if (err) return next(err);//must be another page saying error on paying
-			
 			console.log("Returned by setExpress data:");
 			console.log(data);
 			
-			res.redirect(data.PAYMENTURL);
+			if (err) res.redirect('/paypalError');//return next(err);//must be another page saying error on paying
+			else
+				res.redirect(data.PAYMENTURL);
 		});
 	},
 	confirm: function (req, res, next){
@@ -480,34 +480,35 @@ module.exports = {
 			console.log("Returned by doExpress data:");
 			console.log(data);
 			
-			if (err) return next(err);//must be another page saying error on paying
-			
-			res.redirect('/status?token=' + params.TOKEN);
+			if (err) res.redirect('/paypalError');//return next(err);//must be another page saying error on paying
+			else
+				res.redirect('/status?token=' + params.TOKEN);
 		});			
 	},
 	status: function (req,res) {
 		var token = req.query.token;
 		console.log('User successfully purchased credits!');
 		ec.get_details({token : token}, function (err,data){
-			if(err) return next(err); //must be another page saying error on paying
 			console.log("Returned by getDetails data:");
 			console.log(data);
-			
-			if(data.CHECKOUTSTATUS == "PaymentActionCompleted"){
-				var insertAmount;
-				if(data.AMT == "10.00"){
-					//user purchase 10 credits
-					insertAmount = 10;
-				}else if(data.AMT == "20.00"){
-					//user purchase 20 credits
-					insertAmount = 20;
-				}else if(data.AMT == "30.00"){
-					//user purchase 30 credits
-					insertAmount = 30;
+			if(err) res.redirect('/paypalError');//return next(err); //must be another page saying error on paying
+			else{	
+				if(data.CHECKOUTSTATUS == "PaymentActionCompleted"){
+					var insertAmount;
+					if(data.AMT == "10.00"){
+						//user purchase 10 credits
+						insertAmount = 10;
+					}else if(data.AMT == "20.00"){
+						//user purchase 20 credits
+						insertAmount = 20;
+					}else if(data.AMT == "30.00"){
+						//user purchase 30 credits
+						insertAmount = 30;
+					}
+					client.set("credit:"+req.user.id,insertAmount);
 				}
-				client.set("credit:"+req.user.id,insertAmount);
+				res.redirect('/loading');
 			}
-			res.redirect('/loading');
 		});
 	},
 	paypalError: function(req, res) {
