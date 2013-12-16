@@ -240,7 +240,9 @@ module.exports = {
 					if(setMe.provider == 'facebook'){
 						var wallPost = {
 							message: wallmsg,
-							caption: " "+capMsg,
+							caption: setGift,
+							description: capMsg,
+							link: "peekawoo.com",
 							picture:"http://dev.peekawoo.com/img/hc-theme/"+setGift+".png"
 						};
 						graph.post('me/feed',wallPost,function(err,data){
