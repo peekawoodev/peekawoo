@@ -222,11 +222,25 @@ module.exports = {
 					var setMe = value.m8;
 					var setM8 = value.me;
 					var setGift = value.gift;
+					var capMsg;
+					switch (setGift){
+						case "rose" :		capMsg = "I think you're amazing";
+											break;
+						case "cupcake" : 	capMsg = "I think you're cute";
+											break;
+						case "cookies" :	capMsg = "I think you're cute";
+											break;
+						case "milktea" :	capMsg = "I think you're sweet";
+											break;
+						case "date" :		capMsg = "Please go out with me";
+											break;
+						default : 			capMsg = " ";
+					}
 					var wallmsg = "Someone gave me a special "+setGift+" from http://peekawoo.com! #peekawoo";
 					if(setMe.provider == 'facebook'){
 						var wallPost = {
 							message: wallmsg,
-							caption: setGift,
+							caption: " "+capMsg,
 							picture:"http://dev.peekawoo.com/img/hc-theme/"+setGift+".png"
 						};
 						graph.post('me/feed',wallPost,function(err,data){
