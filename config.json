@@ -19,5 +19,17 @@
  "counter" : {
  	"username" : "peekawoodev",
  	"password" : "peekawoodev"
+ },
+ "paypal" : { 
+ 	"username" : "valenice.balace_api1.gmail.com",
+ 	"password" : "H76XXJHTSWZ9HKWR",
+ 	"signature" : "ACUe-E7Hjxmeel8FjYAtjnx-yjHAAjzA-F7dbe8uq-Vb1h5UpDRp93nU",
+ 	"sandbox" : false
+ },
+ "paypal_sandbox" : {
+  	"username" : "valenice.balace-facilitator_api1.gmail.com",
+ 	"password" : "1386296783",
+ 	"signature" : "A-SP7JVyevmeLU.JriRo2VJT1iiJA1RKOLWgYVdGQBh7PG2dzSFDRbQb",
+ 	"sandbox" : true
  }
 }

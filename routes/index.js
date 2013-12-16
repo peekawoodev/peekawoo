@@ -18,30 +18,29 @@ var async = require('async')
 //Paypal
 var PayPalEC = require('paypal-ec');
 
-/*Live Account - but still not available*/
-/*
+/*Use this cred for sandbox paypal credential account*/
 var cred = {
-	username : 'valenice.balace_api1.gmail.com',
-	password : 'H76XXJHTSWZ9HKWR',
-	signature : 'ACUe-E7Hjxmeel8FjYAtjnx-yjHAAjzA-F7dbe8uq-Vb1h5UpDRp93nU'
-};*/
-/*Sandbox Account*/
-var cred = {
-		  username  : 'valenice.balace-facilitator_api1.gmail.com',
-		  password  : '1386296783',
-		  signature : 'A-SP7JVyevmeLU.JriRo2VJT1iiJA1RKOLWgYVdGQBh7PG2dzSFDRbQb'
+		  username  : config.paypal_sandbox.username,
+		  password  : config.paypal_sandbox.password,
+		  signature : config.paypal_sandbox.signature
 };
-/*Another Sandbox Account*/
-/*var cred = {
-		  username  : 'peekawoo_api1.peekawoo.com',
-		  password  : '1386915530',
-		  signature : 'ACUe-E7Hjxmeel8FjYAtjnx-yjHAAKLTqd.tnbmmkMI3OvzqEarcfOWG'
-};*/
-
 var opts = {
-	sandbox : true, /*Must change to false if going live*/
-	version : '109.0'
+		sandbox : config.paypal_sandbox.sandbox, 
+		version : '109.0'
 };
+/*----------end of sandbox paypal credential account-----------*/
+
+/*-------------For live paypal credential account--------------*/
+/*var cred = {
+		  username  : config.paypal.username,
+		  password  : config.paypal.password,
+		  signature : config.paypal.signature
+};
+var opts = {
+		sandbox : config.paypal.sanbox, 
+		version : '109.0'
+};*/
+/*----------end of live paypal account---------------*/
 
 var plans = {
 	credit10 : {
