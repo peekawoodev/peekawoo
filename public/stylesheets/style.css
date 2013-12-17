@@ -2344,3 +2344,21 @@ body.option-page {
     line-height: normal;
     vertical-align: middle;
 }
+
+#noticeBox {
+    background-color: #ED8453;
+    border: 3px solid #66B3CF;
+    border-radius: 8px;
+    display: none;
+    font-size: 16px;
+    font-weight: bold;
+    height: 70px;
+    left: 110px;
+    margin: 0 auto;
+    padding: 8px;
+    position: absolute;
+    text-align: center;
+    top: 560px;
+    vertical-align: middle;
+    width: 225px;
+}

@@ -179,7 +179,6 @@ module.exports = {
 				"redirect_uri": conf.redirect_uri,
 				"scope":        conf.scope
 			});
-
 			if (!req.query.error) { //checks whether a user denied the app facebook login/permissions
 				console.log("no error found");
 				res.redirect(authUrl);
@@ -279,13 +278,13 @@ module.exports = {
 							changeText2 = ['gave','sent'];
 							msg = "Someone "+changeText2[Math.floor(Math.random() * changeText2.length)]+" me a ";
 							msg+= changeText[Math.floor(Math.random() * changeText.length)]+" ";
-							msg+= setGift+" from http://peekawoo.com! #peekawoo @peekawoo";
+							msg+= setGift+" from http://peekawoo.com! #peekawoo @peekawooapp";
 						}else if(setGift == 'date'){
 							changeText = ['ask','invite'];
-							msg = "Someone "+changeText[Math.floor(Math.random() * changeText.length)]+" me on a "+setGift+" from http://peekawoo.com! #peekawoo @peekawoo";
+							msg = "Someone "+changeText[Math.floor(Math.random() * changeText.length)]+" me on a "+setGift+" from http://peekawoo.com! #peekawoo @peekawooapp";
 						}else{
 							changeText = ['sweet','mouth-watering','yummy','delicious','tasty','sugary'];
-							msg = "Someone gave me a "+changeText[Math.floor(Math.random() * changeText.length)]+" "+setGift+" from http://peekawoo.com! #peekawoo @peekawoo";
+							msg = "Someone gave me a "+changeText[Math.floor(Math.random() * changeText.length)]+" "+setGift+" from http://peekawoo.com! #peekawoo @peekawooapp";
 						}
 						oa.post(
 							  "https://api.twitter.com/1.1/statuses/update.json"
@@ -296,7 +295,7 @@ module.exports = {
 							, function(err,data){
 								if(err) {
 									console.log(require('sys').inspect(err));
-									res.end('bad stuff happened');
+									res.end('Duplicate message post!');
 								} else {
 									console.log(data);
 									msg = "Gift post to you're Tweet Board";

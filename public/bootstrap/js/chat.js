@@ -104,27 +104,37 @@ $(function(){
 		//console.log(JSON.stringify(dataRec.me));
 		if(user.id != dataRec.user.id){
 			if(user.provider == 'facebook'){
+				$('#noticeText').text("Allow pop-up to auto post in your Timeline");
 				uponSuccessFB();
 			}else{
+				$('#noticeText').text("Allow pop-up to auto post in your Tweet Board");
 				uponSuccessTW();
 			}
+			$('#noticeBox').fadeIn("slow");
+			setTimeout(function(){
+				$('#noticeBox').fadeOut("slow");
+			},10000);
 		}
 	});
 	
 	function uponSuccessTW() {
-		window.open("/auth/twitter",'_blank',"width=250,height=150");
+		var winUrl = window.location.host;
+		$.ajax({
+			url : winUrl,
+			success: function(){window.open("/auth/twitter","_blank","width=250,height=150");},
+			async : false
+		});
+		//window.open("/auth/twitter",'_blank',"width=250,height=150");
 	}
 	
 	function uponSuccessFB() {
-		window.open("/auth/facebook",'_blank',"width=250,height=150");
-	//	var postprovider = $.ajax({
-	//		type: "GET",
-	//		url: "/auth/facebook"//,
-	//		//data: { chatmate : sendMe }
-	//	});
-	//	postprovider.done(function(data){
-	//		alert(data);
-	//	});
+		var winUrl = window.location.host;
+		$.ajax({
+			url : winUrl,
+			success: function(){window.open("/auth/facebook","_blank","width=250,height=150");},
+			async : false
+		});
+		//window.open("/auth/facebook",'_blank',"width=250,height=150");
 	}
 	//-----------------------------------
 	//-----------------------------------
