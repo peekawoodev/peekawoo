@@ -268,13 +268,25 @@ module.exports = {
 								msg = "failed to feed in Facebook";
 								//res.render('sample2',{ title: "Logged In"});
 							}else{
-								msg = "You're gift post to Peekawoo Page Timeline";
+								msg = "You're gift post to your Timeline";
 								res.render('sample2',{ title: setGift+" Gift!", getInfo:msg });
 							}
 						});
 					}else{
-						var changeText = ['special','scenting','perfuming','blossoming','beautifying','dazzling','enchanting','blooming'];
-						var msg = "Someone gave me a "+changeText[Math.floor(Math.random() * changeText.length)]+" "+setGift+" from http://peekawoo.com! #peekawoo @peekawoo";
+						var changeText,changeText2,msg;
+						if(setGift == 'rose'){
+							changeText = ['special','scenting','perfuming','blossoming','beautifying','dazzling','enchanting','blooming'];
+							changeText2 = ['gave','sent'];
+							msg = "Someone "+changeText2[Math.floor(Math.random() * changeText2.length)]+" me a ";
+							msg+= changeText[Math.floor(Math.random() * changeText.length)]+" ";
+							msg+= setGift+" from http://peekawoo.com! #peekawoo @peekawoo";
+						}else if(setGift == 'date'){
+							changeText = ['ask','invite'];
+							msg = "Someone "+changeText[Math.floor(Math.random() * changeText.length)]+" me on a "+setGift+" from http://peekawoo.com! #peekawoo @peekawoo";
+						}else{
+							changeText = ['sweet','mouth-watering','yummy','delicious','tasty','sugary'];
+							msg = "Someone gave me a "+changeText[Math.floor(Math.random() * changeText.length)]+" "+setGift+" from http://peekawoo.com! #peekawoo @peekawoo";
+						}
 						oa.post(
 							  "https://api.twitter.com/1.1/statuses/update.json"
 							, req.user.token
