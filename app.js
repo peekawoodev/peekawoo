@@ -76,7 +76,8 @@ if ('development' == app.get('env')) {
 //location of passport content before transferring the codes to module
 app.get("/",routes.home);
 //---------sample-----------
-app.get("/sample",routes.sample);
+app.get("/withcredit",routes.withCredit);
+app.get("/withfree",routes.withFree);
 //--------------------------
 app.get("/counter",counterAuth, routes.counter);
 app.get("/error",auth,routes.error);

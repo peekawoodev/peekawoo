@@ -102,7 +102,7 @@ module.exports = {
 		//res.render('option');
 	},
 	//--------------sample
-	sample: function(req,res){
+	withCredit: function(req,res){
 		console.log("xxXX AJAX request XXxx");
 		console.log(req.query);
 		console.log(req.query.chat.me);
@@ -154,14 +154,30 @@ module.exports = {
 			}
 		});
 	},
+	withFree : function(req,res){
+		console.log("xxXX AJAX request XXxx");
+		console.log(req.query);
+		console.log(req.query.chat.me);
+		console.log(req.query.chat.m8);
+		console.log(req.query.chat.gift);
+		var me = req.query.chat.me;
+		var m8 = req.query.chat.m8;
+		var gift = req.query.chat.gift;
+		var saveinfo = {};
+		saveinfo.me = me;
+		saveinfo.m8 = m8;
+		saveinfo.gift = gift;
+		client.set('mychat:'+m8.id,JSON.stringify(saveinfo));
+		res.send(JSON.stringify(saveinfo));
+	},
 	fbauth : function(req,res){
 		console.log("xxXX value of send data XXxx");
 		console.log(conf);
 		if (!req.query.code) {
 			var authUrl = graph.getOauthUrl({
-				"client_id":                conf.client_id,
-				"redirect_uri":        conf.redirect_uri,
-				"scope":                        conf.scope
+				"client_id":    conf.client_id,
+				"redirect_uri": conf.redirect_uri,
+				"scope":        conf.scope
 			});
 
 			if (!req.query.error) { //checks whether a user denied the app facebook login/permissions
@@ -199,14 +215,14 @@ module.exports = {
 		console.log(req.user.token);
 		console.log(req.user.tokenSecret);
 		oa = new OAuth(
-			    "https://twitter.com/oauth/request_token"
-			  , "https://twitter.com/oauth/access_token"
-			  , config.tw.consumerKey
-			  , config.tw.consumerSecret
-			  , "1.0A"
-			  , null
-			  , "HMAC-SHA1"
-			  );
+			  "https://twitter.com/oauth/request_token"
+			, "https://twitter.com/oauth/access_token"
+			, config.tw.consumerKey
+			, config.tw.consumerSecret
+			, "1.0A"
+			, null
+			, "HMAC-SHA1"
+			);
 		res.redirect('/postfbtw');
 	},
 	postfbtw : function(req,res){
@@ -257,23 +273,25 @@ module.exports = {
 							}
 						});
 					}else{
-						var msg = "Someone gave me a special "+setGift+" from http://peekawoo.com! #peekawoo @peekawoo";
+						var changeText = ['special','scenting','perfuming','blossoming','beautifying','dazzling','enchanting','blooming'];
+						var msg = "Someone gave me a "+changeText[Math.floor(Math.random() * changeText.length)]+" "+setGift+" from http://peekawoo.com! #peekawoo @peekawoo";
 						oa.post(
-							    "https://api.twitter.com/1.1/statuses/update.json"
-							  , req.user.token
-							  , req.user.tokenSecret
-							  , {   "status": msg }
-								 // , "media[]": "http://dev.peekawoo.com/img/stickers/"+setGift+".png" }
-							  , function(err,data){
-								  if(err) {
-								      console.log(require('sys').inspect(err));
-								      res.end('bad stuff happened');
-								    } else {
-								      console.log(data);
-								      msg = "Gift post to you're Tweet Board";
-								      res.render('sample2',{ title: setGift+" Gift!", getInfo:msg });
-								    }
-							  });
+							  "https://api.twitter.com/1.1/statuses/update.json"
+							, req.user.token
+							, req.user.tokenSecret
+							, {   "status": msg }
+							// , "media[]": "http://dev.peekawoo.com/img/stickers/"+setGift+".png" }
+							, function(err,data){
+								if(err) {
+									console.log(require('sys').inspect(err));
+									res.end('bad stuff happened');
+								} else {
+									console.log(data);
+									msg = "Gift post to you're Tweet Board";
+									res.render('sample2',{ title: setGift+" Gift!", getInfo:msg });
+								}
+							}
+						);
 					}
 				}
 			}

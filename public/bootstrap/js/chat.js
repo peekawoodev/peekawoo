@@ -41,9 +41,25 @@ $(function(){
 		onCredit();
 	});
 	function showNoPay() {
-		$('#message').val('<img src="/img/hc-theme/' + giftItem + '.png" class="chatGift">');
-		$('#reply').click();
-		$('.modalInput').overlay().close();
+		var sendMe = {};
+		sendMe.me = user;
+		if(user.id == my_chatm8.male.id){
+			sendMe.m8 = my_chatm8.female;
+		}else{
+			sendMe.m8 = my_chatm8.male;
+		}
+		sendMe.gift = giftItem;
+		var request = $.ajax({
+			type: "GET",
+			url: "/withfree",
+			data: { chat : sendMe }
+		});
+		request.done(function(data){
+			$('#message').val('<img src="/img/hc-theme/' + giftItem + '.png" class="chatGift">');
+			$('#reply').click();
+			$('.modalInput').overlay().close();
+			socket.emit('postfbtw',JSON.stringify(sendMe));
+		});
 	}
 	function onCredit() {
 		//must deduct credit here
@@ -59,7 +75,7 @@ $(function(){
 		sendMe.gift = giftItem;
 		var request = $.ajax({
 			type: "GET",
-			url: "/sample",
+			url: "/withcredit",
 			data: { chat : sendMe }
 		});
 		request.done(function(data){
