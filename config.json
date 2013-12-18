@@ -5,11 +5,12 @@
     "callbackURL": "http://192.168.3.49/authfb/callback"
  },
  "tw" : {
-    "consumerKey": "sV6IIsEuAgtlZhrCOcvrA",
-    "consumerSecret": "8W7u7SUWFPCAqk2bQoIe8SK9Uo9xWIfKYRwtJlnJcM",
+    "consumerKey": "HTG53tdGo6U60En5JeGQ",
+    "consumerSecret": "IZXuqiH6aqpYtxmD8cr1V4vTc9X7hh4gFiktKRrRU",
     "callbackURL": "http://192.168.3.49/authtw/callback"
  },
  "base_url" : "http://192.168.3.49",
+ "main_url" : "http://192.168.3.49",
  "facebook" : {
     "client_id": "681046865273367",
     "client_secret": "82108fd43b848f783b67ae611c96eb24",

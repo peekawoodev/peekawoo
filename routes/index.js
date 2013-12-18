@@ -11,6 +11,8 @@ var async = require('async')
   , OAuth = require('oauth').OAuth
   , rotationGame = 0
   , conf = config.facebook
+  , main = config.main_url
+  , base = config.base_url
   , oa
   ;
 
@@ -44,8 +46,8 @@ var opts = {
 
 var plans = {
 	credit10 : {
-		returnUrl : config.base_url+'/confirm?plan=credit10',
-		cancelUrl : config.base_url+'/credit',
+		returnUrl : config.main_url+'/confirm?plan=credit10',
+		cancelUrl : config.main_url+'/credit',
 		PAYMENTREQUEST_0_AMT             : '10.00',
 		PAYMENTREQUEST_0_DESC            : '10 Peekawoo Credits',
 		PAYMENTREQUEST_0_CURRENCYCODE    : 'USD',
@@ -60,8 +62,8 @@ var plans = {
 		ADDOVERRIDE						 : '0'
 	},
 	credit20 : {
-		returnUrl : config.base_url+'/confirm?plan=credit20',
-		cancelUrl : config.base_url+'/credit',
+		returnUrl : config.main_url+'/confirm?plan=credit20',
+		cancelUrl : config.main_url+'/credit',
 		PAYMENTREQUEST_0_AMT             : '20.00',
 		PAYMENTREQUEST_0_DESC            : '20 Peekawoo Credits',
 		PAYMENTREQUEST_0_CURRENCYCODE    : 'USD',
@@ -76,8 +78,8 @@ var plans = {
 		ADDOVERRIDE						 : '0'
 	},
 	credit30 : {
-		returnUrl : config.base_url+'/confirm?plan=credit30',
-		cancelUrl : config.base_url+'/credit',
+		returnUrl : config.main_url+'/confirm?plan=credit30',
+		cancelUrl : config.main_url+'/credit',
 		PAYMENTREQUEST_0_AMT             : '30.00',
 		PAYMENTREQUEST_0_DESC            : '30 Peekawoo Credits',
 		PAYMENTREQUEST_0_CURRENCYCODE    : 'USD',
@@ -250,14 +252,14 @@ module.exports = {
 											break;
 						default : 			capMsg = " ";
 					}
-					var wallmsg = "Someone gave me a special "+setGift+" from http://peekawoo.com! #peekawoo";
+					var wallmsg = "Someone gave me a special "+setGift+" from "+base+"! #peekawoo";
 					if(setMe.provider == 'facebook'){
 						var wallPost = {
 							message: wallmsg,
 							caption: setGift,
 							description: capMsg,
-							link: "peekawoo.com",
-							picture:"http://dev.peekawoo.com/img/hc-theme/"+setGift+".png"
+							link: base,
+							picture: main+"/img/hc-theme/"+setGift+".png"
 						};
 						graph.post('me/feed',wallPost,function(err,data){
 							console.log("data value after graphapi call");
@@ -278,13 +280,13 @@ module.exports = {
 							changeText2 = ['gave','sent'];
 							msg = "Someone "+changeText2[Math.floor(Math.random() * changeText2.length)]+" me a ";
 							msg+= changeText[Math.floor(Math.random() * changeText.length)]+" ";
-							msg+= setGift+" from http://peekawoo.com! #peekawoo @peekawooapp";
+							msg+= setGift+"! "+main+"/img/hc-theme/"+setGift+".png #peekawoo @peekawooapp";
 						}else if(setGift == 'date'){
 							changeText = ['ask','invite'];
-							msg = "Someone "+changeText[Math.floor(Math.random() * changeText.length)]+" me on a "+setGift+" from http://peekawoo.com! #peekawoo @peekawooapp";
+							msg = "Someone "+changeText[Math.floor(Math.random() * changeText.length)]+" me on a "+setGift+"! "+main+"/img/hc-theme/"+setGift+".png #peekawoo @peekawooapp";
 						}else{
 							changeText = ['sweet','mouth-watering','yummy','delicious','tasty','sugary'];
-							msg = "Someone gave me a "+changeText[Math.floor(Math.random() * changeText.length)]+" "+setGift+" from http://peekawoo.com! #peekawoo @peekawooapp";
+							msg = "Someone gave me a "+changeText[Math.floor(Math.random() * changeText.length)]+" "+setGift+"! "+main+"/img/hc-theme/"+setGift+".png #peekawoo @peekawooapp";
 						}
 						oa.post(
 							  "https://api.twitter.com/1.1/statuses/update.json"
@@ -317,7 +319,7 @@ module.exports = {
 			console.log(countListX);
 			req.logout();
 			var sendurl = {};
-			sendurl.url = config['base_url'];
+			sendurl.url = base;
 			if(countListX.length > 0){
 				console.log("=====baseurl=====");
 				console.log(sendurl);
@@ -601,7 +603,7 @@ module.exports = {
 			}else{
 				console.log("xx================xx");
 				if(data==null){
-					res.redirect(config['base_url']);
+					res.redirect(base);
 				}else{
 					console.log(data);
 					data = JSON.parse(data);
@@ -776,7 +778,7 @@ module.exports = {
 			console.log("+++++UP content+++++");
 			//console.log(finalLikes);
 			var sendurl = {};
-			sendurl.url = config['base_url'];
+			sendurl.url = base;
 			res.render('ranking',{user:up,chatmate:finalLikes,baseurl:JSON.stringify(sendurl)});
 		}
 		client.smembers('visitor:'+user.id,function(err,datas){

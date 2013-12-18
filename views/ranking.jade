@@ -51,10 +51,12 @@ block content
             $('#submit_rating').click(function(){
                 var userme = $('#user1').val();
                 if(userme == 'facebook'){
-                    document.location.href=xurl;
+                    //document.location.href=xurl;
+                    document.location.href='/authfb';
                 }
                 else{
-                    document.location.href=xurl;
+                    //document.location.href=xurl;
+                    document.location.href='authtw';
                 }
             });
             var _gaq = _gaq || [];
