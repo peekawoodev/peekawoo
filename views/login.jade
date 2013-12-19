@@ -1,34 +1,42 @@
 extends layout
 
 block content
-	body.index-bg(oncontextmenu='return false;')
-		#pd1380184526508.pd-embed
-		.head.peekawoo-logo
-		.container
-			iframe(width='499', height='370', src='//www.youtube.com/embed/OvxH_pN8I88', frameborder='0', allowfullscreen='allowfullscreen').desktopframe.hidden-phone
-			.index-form-container
-				h1.text-signin Sign In
-				p.text-signin2 Speed date with random people around the world
-				center
-					button.sb-facebook(onclick="window.location='/authfb'")
-					p.text-signin2 or
-					center
-					button.sb-twitter(onclick="window.location='/authtw'")
-					br
-					hr.hr-line
-					p.text-email Want to be the first to try out our app?
-				.container.login2
-				form(method='get', action='/subscribe2', id='subscribe')
-					center
-						input.email.login-email(type="email", name="inputBox", placeholder="Enter your email here",required='required') 
-					center
-						button.subscribe-button(type='submit',name='input.email')
-		script(type='text/javascript')
-			var _gaq = _gaq || [];
-			_gaq.push(['_setAccount', 'UA-43851834-1']);
-			_gaq.push(['_trackPageview']);
-			(function() {
-				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-			})();
+    body.index-bg(oncontextmenu='return false;')
+        #pd1380184526508.pd-embed
+        .head.peekawoo-logo
+        .container
+            iframe(width='499', height='370', src='//www.youtube.com/embed/OvxH_pN8I88', frameborder='0', allowfullscreen='allowfullscreen').desktopframe.hidden-phone
+            .index-form-container
+                h1.text-signin Sign In
+                p.text-signin2 Speed date with random people around the world
+                center
+                    button.sb-facebook(onclick="window.location='/authfb'")
+                    p.text-signin2 or
+                    center
+                    button.sb-twitter(onclick="window.location='/authtw'")
+                    br
+                    hr.hr-line
+                    p.text-email Want to be the first to try out our app?
+                    .audioplayer(hidden="hidden" id='woowho')
+                        audio(controls='controls')
+                            source(src='/music/buzz.mp3', type='audio/mpeg')
+                .container.login2
+                form(method='get', action='/subscribe2', id='subscribe')
+                    center
+                        input.email.login-email(type="email", name="inputBox", placeholder="Enter your email here",required='required') 
+                    center
+                        button.subscribe-button(type='submit',name='input.email')
+                        button.btn.btn-warning.btn-large(id='buzz' type='button' name='buzz' value='Buzz')
+        script(type='text/javascript')
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-43851834-1']);
+            _gaq.push(['_trackPageview']);
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+            var audioPlayer = document.getElementsByTagName('audio')[0];
+            $('#buzz').click(function(){
+                audioPlayer.play();
+            });

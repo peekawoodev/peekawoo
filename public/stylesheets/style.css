@@ -916,21 +916,7 @@ body {
     top: 13px;
     width: 51%;
 }
-#reply {
-    background-clip: border-box;
-    background-color: rgba(0, 0, 0, 0);
-    background-image: url("/img/hc-theme/send2.png");
-    background-repeat: no-repeat;
-    border-radius: 11px 11px 11px 11px;
-    display: block;
-    float: right;
-    height: 50px;
-    position: relative;
-    right: 81px;
-    top: -30px;
-    width: 91px;
-    background-size:auto auto;
-}
+
 .rate_widget {  
     border: 0px solid #CCCCCC;
     height: 75px;
@@ -2366,4 +2352,33 @@ body.option-page {
 .goback {
 	display: inherit;
 	margin: 0 auto;
+}
+
+#buzzbtn {
+	display: block;
+    float: right;
+    height: 22px; /*50px*/
+    position: absolute;
+    right: 91px;
+    top: -5px; /*-30px*/
+    width: 70px;
+    padding: 0px;
+    vertical-align: middle;
+}
+
+#reply {
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("/img/hc-theme/send2.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    border-radius: 11px 11px 11px 11px;
+    display: block;
+    float: right;
+    height: 40px; /*50px*/
+    position: relative;
+    right: 81px;
+    top: -15px; /*-30px*/
+    width: 91px;
+    background-size:auto auto;
 }

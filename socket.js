@@ -194,6 +194,11 @@ app.io.sockets.on('connection',function(socket){
 		app.io.room(req.data.room).broadcast('roomtopic',topic[Math.floor(Math.random() * topic.length)]);
 	});
 	
+	app.io.route('buzz',function(req){
+		var user = req.data;
+		req.io.room(getRoom(req)).broadcast('receivebuzz',JSON.stringify(user));
+	});
+	
 	app.io.route('postfbtw',function(req){
 		var users = req.data;
 		users = JSON.parse(users);
@@ -1293,7 +1298,7 @@ start_chat = function(vf,vm,vr,cflist,cmlist,crlist,cycle){
 				game_ongoing = false;
 				catchup_user = false;
 				app.io.broadcast('game_stop', true);
-			},123000);
+			},1230000000);
 		},
 	},function(err,result){
 		console.log("++++++++++++++++IT GOES HERE AFTER+++++++++++++++");

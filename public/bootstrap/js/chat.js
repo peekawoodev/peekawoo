@@ -154,9 +154,30 @@ $(function(){
 		contmechatm8 = {user: user,mate:my_chatm8.male};
 	}
 	
+	var audioPlayer = document.getElementById('buzz');
+	audioPlayer.src='/music/buzz.mp3';
+    audioPlayer.load();
+    $('#buzzbtn').click(function(){
+    	audioPlayer.play();
+    	$(" .messagewindow").append("<p style='color:red;margin:0 auto;'><b>BUZZ</b></p>");
+    	socket.emit('buzz',{user:user});
+    });
+	
+    socket.on('receivebuzz',function(data){
+    	var chatmate = JSON.parse(data);
+    	if(user.id != chatmate.id){
+    		audioPlayer.play();
+    		$(" .messagewindow").append("<p style='color:red;margin:0 auto;'><b>BUZZ</b></p>");
+    	}
+    });
+    
 	socket.on('roomtopic',function(data){
 		$(".messagewindow").html("<p class='topic_per_room'><strong>TOPIC: "+data+"</strong></p>");
 	});	
+	
+	function playSound(){
+		document.getElementById('chataudio').play();
+	}
 	
 	socket.on('sendtime',function(data){
 		var seconds = data;
@@ -171,6 +192,7 @@ $(function(){
 			//$('#countdown').html(value,minutes);
 			//$('#countdown1').html(value,remainingSeconds);
 			if(seconds <= 10){
+				playSound();
 				document.getElementById('countdown').style.color = 'red';
 				document.getElementById('countdown1').style.color = 'red';
 			}else{

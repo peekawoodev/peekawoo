@@ -31,8 +31,13 @@ block content
                     center
                         .chatwindow
                             .messagewindow
+                .audioplayer(hidden="hidden" id='woowho')
+                    audio(controls='controls' id='buzz')
+                .audioplayer(hidden="hidden" id='countsound')
+                    audio#chataudio(src='/music/notify.mp3', preload='auto')
                 .chat-text
                     input#message(type='text', name='message')
+                    button#buzzbtn.btn.btn-warning(type='button',name='buzz') Buzz
                     button#reply(type='button',name='reply')
                     input(type='hidden',id='room', value=room.name)
                     input(type='hidden',id='chatm8', value=JSON.stringify(room))
