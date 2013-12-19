@@ -76,18 +76,18 @@ if ('development' == app.get('env')) {
 //location of passport content before transferring the codes to module
 app.get("/",routes.home);
 //---------sample-----------
-app.get("/withcredit",routes.withCredit);
-app.get("/withfree",routes.withFree);
+app.get("/withcredit",auth,routes.withCredit);
+app.get("/withfree",auth,routes.withFree);
 //--------------------------
 app.get("/counter",counterAuth, routes.counter);
 app.get("/error",auth,routes.error);
 //---------NEW API----------
-app.get('/credit',routes.credit);
-app.post('/checkout', routes.checkout);
-app.get('/process',routes.process);
-app.get('/confirm', routes.confirm);
+app.get('/credit',auth,routes.credit);
+app.post('/checkout',auth,routes.checkout);
+app.get('/process',auth,routes.process);
+app.get('/confirm',auth,routes.confirm);
 app.get('/status', routes.status);
-app.get('/paypalError', routes.paypalError);
+app.get('/paypalError',auth,routes.paypalError);
 app.get('/auth/facebook',auth,routes.fbauth);
 app.get('/auth/twitter',auth,routes.twauth);
 app.get('/postfbtw',auth,routes.postfbtw);
@@ -99,7 +99,7 @@ app.get('/authtw/callback',passport.authenticate('twitter', { failureRedirect: '
 app.get('/subscribe2',routes.subscribe);
 app.get('/bookmark',auth,routes.bookmark);
 app.get('/bookmark2',auth,routes.bookmark2);
-app.get('/option',routes.option);
+app.get('/option',auth,routes.option);
 app.get('/loading',auth,routes.loading);
 app.get('/ranking',auth,routes.ranking);
 app.get('/chat/:room',auth,routes.chat);

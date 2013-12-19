@@ -11,3 +11,10 @@ block content
                     button(type="button", onclick="window.open('http://www.twitter.com/peekawooapp','_blank');").subscribe2-image-twitter
                     button(type="button", onclick="window.open('http://www.instagram.com/peekawoo','_blank');").subscribe2-image-instagram
             p.text-subscribe2 "Thank you! Like us on Facebook and follow us on Twitter and Instagram"
+            input.btn.btn-danger.btn-large.goback(id="goback" type="button" onclick="" value="Go back to Login")
+            input(type="hidden",id="baseurl",value=JSON.parse(baseurl))
+        script(type='text/javascript')
+            var url = $('#baseurl').val();
+            $(document).ready(function(){
+                $('#goback').attr('onclick','window.location="'+url+'"')
+            });

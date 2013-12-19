@@ -32,5 +32,10 @@
  	"password" : "1386296783",
  	"signature" : "A-SP7JVyevmeLU.JriRo2VJT1iiJA1RKOLWgYVdGQBh7PG2dzSFDRbQb",
  	"sandbox" : true
+ },
+ "subscribe" : {
+	 "service" : "Gmail",
+	 "user" : "peekawoodev@gmail.com",
+	 "pass" : "peekaw00dev"
  }
 }

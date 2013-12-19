@@ -19,6 +19,7 @@
     "async": "*",
     "paypal-ec": "0.2.6",
     "fbgraph": "*",
-    "oauth": "*"
+    "oauth": "*",
+    "nodemailer": "*"
   }
 }

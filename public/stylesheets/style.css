@@ -2362,3 +2362,8 @@ body.option-page {
     vertical-align: middle;
     width: 225px;
 }
+
+.goback {
+	display: inherit;
+	margin: 0 auto;
+}

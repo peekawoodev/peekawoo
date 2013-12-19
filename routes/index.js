@@ -9,10 +9,12 @@ var async = require('async')
   , extend = require('util')._extend
   , graph = require('fbgraph')
   , OAuth = require('oauth').OAuth
+  , mailer = require('nodemailer')
   , rotationGame = 0
   , conf = config.facebook
   , main = config.main_url
   , base = config.base_url
+  , subscribemail = config.subscribe
   , oa
   ;
 
@@ -386,7 +388,32 @@ module.exports = {
 			if(err) throw err;
 			console.log('Email saved');
 		});
-		res.render('subscribe2');
+		var smtpTransport = mailer.createTransport("SMTP",{
+			service: subscribemail.service,  // sets automatically host, port and connection security settings
+			auth: {
+				user: subscribemail.user,
+				pass: subscribemail.pass
+			}
+		});
+		var mailOptions = {
+				from: "Peekawoo <"+subscribemail.user+">", // sender address.  Must be the same as authenticated user if using Gmail.
+				to: req.query.inputBox, // receiver
+				subject: "Peekawoo Subscribe Feedback", // subject
+				text: "Email Feedback for users subscribe", // body
+				html: "<img src='"+main+"/img/hc-theme/peekawoo-beta.png' style='margin:0 auto'/><br><b>Hello,</b><br><br><p>Good Day!</p><p>Thank you for subscribing Peekawoo.<br>Continue to meet new peoples by playing in our Chat roulette. Enjoy!</p><br><b>Thanks</b><br><b>Peekawoo Team</b><br><a>"+base+"</a>"	
+			};
+		smtpTransport.sendMail(  //email options
+				mailOptions
+			, function(error, response){  //callback
+				if(error){
+					console.log(error);
+				}else{
+					console.log("Message sent: " + response.message);
+				}
+				smtpTransport.close(); // shut down the connection pool, no more messages.  Comment this line out to continue sending emails.
+			});
+		
+		res.render('subscribe2',{baseurl:JSON.stringify(base)});
 	},
 	bookmark : function(req,res){
 		var user = req.user;
@@ -695,7 +722,7 @@ module.exports = {
 				req.user.codename = req.user.codename;
 			}
 			if(rotationGame == 0){
-				console.log("XXX---------------- TWITTER GENDER DEFAULT -----------------XXX");
+				console.log("xxXXX---------------- TWITTER GENDER DEFAULT -----------------XXXxx");
 				console.log(req.query["gender-m"]);
 				console.log(req.query["gender-f"]);
 				console.log(req.query["gender-r"]);
@@ -703,7 +730,7 @@ module.exports = {
 				res.render('loading',{user: req.user});
 			}
 			else{
-				console.log("XXX---------------- TWITTER GENDER AUTOMATIC -----------------XXX");
+				console.log("xxXXX---------------- TWITTER GENDER AUTOMATIC -----------------XXXxx");
 				if(req.user.gender == 'male' || req.user.gender == 'female' || req.user.gender == 'randale'){
 					console.log(req.user.gender);
 					console.log("it goes to this location");
