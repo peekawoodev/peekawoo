@@ -1,0 +1,63 @@
+extends layout
+
+block content
+    body.credit-bg
+        .head.peekawoo-logo2
+        center
+            br
+            br
+            br
+            form.credit_container(method='get', action='/creditOption', id='creditNew')
+                .credit_text
+                    p.buy_credit Do you want to buy credits?
+                .option_container
+                    .yes_opt
+                        p.text_con If Yes,
+                        .btn_con
+                            //apptivate button
+                            button#creditYes(type='button')
+                               input(type='radio', id='credy', name='credy', value='goCred', hidden='true')
+                            button#submitYes(type='submit', name='submit', hidden='true')
+                    .no_opt
+                        p.text_con If No,
+                        .btn_con
+                             //chat now button
+                             button#creditNo(type='button')
+                                 input(type='radio', id='credn', name='credn', value='noCred', hidden='true')
+                             button#submitNo(type='submit', name='submit', hidden='true')
+    script
+        $('#creditYes').click(function(ev){
+            if(!$(this).is('s')){        
+                $('#credy').prop("checked", true);
+                $('#credn').prop("checked", false);
+            }
+            else {
+                $('#credy').prop("checked", false);
+                $('#credn').prop("checked", false);
+            }
+        });
+        $('#creditNo').click(function(ev){
+            if(!$(this).is('s')){        
+                $('#credn').prop("checked", true);
+                $('#credy').prop("checked", false);
+            }
+            else {
+                $('#credy').prop("checked", false);
+                $('#credn').prop("checked", false);
+            }
+        });
+        $('#creditNew').submit(function() {
+            var credy = $('#credy').prop('checked')
+            var credn = $('#credn').prop('checked')
+            if(!credy && !credn){
+                return false
+            }
+        });
+        $('#creditNo').click(function(ev){
+            $('#credn').prop("checked", true);
+            $('#submitNo').click();
+        });
+        $('#creditYes').click(function(ev){
+            $('#credy').prop("checked", true);
+            $('#submitYes').click();
+        });
