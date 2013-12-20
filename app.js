@@ -92,6 +92,9 @@ app.get('/auth/facebook',auth,routes.fbauth);
 app.get('/auth/twitter',auth,routes.twauth);
 app.get('/postfbtw',auth,routes.postfbtw);
 app.get('/creditOption', auth, routes.creditOption);
+app.get('/chatForm', auth, routes.chatForm);
+app.get('/dateSave', auth, routes.dateSave);
+app.get('/checkPairInfo',counterAuth ,routes.checkPairInfo);
 //--------------------------
 app.get('/authfb',passport.authenticate('facebook'));
 app.get('/authtw',passport.authenticate('twitter'));

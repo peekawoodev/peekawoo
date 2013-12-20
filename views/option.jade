@@ -21,14 +21,19 @@ block content
                             .text-gender-container
                                 p.text-gender5 Username
                                     input#username(type='text', name='codename', maxlength='8',title='Must be at least 2 characters.')
-                                    button#b4submit.modalInput(type='button', rel='#prompt')
-                                        button#submitNow(type='submit', name='submit', hidden='true')
+                                    button#b4submit.modalInput(type='button', rel='#prompt')                                    
                         .modal_credit#prompt
                             //yes button id: #submitYes, if yes:redirect sa apptivate
                             button#submitYes.btn.btn-success.btn-lg.buyBtn(type='button') Buy now
                             //no button id: #submitNo, if no:continue to process
                             button#submitNo.btn.btn-default.btn-sm.skipBtn(type='button') Skip!
                 script
+                    $('#username').keypress(function(event){
+                        if(event.which == 13){
+                            $('#b4submit').click();
+                            return false;
+                        }
+                    });
                     $('#submitYes').click(function(ev){
                         //if the user accepts to buy credits, redirect to apptivate
                         var url = 'http://www.apptivate.co/peekawoo';
@@ -36,7 +41,7 @@ block content
                     });
                     $('#submitNo').click(function(ev){
                         //if the user do not accept to buy credits, continue to loading
-                        $('#submitNow').click();
+                        $('#option').submit();
                     });
     script
         $('#username').tooltip()

@@ -2425,3 +2425,9 @@ body.option-page {
     left: 315px;
     font-size: 30px;
 }
+
+.skipBtn {
+    position: absolute;
+    bottom: 20px;
+    right: 30px;
+}
