@@ -593,6 +593,79 @@ module.exports = {
 				res.redirect('/credit'), 3000
 		);
 	},
+	chatForm : function(req, res){
+	//	var email = req.query.email;
+	//	var cpnum = req.query.cpnum;
+	//	var room = req.query.room;
+	//	if(email == '' || cpnum == ''){
+			//input in database
+			//send email
+	//	}
+	//	else{
+	//		res.render('chatForm');
+	//	}
+		console.log("to check if goes in here");
+		console.log(req.user);
+		console.log(req.params);
+		var user = req.user;
+		res.render('chatForm',{user:JSON.stringify(user)});
+	},
+	dateSave : function(req,res){
+		var content = req.query;
+		console.log("");
+		console.log(content);
+		client.srem('datepair:'+req.query.room,JSON.stringify(content));
+		client.sadd('datepair:'+req.query.room,JSON.stringify(content));
+		res.end();
+	},
+	checkPairInfo : function(req,res){
+		client.keys('datepair:*',function(err,results){
+			if(err){
+				console.log("Error here!");
+			}else{
+				console.log("Result here!");
+				console.log(results);
+				var counter = results.length;
+				client.smembers(results[0],function(err,infos){
+					if(err){
+						console.log("Error!");
+					}else{
+						console.log("Smembers not error!");
+						console.log(infos);
+						if(infos.length > 1){
+							var smtpTransport = mailer.createTransport("SMTP",{
+								service: subscribemail.service,  // sets automatically host, port and connection security settings
+								auth: {
+									user: subscribemail.user,
+									pass: subscribemail.pass
+								}
+							});
+							var mailOptions = {
+									from: "Peekawoo <"+subscribemail.user+">", // sender address.  Must be the same as authenticated user if using Gmail.
+									to: "Peekawoo <"+subscribemail.user+">", // receiver
+									subject: "Pairs for Date Infos", // subject
+									text: "Pairs", // body
+									html: "<img src='"+main+"/img/hc-theme/peekawoo-beta.png' style='margin:0 auto'/><br><b>Hello,</b><br><br><p>Good Day!</p><p>These are the info of pair that match<br>"+infos+"</p><br><b>Thanks</b><br><b>Peekawoo Team</b><br><a>"+base+"</a>"	
+								};
+							smtpTransport.sendMail(  //email options
+									mailOptions
+								, function(error, response){  //callback
+									if(error){
+										console.log(error);
+									}else{
+										console.log("Message sent: " + response.message);
+									}
+									smtpTransport.close(); // shut down the connection pool, no more messages.  Comment this line out to continue sending emails.
+								});
+						}
+						client.del(results[0]);
+						res.render('index',{ title: "date pair up!" });
+					}
+				});
+				
+			}
+		});
+	},
 	option : function(req,res){
 	/*	console.log("xxXX OPTION XXxx");
 		console.log(req.query);

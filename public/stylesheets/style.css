@@ -2431,3 +2431,8 @@ body.option-page {
     bottom: 20px;
     right: 30px;
 }
+
+/*For the date form*/
+.chatCon{
+    text-align: center;
+}

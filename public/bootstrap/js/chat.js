@@ -1,3 +1,11 @@
+function winOpen(url){
+	var room = $("#room").val();
+    newwindow=window.open(url,'_blank','width=400,height=400');
+    if (window.focus) {newwindow.focus()}
+    newwindow.child = room;
+    newwindow.init();
+    return false;
+};
 
 $(function(){
 	var socket = io.connect();
@@ -10,6 +18,8 @@ $(function(){
 	my_chatm8 = JSON.parse(my_chatm8);
 	var list_gen = $("#list").val();
 	//list_gen = JSON.parse(list_gen);
+	
+	
 	
 	//-----------------------------------
 	//------for Credit-------------------
@@ -40,9 +50,10 @@ $(function(){
 		giftItem = " ";
 		giftItem = $('#gift_button_date').val();
 		dateMsg = "<br />Someone in Peekawoo will contact you later. Please give us your contact details.";
-		dateMsg += "<br /><a href='#'>Click this link!</a>";
+		dateMsg += "<br /><a href='#' onclick=\"winOpen('/chatForm')\">Click this link!</a>";
 		onCredit();
 	});
+	
 	function showNoPay() {
 		var sendMe = {};
 		sendMe.me = user;
