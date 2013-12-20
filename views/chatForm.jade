@@ -1,0 +1,43 @@
+extends layout
+
+block content
+    body
+        .head.peekawoo-logo2
+        br
+        center
+            p Please let us know how we can reach you!
+            p You can give us either of the two:
+            input(type='hidden', id='user', value=user)
+        form.chatCon(method='get', action='/dateSave', id='chatForm')
+            input(type='hidden', id='room', name='room', value='')
+            p Email:
+            input(type='text', name='email', id='email')
+            br
+            br
+            input(type="hidden", id="userme", name='userme' ,value='')
+            p Contact number:
+            input(type='text', name='cpnum', id='cpnum')
+            br
+            br
+            input(type='submit')
+    script
+        var child;
+        function init(){
+            document.write(child);
+        }
+        $('#room').val(child);
+        var me = $('#user').val();
+        $(document).ready(function(){
+            $('#userme').val(JSON.parse(me).username);
+        });
+        $('#chatForm').submit(function(){
+            var email = $('#email').val();
+            var cpnum = $('#cpnum').val();
+            if(email == '' && cpnum == ''){
+                alert('Please give us atleast one of your contact details!');
+                return false;
+            }
+            else{
+                setTimeout(self.close(),1500);
+            }
+        });
