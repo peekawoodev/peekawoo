@@ -116,7 +116,7 @@ module.exports = {
 		var m8 = req.query.chat.m8;
 		var gift = req.query.chat.gift;
 		var data = {};
-		client.get('credit:'+me.id,function(err,value){
+		client.get('credit:'+me.username,function(err,value){
 			var boolValue = false;
 			if(err){
 				console.log("theres an error");
@@ -128,7 +128,7 @@ module.exports = {
 				if(value == null){
 					var setValue = 0;
 					boolValue = false;
-					client.set('credit:'+me.id,setValue);
+					client.set('credit:'+me.username,setValue);
 					data.cValue = setValue;
 					data.bValue = boolValue;
 					res.send(JSON.stringify(data));
@@ -139,7 +139,7 @@ module.exports = {
 					if(qValue > 0){
 						boolValue = true;
 						qValue-=1;
-						client.set('credit:'+me.id,qValue);
+						client.set('credit:'+me.username,qValue);
 						var saveinfo = {};
 						saveinfo.me = me;
 						saveinfo.m8 = m8;
@@ -491,14 +491,33 @@ module.exports = {
 		client.del("id:"+info.id);
 		client.set("id:"+info.id,JSON.stringify(info));
 		//-------------------------------------------
-		res.redirect('/credit');
+		//res.redirect('/credit');
+		//res.redirect('/creditOption');
+		res.redirect('/loading');
+	},
+	creditOption : function(req, res) {
+		console.log("Now on creit option page");
+		var url = "http://www.apptivate.co/peekawoo";  
+		if(req.query["credy"]){
+			//redirect to apptivate
+			console.log("User redirect to Apptivate!");
+			res.redirect(url);
+		}
+		else if (req.query["credn"]){
+			//redirect to loading
+			console.log("User redirect to loading!");
+			res.redirect('/loading');
+		}else{
+			console.log("Render credit new page.");
+			res.render('creditOption');
+		}
 	},
 	credit : function(req,res){
 		console.log("User is now on buying credit page.");
 		console.log(req.user);
 		//res.render('credit');
 		if(req.query["cred"] != "chat"){
-			client.get('credit:'+req.user.id,function(err,value){
+			client.get('credit:'+req.user.username,function(err,value){
 				if(err){
 					res.render('credit');
 				}else{
@@ -563,7 +582,7 @@ module.exports = {
 						//user purchase 30 credits
 						insertAmount = 30;
 					}
-					client.set("credit:"+req.user.id,insertAmount);
+					client.set("credit:"+req.user.username,insertAmount);
 				}
 				res.redirect('/loading');
 			}
@@ -852,7 +871,7 @@ module.exports = {
 		rotationGame+=1;
 		//-----------for Credit purpose------------
 		var creditCon = 0;
-		client.get('credit:'+req.user.id,function(err,data){
+		client.get('credit:'+req.user.username,function(err,data){
 			if(err){
 				data = 0;
 				creditCon = creditCon + data;

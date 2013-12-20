@@ -15,6 +15,7 @@ $(function(){
 	//------for Credit-------------------
 	//script for gifts
 	var giftItem;
+	var dateMsg;
 	$('#gift_button_rose').click(function(ev){
 		giftItem = " ";
 		giftItem = $('#gift_button_rose').val();
@@ -38,6 +39,8 @@ $(function(){
 	$('#gift_button_date').click(function(ev){
 		giftItem = " ";
 		giftItem = $('#gift_button_date').val();
+		dateMsg = "<br />Someone in Peekawoo will contact you later. Please give us your contact details.";
+		dateMsg += "<br /><a href='#'>Click this link!</a>";
 		onCredit();
 	});
 	function showNoPay() {
@@ -84,7 +87,11 @@ $(function(){
 				alert("You dont have enough credits!");
 				$('#credit').text(receiveData.cValue);
 			}else{
-				$('#message').val('<img src="/img/hc-theme/' + giftItem + '.png" class="chatGift">');
+				if(giftItem == 'date'){
+					$('#message').val('<img src="/img/hc-theme/' + giftItem + '.png" class="chatGift">' + dateMsg);
+				}else{
+					$('#message').val('<img src="/img/hc-theme/' + giftItem + '.png" class="chatGift">');
+				}
 				$('#reply').click();
 				$('.modalInput').overlay().close();
 				$('#credit').text(receiveData.cValue);
@@ -131,7 +138,7 @@ $(function(){
 		var winUrl = window.location.host;
 		$.ajax({
 			url : winUrl,
-			success: function(){window.open("/auth/facebook","_blank","width=250,height=150");},
+			success: function(){window.open("/auth/facebook","_blank","width=500,height=400");},
 			async : false
 		});
 		//window.open("/auth/facebook",'_blank',"width=250,height=150");

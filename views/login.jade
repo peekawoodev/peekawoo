@@ -17,16 +17,12 @@ block content
                     br
                     hr.hr-line
                     p.text-email Want to be the first to try out our app?
-                    .audioplayer(hidden="hidden" id='woowho')
-                        audio(controls='controls')
-                            source(src='/music/buzz.mp3', type='audio/mpeg')
                 .container.login2
                 form(method='get', action='/subscribe2', id='subscribe')
                     center
                         input.email.login-email(type="email", name="inputBox", placeholder="Enter your email here",required='required') 
                     center
                         button.subscribe-button(type='submit',name='input.email')
-                        button.btn.btn-warning.btn-large(id='buzz' type='button' name='buzz' value='Buzz')
         script(type='text/javascript')
             var _gaq = _gaq || [];
             _gaq.push(['_setAccount', 'UA-43851834-1']);
@@ -36,7 +32,3 @@ block content
                 ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
                 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
             })();
-            var audioPlayer = document.getElementsByTagName('audio')[0];
-            $('#buzz').click(function(){
-                audioPlayer.play();
-            });

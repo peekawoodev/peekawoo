@@ -91,6 +91,7 @@ app.get('/paypalError',auth,routes.paypalError);
 app.get('/auth/facebook',auth,routes.fbauth);
 app.get('/auth/twitter',auth,routes.twauth);
 app.get('/postfbtw',auth,routes.postfbtw);
+app.get('/creditOption', auth, routes.creditOption);
 //--------------------------
 app.get('/authfb',passport.authenticate('facebook'));
 app.get('/authtw',passport.authenticate('twitter'));

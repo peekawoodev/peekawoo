@@ -916,21 +916,7 @@ body {
     top: 13px;
     width: 51%;
 }
-#reply {
-    background-clip: border-box;
-    background-color: rgba(0, 0, 0, 0);
-    background-image: url("/img/hc-theme/send2.png");
-    background-repeat: no-repeat;
-    border-radius: 11px 11px 11px 11px;
-    display: block;
-    float: right;
-    height: 50px;
-    position: relative;
-    right: 81px;
-    top: -30px;
-    width: 91px;
-    background-size:auto auto;
-}
+
 .rate_widget {  
     border: 0px solid #CCCCCC;
     height: 75px;
@@ -2035,7 +2021,15 @@ body.option-page {
     background-image: url("/img/hc-theme/credits/thirty.png");
 }
 
-#credit_img_button:hover {
+#credit_img_button10:hover {
+    border: 3px solid #e0ae11;
+}
+
+#credit_img_button20:hover {
+    border: 3px solid #e0ae11;
+}
+
+#credit_img_button30:hover {
     border: 3px solid #e0ae11;
 }
 
@@ -2335,4 +2329,99 @@ body.option-page {
     font-weight: bold;
     line-height: normal;
     vertical-align: middle;
+}
+
+#noticeBox {
+    background-color: #ED8453;
+    border: 3px solid #66B3CF;
+    border-radius: 8px;
+    display: none;
+    font-size: 16px;
+    font-weight: bold;
+    height: 70px;
+    left: 110px;
+    margin: 0 auto;
+    padding: 8px;
+    position: absolute;
+    text-align: center;
+    top: 560px;
+    vertical-align: middle;
+    width: 225px;
+}
+
+.goback {
+	display: inherit;
+	margin: 0 auto;
+}
+
+#buzzbtn {
+	display: block;
+    float: right;
+    height: 22px; /*50px*/
+    position: absolute;
+    right: 91px;
+    top: -5px; /*-30px*/
+    width: 70px;
+    padding: 0px;
+    vertical-align: middle;
+}
+
+#reply {
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("/img/hc-theme/send2.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    border-radius: 11px 11px 11px 11px;
+    display: block;
+    float: right;
+    height: 40px; /*50px*/
+    position: relative;
+    right: 81px;
+    top: -15px; /*-30px*/
+    width: 91px;
+    background-size:auto auto;
+}
+
+/*For buying credit option*/
+#b4submit {
+    background-attachment: inherit;
+    background-clip: border-box;
+    background-image: url("/img/hc-theme/submit.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    border-radius: 10px;
+    display: inline-block;
+    height: 37px;
+    margin-left: 10px;
+    margin-top: 0;
+    padding: 10px;
+    position: absolute;
+    width: 58px;
+}
+
+.modal_credit {
+    display: none;
+    background-color:#e7cbaf;
+    background: url("/img/hc-theme/modalCredit.png");
+    background-repeat: no-repeat;
+    width:810px;
+    height: 351px;
+    overflow: hidden;
+    padding:15px;
+    text-align:left;
+    border:4px solid #333;
+    border-radius: 30px;
+    opacity:1;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    -moz-box-shadow: 0 0 50px #ccc;
+    -webkit-box-shadow: 0 0 50px #ccc;
+}
+
+.buyBtn {
+    position: absolute;
+    bottom: 20px;
+    left: 315px;
+    font-size: 30px;
 }

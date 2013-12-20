@@ -21,90 +21,118 @@ block content
                             .text-gender-container
                                 p.text-gender5 Username
                                     input#username(type='text', name='codename', maxlength='8',title='Must be at least 2 characters.')
-                                    button#submit(type='submit',name='submit')
+                                    button#b4submit.modalInput(type='button', rel='#prompt')
+                                        button#submitNow(type='submit', name='submit', hidden='true')
+                        .modal_credit#prompt
+                            //yes button id: #submitYes, if yes:redirect sa apptivate
+                            button#submitYes.btn.btn-success.btn-lg.buyBtn(type='button') Buy now
+                            //no button id: #submitNo, if no:continue to process
+                            button#submitNo.btn.btn-default.btn-sm.skipBtn(type='button') Skip!
                 script
-                    $('#username').tooltip()
-                    $('#but-male').tooltip();
-                    $('#but-female').tooltip();
-                    $('#but-random').tooltip();
-                    $('#but-male').click(function(ev) {
-                        $('#but-male').not(this).css('border', '0px solid #66b3cf').removeClass('s');
-                        if(!$(this).is('.s')){
-                            $(this).css('border', '5px solid #66b3cf').addClass('s');
-                            $('#gender-m').prop("checked", true);
-                            $('#gender-f').prop("checked", false);
-                            $('#gender-r').prop("checked", false);
-                            $('#but-female').css('border', '0px solid #ea985b').removeClass('s');
-                            $('#but-random').css('border', '0px solid #66b3cf').removeClass('s');
-                        }
-                        else{
-                            $('#gender-m').prop("checked", false);
-                            $('#gender-f').prop("checked", false);
-                            $('#gender-r').prop("checked", false);
-                            $(this).css('border', '0px solid #66b3cf').removeClass('s');
-                            //$('#but-female').css('border', '0px solid #ea985b').addClass('s');
-                        }
+                    $('#submitYes').click(function(ev){
+                        //if the user accepts to buy credits, redirect to apptivate
+                        var url = 'http://www.apptivate.co/peekawoo';
+                        $(location).attr('href',url);
                     });
-                    $('#but-female').click(function(ev) {
-                        $('#but-female').not(this).css('border', '0px solid #ea985b').removeClass('s');
-                        if(!$(this).is('.s')){
-                            $(this).css('border', '5px solid #ea985b').addClass('s');
-                            $('#gender-f').prop("checked", true);
-                            $('#gender-m').prop("checked", false);
-                            $('#gender-r').prop("checked", false);
-                            $('#but-male').css('border', '0px solid #66b3cf').removeClass('s');
-                            $('#but-random').css('border', '0px solid #66b3cf').removeClass('s');
-                        }
-                        else{
-                            $('#gender-f').prop("checked", false);
-                            $('#gender-m').prop("checked", false);
-                            $('#gender-r').prop("checked", false);
-                            $(this).css('border', '0px solid #ea985b').removeClass('s');
-                            //$('#but-male').css('border', '5px solid #66b3cf').addClass('s');
-                        }
+                    $('#submitNo').click(function(ev){
+                        //if the user do not accept to buy credits, continue to loading
+                        $('#submitNow').click();
                     });
-                    $('#but-random').click(function(ev) {
-                        $('#but-random').not(this).css('border', '0px solid #9e5acc').removeClass('s');
-                        if(!$(this).is('.s')){
-                            $(this).css('border', '5px solid #9e5acc').addClass('s');
-                            $('#gender-r').prop("checked", true);
-                            $('#gender-m').prop("checked", false);
-                            $('#gender-f').prop("checked", false);
-                            $('#but-male').css('border', '0px solid #66b3cf').removeClass('s');
-                            $('#but-female').css('border', '0px solid #ea985b').removeClass('s');
-                        }
-                        else{
-                            $('#gender-r').prop("checked", false);
-                            $('#gender-m').prop("checked", false);
-                            $('#gender-f').prop("checked", false);
-                            $(this).css('border', '0px solid #66b3cf').removeClass('s');
-                            //$('#but-female').css('border', '0px solid #ea985b').addClass('s');
-                        }
-                    });
-                    $('#option').submit(function() {
-                        $('#username').val($('#username').val().replace(" ",""));
-                        var textVal = $('#username').val();
-                        var male = $('#gender-m').prop('checked');
-                        var female = $('#gender-f').prop('checked')
-                        var random = $('#gender-r').prop('checked')
-                        var finalGender = false;
-                        //alert('male-'+male+' female-'+female);
-                        if(male || female || random){
-                            if(textVal.length < 2){
-                                return false;
-                            }
-                        }else{
-                            return false
-                        }
-                    });
-                    var _gaq = _gaq || [];
-                    _gaq.push(['_setAccount', 'UA-43851834-1']);
-                    _gaq.push(['_trackPageview']);
-                    (function() {
-                        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-                        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-                    })();
-                    function preventBack(){window.history.forward();}
-                    setTimeout("preventBack()", 0);
-                    window.onunload=function(){null};
+    script
+        $('#username').tooltip()
+        $('#but-male').tooltip();
+        $('#but-female').tooltip();
+        $('#but-random').tooltip();
+        $('#but-male').click(function(ev) {
+            $('#but-male').not(this).css('border', '0px solid #66b3cf').removeClass('s');
+            if(!$(this).is('.s')){
+               $(this).css('border', '5px solid #66b3cf').addClass('s');
+               $('#gender-m').prop("checked", true);
+               $('#gender-f').prop("checked", false);
+               $('#gender-r').prop("checked", false);
+               $('#but-female').css('border', '0px solid #ea985b').removeClass('s');
+               $('#but-random').css('border', '0px solid #66b3cf').removeClass('s');
+            }
+            else{
+               $('#gender-m').prop("checked", false);
+               $('#gender-f').prop("checked", false);
+               $('#gender-r').prop("checked", false);
+               $(this).css('border', '0px solid #66b3cf').removeClass('s');
+               //$('#but-female').css('border', '0px solid #ea985b').addClass('s');
+            }
+        });
+        $('#but-female').click(function(ev) {
+            $('#but-female').not(this).css('border', '0px solid #ea985b').removeClass('s');
+            if(!$(this).is('.s')){
+               $(this).css('border', '5px solid #ea985b').addClass('s');
+               $('#gender-f').prop("checked", true);
+               $('#gender-m').prop("checked", false);
+               $('#gender-r').prop("checked", false);
+               $('#but-male').css('border', '0px solid #66b3cf').removeClass('s');
+               $('#but-random').css('border', '0px solid #66b3cf').removeClass('s');
+            }
+            else{
+               $('#gender-f').prop("checked", false);
+               $('#gender-m').prop("checked", false);
+               $('#gender-r').prop("checked", false);
+               $(this).css('border', '0px solid #ea985b').removeClass('s');
+               //$('#but-male').css('border', '5px solid #66b3cf').addClass('s');
+            }
+        });
+        $('#but-random').click(function(ev) {
+            $('#but-random').not(this).css('border', '0px solid #9e5acc').removeClass('s');
+            if(!$(this).is('.s')){
+               $(this).css('border', '5px solid #9e5acc').addClass('s');
+               $('#gender-r').prop("checked", true);
+               $('#gender-m').prop("checked", false);
+               $('#gender-f').prop("checked", false);
+               $('#but-male').css('border', '0px solid #66b3cf').removeClass('s');
+               $('#but-female').css('border', '0px solid #ea985b').removeClass('s');
+            }
+            else{
+               $('#gender-r').prop("checked", false);
+               $('#gender-m').prop("checked", false);
+               $('#gender-f').prop("checked", false);
+               $(this).css('border', '0px solid #66b3cf').removeClass('s');
+               //$('#but-female').css('border', '0px solid #ea985b').addClass('s');
+            }
+        });
+        $('#option').submit(function() {
+            $('#username').val($('#username').val().replace(" ",""));
+            var textVal = $('#username').val();
+            var male = $('#gender-m').prop('checked');
+            var female = $('#gender-f').prop('checked')
+            var random = $('#gender-r').prop('checked')
+            var finalGender = false;
+            //alert('male-'+male+' female-'+female);
+                if(male || female || random){
+                     if(textVal.length < 2){
+                          return false;
+                     }
+                }else{
+                     return false
+                }
+         });
+         var _gaq = _gaq || [];
+         _gaq.push(['_setAccount', 'UA-43851834-1']);
+         _gaq.push(['_trackPageview']);
+         (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+         })();
+         function preventBack(){window.history.forward();}
+         setTimeout("preventBack()", 0);
+         window.onunload=function(){null};
+    script(src='http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js')
+    script
+        $(document).ready(function() {
+            var triggers = $('.modalInput').overlay({
+                 mask: {
+                     color: '#ebecff',
+                     loadSpeed: 0,
+                     opacity: 0
+                 },
+                 closeOnClick: true
+            });
+        });
