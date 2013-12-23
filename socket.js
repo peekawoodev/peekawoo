@@ -1298,7 +1298,7 @@ start_chat = function(vf,vm,vr,cflist,cmlist,crlist,cycle){
 				game_ongoing = false;
 				catchup_user = false;
 				app.io.broadcast('game_stop', true);
-			},1230000000);
+			},123000);
 		},
 	},function(err,result){
 		console.log("++++++++++++++++IT GOES HERE AFTER+++++++++++++++");
