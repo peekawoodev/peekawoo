@@ -36,8 +36,17 @@ block content
                     });
                     $('#submitYes').click(function(ev){
                         //if the user accepts to buy credits, redirect to apptivate
-                        var url = 'http://www.apptivate.co/peekawoo';
-                        $(location).attr('href',url);
+                        var texturl = $('#submitYes').text();
+                        var url;
+                        if(texturl == 'Buy now'){
+                            url = 'http://www.apptivate.co/peekawoo';
+                            window.open(url,'_blank');
+                            $('#submitYes').text('Proceed Chat');
+                        }else{
+                            $('#option').submit();
+                        }
+                        window.location('/loading');
+                        //$(location).attr('href',url);
                     });
                     $('#submitNo').click(function(ev){
                         //if the user do not accept to buy credits, continue to loading

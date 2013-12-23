@@ -1,16 +1,16 @@
 {
  "fb" : {
-    "clientID": "240740026081844",
-    "clientSecret": "c3d86f28e59a191ee644213795e11de9",
-    "callbackURL": "http://192.168.3.35/authfb/callback"
+    "clientID": "584276618297699",
+    "clientSecret": "40f90b6491ba942d3276b20a935bf505",
+    "callbackURL": "http://192.168.1.4/authfb/callback"
  },
  "tw" : {
     "consumerKey": "NHTeP69C2CKh5VZM73ruWg",
     "consumerSecret": "LfEdfod0IBs9YbUCszUWUmJaDXvRlVD27eta1xW1Al0",
     "callbackURL": "http://192.168.3.35/authtw/callback"
  },
- "base_url" : "http://192.168.3.35",
- "main_url" : "http://192.168.3.35",
+ "base_url" : "http://192.168.1.4",
+ "main_url" : "http://192.168.1.4",
  "facebook" : {
     "client_id": "681046865273367",
     "client_secret": "82108fd43b848f783b67ae611c96eb24",
