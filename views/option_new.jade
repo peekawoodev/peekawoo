@@ -39,7 +39,7 @@ block content
                                         .num_con3
                                         .part_con3
                                              button#submitnew(type='submit',name='submit')
-                     script
+                     script.
                           $('#username').tooltip();
                           $('#checkx').click(function(ev){
                              $('#checkx').not(this).css('border', '0px solid #66b3cf').removeClass('s');
@@ -154,7 +154,7 @@ block content
                               ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
                               var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
                           })();
-        script
+        script.
              $(document).ready(function() {
                  var triggers = $('.modalInput').overlay({
                     mask: {
@@ -165,4 +165,4 @@ block content
                     closeOnClick: true
                  });
              });
-        script(src='http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js')
+        script(src='http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js').

@@ -11,7 +11,7 @@ block content
             center
                 input(type="hidden",id="url",value=JSON.parse(baseurl).url)
                 input#send.btn.btn-info.btn-large(type="button" onclick="" value="Go to Login").buttonerror
-        script
+        script.
             var xurl = $('#url').val();
             $(document).ready(function(){
                 $('#send').attr('onclick',"window.location='"+xurl+"'");

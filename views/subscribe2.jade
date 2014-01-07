@@ -13,7 +13,7 @@ block content
             p.text-subscribe2 "Thank you! Like us on Facebook and follow us on Twitter and Instagram"
             input.btn.btn-danger.btn-large.goback(id="goback" type="button" onclick="" value="Go back to Login")
             input(type="hidden",id="baseurl",value=JSON.parse(baseurl))
-        script(type='text/javascript')
+        script(type='text/javascript').
             var url = $('#baseurl').val();
             $(document).ready(function(){
                 $('#goback').attr('onclick','window.location="'+url+'"')

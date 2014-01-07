@@ -31,8 +31,8 @@ block content
                         button#on_chat.proceed(type='button')
                             input(type='radio', id='cred', name='cred', value='chat', hidden='true')
                         button#iSubmit(type='submit', name='submit', hidden='true')
-        script(src="https://www.paypalobjects.com/js/external/dg.js")
-        script
+        script(src="https://www.paypalobjects.com/js/external/dg.js").
+        script.
             $('#credit_img_button10').click(function(ev){
                 $('#credit_img_button10').not(this).css('border', '0px solid #e0ae11').removeClass('s');
                 if(!$(this).is('s')){

@@ -30,7 +30,7 @@ block content
                         hr.hr3
                         p#btn-woos 
                         input(type="hidden",id="chatm8",value=chatmate)
-                        input(type="hidden",id="chatm7",value=chatmate.length))
+                        input(type="hidden",id="chatm7",value=chatmate.length)
                         input(type="hidden",id="chatm6",value=user)
                         input(type="hidden",id="user1",value=user.provider)
                     form.form-ranking(method='get', action='/subscribe2', id='subscribe2')
@@ -43,7 +43,7 @@ block content
                         input(type="hidden",id="url",value=JSON.parse(baseurl).url)
                         a#send.text-skipfornow2(href="") skip for now
                 center
-        script
+        script.
             var xurl = $('#url').val();
             $(document).ready(function(){
                 $('#send').attr('href',xurl);

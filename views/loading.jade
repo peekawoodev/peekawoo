@@ -20,10 +20,10 @@ block content
                 br
                 center
                     input.btn.btn-danger.btn-large(type="hidden" onclick="window.location='/ranking'" value="See people who like you")
-        script( src="/socket.io/socket.io.js")
-        script(language='JavaScript', type='text/javascript', src='/bootstrap/js/Audio-HTML5.js')
-        script(type='text/javascript', src="/bootstrap/js/loading.js")
-        script(type='text/javascript')
+        script( src="/socket.io/socket.io.js").
+        script(language='JavaScript', type='text/javascript', src='/bootstrap/js/Audio-HTML5.js').
+        script(type='text/javascript', src="/bootstrap/js/loading.js").
+        script(type='text/javascript').
             var _gaq = _gaq || [];
             _gaq.push(['_setAccount', 'UA-43851834-1']);
             _gaq.push(['_trackPageview']);
@@ -45,7 +45,7 @@ block content
                 $("#radio1").prop("checked",false);
                 //audioPlayer.currentTime = 0;
             });
-        script
+        script.
             $(function() {
                 $( "#radio" ).buttonset();
             });

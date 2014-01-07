@@ -35,7 +35,7 @@ block content
                                     input#username(type='text', name='codename', maxlength='8')
                                     button#submit(type='submit',name='submit')
                             
-                script
+                script.
                     $('#but-male').click(function(ev) {
                         $('#but-male').not(this).css('border', '0px solid #66b3cf').removeClass('s');
                         if(!$(this).is('.s')){
@@ -69,7 +69,7 @@ block content
                     $('#option').submit(function() {
                         $('#username').val($('#username').val().replace(" ",""));
                     });
-        script(type='text/javascript')
+        script(type='text/javascript').
             function preventBack(){window.history.forward();}
             setTimeout("preventBack()", 0);
             window.onunload=function(){null};

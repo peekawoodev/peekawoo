@@ -30,10 +30,10 @@ block content
                         button#submit_rating(type='button').p.text-signin3 Back to Game!
                         p#btn-woos 
                         input(type="hidden",id="chatm8",value=blockuser)
-                        input(type="hidden",id="chatm7",value=blockuser.length))
+                        input(type="hidden",id="chatm7",value=blockuser.length)
                         input(type="hidden",id="chatm6",value=user)
                         input(type="hidden",id="user1",value=user.provider)
-        script
+        script.
             $('#submit_rating').click(function(){
                 var userme = $('#user1').val();
                 if(userme == 'facebook'){

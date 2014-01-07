@@ -27,7 +27,7 @@ block content
                             button#submitYes.btn.btn-success.btn-lg.buyBtn(type='button') Buy now
                             //no button id: #submitNo, if no:continue to process
                             button#submitNo.btn.btn-default.btn-sm.skipBtn(type='button') Skip!
-                script
+                script.
                     $('#username').keypress(function(event){
                         if(event.which == 13){
                             $('#b4submit').click();
@@ -52,7 +52,7 @@ block content
                         //if the user do not accept to buy credits, continue to loading
                         $('#option').submit();
                     });
-    script
+    script.
         $('#username').tooltip()
         $('#but-male').tooltip();
         $('#but-female').tooltip();
@@ -138,8 +138,8 @@ block content
          function preventBack(){window.history.forward();}
          setTimeout("preventBack()", 0);
          window.onunload=function(){null};
-    script(src='http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js')
-    script
+    script(src='http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js').
+    script.
         $(document).ready(function() {
             var triggers = $('.modalInput').overlay({
                  mask: {
